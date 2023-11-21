@@ -3,10 +3,25 @@ import './Register.css';
 
 function Register() {
   const [isTermsChecked, setIsTermsChecked] = useState(true);
+  const [email, setEmail] = useState('');
+  const [emailValid, setEmailValid] = useState(true);
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+    setEmailValid(
+      /^[\w-\.]+@ntu\.edu\.tw$/i.test(event.target.value)
+    );
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     setIsSubmitted(true);
+
+    if (!emailValid) {
+      alert('Please enter a valid NTU email address.');
+      return;
+    }
 
     if (!isTermsChecked) {
       alert('Please agree to the terms & policy');
@@ -27,7 +42,14 @@ function Register() {
           <input type="text" id="name" placeholder="Enter your name" required />
           
           <label htmlFor="email">Email address</label>
-          <input type="email" id="email" placeholder="Enter your email" required />
+          <input 
+            type="email" 
+            id="email" 
+            placeholder="Enter your NTU email" 
+            value={email} 
+            onChange={handleEmailChange}
+            required 
+          />
           
           <label htmlFor="password">Password</label>
           <input type="password" id="password" placeholder="Password" required />

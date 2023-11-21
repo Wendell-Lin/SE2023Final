@@ -1,9 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Register.css';
 
 function Register() {
+  const [isTermsChecked, setIsTermsChecked] = useState(true);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const handleSubmit = (event) => {
     event.preventDefault();
+    setIsSubmitted(true);
+
+    if (!isTermsChecked) {
+      alert('Please agree to the terms & policy');
+      return;
+    }
+  };
+
+  const handleCheckboxChange = (event) => {
+    setIsTermsChecked(event.target.checked);
   };
 
   return (
@@ -21,9 +33,14 @@ function Register() {
           <input type="password" id="password" placeholder="Password" required />
           
           <div className="terms-and-policy">
-            <input type="checkbox" id="terms" required />
-            <label htmlFor="terms" className="custom-checkbox"></label>
-            <label htmlFor="terms">I agree to the terms & policy</label>
+          <input 
+            type="checkbox" 
+            id="terms" 
+            onChange={handleCheckboxChange} 
+            checked={isTermsChecked}
+          />
+          <label htmlFor="terms" className="custom-checkbox"></label>
+          <label htmlFor="terms">I agree to the terms & policy</label>
           </div>
           <button type="submit">Sign up</button>
         </form>

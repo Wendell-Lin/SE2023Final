@@ -1,0 +1,140 @@
+.login-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100vh;
+  padding: 0 100px;
+}
+
+.login-form {
+  flex: 1;
+  max-width: 500px;
+  align-items: center;
+  padding-right: 100px;
+}
+  
+.login-form h1 {
+  font-size: 32px;
+  margin-bottom: 0.5em;
+}
+  
+.login-form h2 {
+  font-size: 24px;
+  margin-bottom: 0.25em;
+}
+  
+.login-form p {
+  margin-bottom: 1em;
+}
+  
+.login-form label {
+  display: block;
+  margin-bottom: 0.5em;
+}
+  
+.login-form input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 1em;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.login-form button {
+  width: 100%;
+  padding: 15px;
+  background-color: #3A5B22;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+  
+.login-remember {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1em;
+}
+  
+.login-remember input {
+  margin-right: 0.5em;
+}
+  
+.remember {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+  
+.remember input[type='checkbox'] {
+  opacity: 0;
+  position: absolute;
+  z-index: -1;
+}
+  
+.remember .custom-checkbox {
+  width: 24px;
+  height: 24px;
+  background-color: #fff;
+  border: 2px solid #ccc;
+  margin-right: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+  
+.remember input[type='checkbox']:checked + .custom-checkbox {
+  background-color: #71b243;
+}
+  
+.remember label {
+  margin: 0;
+  cursor: pointer;
+}
+  
+.remember input[type='checkbox']:checked + .custom-checkbox::before {
+  content: '✓';
+  color: white;
+}
+  
+.login-footer {
+  text-align: center;
+  margin-top: 1em;
+}
+  
+.login-image {
+  flex: 1;
+  display: flex;
+  flex-shrink: 0;
+  width: 50%;
+  justify-content: flex-end;
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  z-index: 1;
+}
+  
+.login-image img {
+  max-width: 100%;
+  max-height: 100vh;
+  height: auto;
+  object-fit: cover;
+}  
+
+@media (max-width: 768px) {
+  .login-container {
+    flex-direction: column;
+    padding: 20px;
+  }
+  
+  .login-form, .login-image {
+    width: 100%;
+  }
+  
+  .login-image {
+    order: -1;
+    justify-content: center;
+  }
+}  

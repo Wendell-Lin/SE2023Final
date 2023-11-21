@@ -3,30 +3,30 @@
   justify-content: space-between;
   align-items: center;
   height: 100vh;
-  padding: 0 100px;
+  padding: 0 200px;
 }
   
 .register-form {
   flex: 1;
-  max-width: 500px;
+  max-width: 600px;
   align-items: center;
-  padding-right: 100px;
+  padding-right: 200px;
 }
   
 .register-form h1 {
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   font-size: 32px;
 }
   
 .register-form label {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
   
 .register-form input {
   width: 100%;
   padding: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   border: 1px solid #ccc;
   border-radius: 5px;
 }
@@ -34,7 +34,7 @@
 .terms-and-policy {
   display: flex;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
   
 .terms-and-policy input[type='checkbox'] {
@@ -72,6 +72,7 @@
 .register-form button {
   width: 100%;
   padding: 15px;
+  margin-bottom: 20px;
   background-color: #3A5B22;
   color: white;
   border: none;

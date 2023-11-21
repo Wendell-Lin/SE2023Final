@@ -10,7 +10,7 @@ function Login() {
     <div className="login-container">
       <div className="login-form">
         <h1>Welcome back!</h1>
-        <p>Enter your Credentials to access your account</p>
+        <h2>Enter your Credentials to access your account</h2>
         <form onSubmit={handleLogin}>
           <label htmlFor="email">Email address</label>
           <input type="email" id="email" placeholder="Enter your email" required />

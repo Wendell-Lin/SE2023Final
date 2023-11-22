@@ -68,6 +68,45 @@
   content: '✓';
   color: white;
 }
+
+.terms-link {
+  color: #0000EE; /* A standard link color */
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.9); /* Translucent backdrop */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10; /* Above other content */
+}
+
+.modal {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  max-width: 500px;
+  max-height: 80vh;
+  overflow-y: auto; /* Allows scrolling if the content is tall */
+  z-index: 11; /* Above the backdrop */
+}
+
+.modal p {
+  margin-bottom: 10px;
+  text-align: justify;
+}
+
+.modal li {
+  margin-bottom: 10px;
+  text-align: justify;
+}
   
 .register-form button {
   width: 100%;

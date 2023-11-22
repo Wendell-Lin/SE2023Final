@@ -9,6 +9,7 @@
 .register-form {
   flex: 1;
   max-width: 600px;
+  position: relative;
   align-items: center;
   padding-right: 200px;
 }
@@ -81,11 +82,11 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.9); /* Translucent backdrop */
+  background-color: rgba(0, 0, 0, 0.8);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 10; /* Above other content */
+  z-index: 10;
 }
 
 .modal {
@@ -94,8 +95,8 @@
   border-radius: 5px;
   max-width: 500px;
   max-height: 80vh;
-  overflow-y: auto; /* Allows scrolling if the content is tall */
-  z-index: 11; /* Above the backdrop */
+  overflow-y: auto;
+  z-index: 11;
 }
 
 .modal p {
@@ -131,7 +132,7 @@
   flex-shrink: 0;
   width: 50%;
   align-items: center;
-  position: absolute;
+  position: fixed;
   right: 0;
   top: 0;
   height: 100%;

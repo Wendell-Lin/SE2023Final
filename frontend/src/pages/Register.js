@@ -54,6 +54,11 @@ function Register() {
     setIsTermsChecked(event.target.checked);
   };
 
+  const handleTermsLinkClick = (event) => {
+    event.preventDefault();
+    toggleModal();
+  };
+
   return (
     <div className="register-container">
       <div className="register-form">
@@ -83,7 +88,7 @@ function Register() {
             checked={isTermsChecked}
           />
           <label htmlFor="terms" className="custom-checkbox"></label>
-          <label htmlFor="terms">I agree to the <span onClick={toggleModal} className="terms-link">terms & policy</span></label>
+          <span>I agree to the <span onClick={handleTermsLinkClick} className="terms-link">terms & policy</span></span>
           </div>
           {isModalOpen && (
           <div className="modal-backdrop">
@@ -93,7 +98,7 @@ function Register() {
               <button onClick={toggleModal}>Close</button>
             </div>
           </div>
-        )}
+          )}
           <button type="submit">Sign up</button>
         </form>
         <div className="signin-redirect">

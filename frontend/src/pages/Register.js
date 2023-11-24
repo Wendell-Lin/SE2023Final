@@ -3,17 +3,18 @@ import marked from 'marked';
 import './Register.css';
 
 function Register() {
-  const [isTermsChecked, setIsTermsChecked] = useState(true);
+  const [isTermsChecked, setIsTermsChecked] = useState(false);
   const [email, setEmail] = useState('');
   const [emailValid, setEmailValid] = useState(true);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [termsContent, setTermsContent] = useState('');
+  const [error, setError] = useState('');
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
     setEmailValid(
-      /^[\w-\.]+@ntu\.edu\.tw$/i.test(event.target.value)
+      /^[\w-.]+@ntu\.edu\.tw$/i.test(event.target.value)
     );
   };
 
@@ -40,12 +41,12 @@ function Register() {
     setIsSubmitted(true);
 
     if (!emailValid) {
-      alert('Please enter a valid NTU email address.');
+      showErrorModal('Please enter a valid NTU email address.');
       return;
     }
 
     if (!isTermsChecked) {
-      alert('Please agree to the terms & policy');
+      showErrorModal('Please agree to the terms & policy');
       return;
     }
   };
@@ -57,6 +58,10 @@ function Register() {
   const handleTermsLinkClick = (event) => {
     event.preventDefault();
     toggleModal();
+  };
+
+  const showErrorModal = (message) => {
+    setError(message);
   };
 
   return (
@@ -98,6 +103,14 @@ function Register() {
               <button onClick={toggleModal}>Close</button>
             </div>
           </div>
+          )}
+          {error && (
+            <div className="modal-backdrop">
+              <div className="modal">
+                <h2>{error}</h2>
+                <button onClick={() => setError('')}>Close</button>
+              </div>
+            </div>
           )}
           <button type="submit">Sign up</button>
         </form>

@@ -10,6 +10,8 @@ function Register() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [termsContent, setTermsContent] = useState('');
   const [error, setError] = useState('');
+  const [succeedMsg, setSucceedMsg] = useState('');
+  const [succeedTitle, setSucceedTitle] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
 
@@ -66,7 +68,7 @@ function Register() {
       if (userExists) {
         setError('Email has already been used');
       } else {
-        alert('Sign up successfully');
+        showSucceedModal('Email Sent Successfully', "Didn't receive the email? Try again");
       }
     }, 100);
   };
@@ -83,6 +85,11 @@ function Register() {
   const showErrorModal = (message) => {
     setError(message);
   };
+
+  const showSucceedModal = (title, message) => {
+    setSucceedTitle(title);
+    setSucceedMsg(message);
+  }
 
   return (
     <div className="register-container">
@@ -127,8 +134,18 @@ function Register() {
           {error && (
             <div className="modal-backdrop">
               <div className="modal">
-                <h2>{error}</h2>
+                <h2>Error!</h2>
+                <p>{error}</p>
                 <button onClick={() => setError('')}>Close</button>
+              </div>
+            </div>
+          )}
+          {succeedMsg && (
+            <div className="modal-backdrop">
+              <div className="modal">
+                <h2>{succeedTitle}</h2>
+                <p>{succeedMsg}</p>
+                <button onClick={() => setSucceedMsg('')}>Close</button>
               </div>
             </div>
           )}

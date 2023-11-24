@@ -6,6 +6,9 @@ function Login() {
     event.preventDefault();
   };
 
+  const handleForgotPassword = () => {
+  };
+
   return (
     <div className="login-container">
       <div className="login-form">
@@ -15,13 +18,16 @@ function Login() {
           <label htmlFor="email">Email address</label>
           <input type="email" id="email" placeholder="Enter your email" required />
           
-          <label htmlFor="password">Password</label>
-          <input type="password" id="password" placeholder="Password" required />
+          <div className="password-container">
+            <label htmlFor="password">Password</label>
+            <input type="password" id="password" placeholder="Password" required />
+            <a href="#forgot-password" className="forgot-password-link" onClick={handleForgotPassword}>forgot password</a>
+          </div>
           
           <div className="remember">
-            <input type="checkbox" id="terms" />
-            <label htmlFor="terms" className="custom-checkbox"></label>
-            <label htmlFor="terms">Remember for 30 days</label>
+            <input type="checkbox" id="remember" />
+            <label htmlFor="remember" className="custom-checkbox"></label>
+            <label htmlFor="remember">Remember for 30 days</label>
           </div>
           
           <button type="submit">Login</button>

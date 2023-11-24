@@ -30,6 +30,7 @@
   
 .login-form label {
   display: block;
+  text-align: left;
   margin-bottom: 10px;
 }
   
@@ -88,6 +89,24 @@
 .remember input[type='checkbox']:checked + .custom-checkbox::before {
   content: '✓';
   color: white;
+}
+
+.password-container {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.forgot-password-link {
+  position: absolute;
+  right: 0;
+  top: 0px;
+  color: #0000EE;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.forgot-password-link:hover {
+  text-decoration: underline;
 }
   
 .login-footer {

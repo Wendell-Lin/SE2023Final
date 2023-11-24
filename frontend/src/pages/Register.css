@@ -22,6 +22,7 @@
 .register-form label {
   display: block;
   margin-bottom: 10px;
+  text-align: left;
 }
   
 .register-form input {
@@ -73,6 +74,10 @@
 .terms-link {
   color: #0000EE; /* A standard link color */
   cursor: pointer;
+  text-decoration: none;
+}
+
+.terms-link:hover {
   text-decoration: underline;
 }
 

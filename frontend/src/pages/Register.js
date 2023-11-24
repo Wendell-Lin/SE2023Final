@@ -10,6 +10,16 @@ function Register() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [termsContent, setTermsContent] = useState('');
   const [error, setError] = useState('');
+  const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
+
+  const fakeUsersDB = [
+    {
+      email: 'admin@ntu.edu.tw',
+      password: '123',
+      name: 'admin'
+    }
+  ];
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -49,6 +59,16 @@ function Register() {
       showErrorModal('Please agree to the terms & policy');
       return;
     }
+
+    setTimeout(() => {
+      const userExists = fakeUsersDB.some(user => user.email === email);
+
+      if (userExists) {
+        setError('Email has already been used');
+      } else {
+        alert('Sign up successfully');
+      }
+    }, 100);
   };
 
   const handleCheckboxChange = (event) => {

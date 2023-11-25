@@ -7,6 +7,8 @@ function Login() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalTitle, setModalTitle] = useState('');
   const [modalContent, setModalContent] = useState('');
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [resetEmail, setResetEmail] = useState('');
 
   const fakeUsersDB = [
     {
@@ -40,10 +42,31 @@ function Login() {
     else {
       setModalTitle('Welcome');
       setModalContent(`Hello, ${user.name}!`);
+      setIsModalOpen(true);
     }
   };
 
-  const handleForgotPassword = () => {
+  const handleResetEmailChange = (event) => {
+    setResetEmail(event.target.value);
+  };
+
+  const handleForgotPasswordClick = (event) => {
+    event.preventDefault();
+    setShowForgotPassword(true);
+    setModalTitle('Forgot Password');
+    setModalContent('');
+    setIsModalOpen(true);
+  };
+
+  const handleRequestReset = () => {
+    const user = fakeUsersDB.find(u => u.email === resetEmail);
+    if (user) {
+      setModalTitle('Success');
+      setModalContent('A link to reset your password has been sent to your email.');
+    } else {
+      setModalTitle('Error');
+      setModalContent('No account found with that email address.');
+    }
   };
 
   const toggleModal = () => {
@@ -76,7 +99,7 @@ function Login() {
             onChange={handlePasswordChange}
             required 
             />
-            <a href="#forgot-password" className="forgot-password-link" onClick={handleForgotPassword}>forgot password</a>
+            <a href="#forgot-password" className="forgot-password-link" onClick={handleForgotPasswordClick}>forgot password</a>
           </div>
 
           {isModalOpen && (
@@ -85,6 +108,32 @@ function Login() {
                 <h2>{modalTitle}</h2>
                 <p>{modalContent}</p>
                 <button onClick={toggleModal}>Close</button>
+              </div>
+            </div>
+          )}
+
+          {isModalOpen && (
+            <div className="modal-backdrop">
+              <div className="modal">
+                <h2>{modalTitle}</h2>
+                {showForgotPassword ? (
+                  <>
+                    <input
+                      type="email"
+                      placeholder="Enter your email"
+                      value={resetEmail}
+                      onChange={handleResetEmailChange}
+                      required
+                    />
+                    <button onClick={handleRequestReset}>Send Reset Email</button>
+                  </>
+                ) : (
+                  <p>{modalContent}</p>
+                )}
+                <button onClick={() => {
+                  setIsModalOpen(false);
+                  setShowForgotPassword(false);
+                }}>Close</button>
               </div>
             </div>
           )}

@@ -1,9 +1,12 @@
 import React from 'react';
 import './Home.css';
 import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 const Home = () => {
   const navigate = useNavigate();
+  const [cookies, setCookie, removeCookie] = useCookies(['user']);
+  const isLoggedIn = !!cookies.user;
   return (
     <div className="hero">
       <div className="hero-text">
@@ -12,8 +15,18 @@ const Home = () => {
         <h2>Join our community effort to minimize food waste</h2>
         <h2>and maximize community support.</h2>
         <div className="hero-buttons">
-          <button onClick={() => setTimeout(() => {navigate('/viewitems')}, 100)}>Find Food Near You</button>
-          <button onClick={() => setTimeout(() => {navigate('/uploaditems')}, 100)}>List Your Surplus</button>
+          {isLoggedIn ? (
+            <>
+              <button onClick={() => setTimeout(() => {navigate('/viewitems')}, 100)}>Find Food Near You</button>
+              <button onClick={() => setTimeout(() => {navigate('/uploaditems')}, 100)}>List Your Surplus</button>
+            </>
+          ) : (
+            <>
+              <button onClick={() => setTimeout(() => {navigate('/login')}, 100)}>Login to Find Food</button>
+              <button onClick={() => setTimeout(() => {navigate('/register')}, 100)}>Register to List Your Surplus</button>
+            </>
+          )
+          } 
         </div>
       </div>
       <div className="hero-image">

@@ -31,7 +31,7 @@ const Navbar = () => {
         {isLoggedIn ? (
           <>
             <CustomLink to="/profile">Profile</CustomLink>
-            <CustomLink to="/" onClick={logout}>Logout</CustomLink>
+            <Link to="/" onClick={logout}>Logout</Link>
           </>
         ) : (
           <>

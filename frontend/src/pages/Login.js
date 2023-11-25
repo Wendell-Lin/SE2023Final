@@ -11,6 +11,7 @@ function Login() {
   const [modalContent, setModalContent] = useState('');
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [resetEmail, setResetEmail] = useState('');
+  const [loginStatus, setLoginStatus] = useState(false);
   const navigate = useNavigate();
   const [cookies, setCookie] = useCookies(['user']);
 
@@ -44,13 +45,10 @@ function Login() {
       setIsModalOpen(true);
     }
     else {
-      setModalTitle(`Welcome, ${user.name}!`);
-      setModalContent(``);
-      setIsModalOpen(true);
       setTimeout(() => {
         setCookie('user', { name: user.name, email: user.email }, { path: '/' });
         navigate('/');
-      }, 1500);
+      }, 300);
     }
   };
 
@@ -113,9 +111,19 @@ function Login() {
           {isModalOpen && (
             <div className="modal-backdrop">
               <div className="modal">
-                <h2>{modalTitle}</h2>
-                <p>{modalContent}</p>
-                <button onClick={toggleModal}>Close</button>
+                {loginStatus ? (
+                  <>
+                    <h2>{modalTitle}</h2>
+                    <p>{modalContent}</p>
+                  </>
+                ) : (
+                  <>
+                    <h2>{modalTitle}</h2>
+                    <p>{modalContent}</p>
+                    <button onClick={toggleModal}>Close</button>
+                  </>
+                )
+                }
               </div>
             </div>
           )}

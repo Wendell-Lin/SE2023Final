@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=poppins&display=swap');
 
 .hero {
   display: flex;
@@ -30,6 +31,7 @@
 }
 
 .hero-text h2 {
+  font-family: 'Poppins', sans-serif;
   font-size: 1.7rem;
   margin-bottom: 0rem;
   padding: 0;

@@ -87,9 +87,6 @@ function Register() {
         showErrorModal('Oops', 'Email already exists.')
       } else {
         showSucceedModal('Email Sent Successfully', "Didn't receive the email? ", "Try again");
-        setTimeout(() => {
-          navigate('/login');
-        }, 1500);
       }
     }, 100);
   };
@@ -181,7 +178,7 @@ function Register() {
               <div className="modal">
                 <h2>{succeedTitle}</h2>
                 <p>{succeedMsg}<span className="resend-link">{succeedSpan}</span></p>
-                <button onClick={() => showSucceedModal('', '')}>Close</button>
+                <button onClick={() => setTimeout(() => {navigate('/')}, 100)}>Close</button>
               </div>
             </div>
           )}

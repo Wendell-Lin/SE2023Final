@@ -31,12 +31,12 @@ const Navbar = () => {
         {isLoggedIn ? (
           <>
             <CustomLink to="/profile">Profile</CustomLink>
-            <Link to="/" onClick={logout}>Logout</Link>
+            <CustomLink to="/" onClick={logout}>Logout</CustomLink>
           </>
         ) : (
           <>
-            <CustomLink to="/login">Login</CustomLink>
-            <CustomLink to="/register">Register</CustomLink>
+            <Link to="/login" className="login-btn">Login</Link>
+            <Link to="/register" className="register-btn">Register</Link>
           </>
         )}
       </ul>

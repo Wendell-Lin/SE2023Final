@@ -53,3 +53,20 @@
   .nav li:hover {
     background-color: #DDD;
   }
+
+.nav .login-btn,
+.nav .register-btn {
+  background-color: #B4A797;
+  opacity: 0.55;
+  color: #333;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 25px;
+  font-weight: bold;
+}
+
+.nav .login-btn:hover,
+.nav .register-btn:hover {
+  background-color: #887D6F;
+  text-decoration: none;
+}

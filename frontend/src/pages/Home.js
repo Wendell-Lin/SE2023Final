@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './Home.css';
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
@@ -7,6 +7,19 @@ const Home = () => {
   const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies(['user']);
   const isLoggedIn = !!cookies.user;
+  useEffect(() => {
+    if (cookies.user) {
+      const userCookie = cookies.user;
+      const expires = new Date(userCookie.expires);
+      const now = new Date();
+      if (now > expires) {
+        removeCookie('user', { path: '/' });
+        isLoggedIn = false;
+        navigate('/login');
+      }
+    }
+  }, [cookies, removeCookie]);
+
   return (
     <div className="hero">
       <div className="hero-text">

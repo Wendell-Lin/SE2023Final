@@ -1,0 +1,109 @@
+.hero {
+  display: flex;
+  align-items: center;
+  background-color: #666D5D;
+  opacity: 0.9;
+  min-height: calc(100vh - 4rem);
+  padding-top: 4rem;
+  position: relative;
+  z-index: 0;
+  width: 100%;
+}
+
+.hero-text {
+  flex: 1;
+  flex-basis: 50%;
+  padding: 0 2rem;
+  max-width: 60%;
+  position: relative;
+}
+
+.hero-text h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 3.5rem;
+  font: bold;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  color: #ffffff;
+}
+
+.hero-text h2 {
+  font-size: 1.7rem;
+  margin-bottom: 0rem;
+  padding: 0;
+  color: #000000;
+}
+
+.hero-text p {
+  font-size: 1rem;
+  margin-bottom: 2rem;
+}
+
+.hero-buttons button {
+  margin-top: 2rem;
+  padding: 1rem 2rem;
+  margin-right: 1rem;
+  border: none;
+  border-radius: 2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.hero-buttons button:first-of-type {
+  background-color: #333;
+  color: #ffffff;
+}
+
+.hero-buttons button:last-of-type {
+  background-color: #ffffff;
+  color: #333;
+}
+
+.hero-image {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  flex-shrink: 0;
+  width: 50%;
+  align-items: center;
+  position: relative;
+  right: 0;
+  top: 0;
+  height: 100%;
+  z-index: 1;
+}
+
+.hero-image img {
+  max-width: 100%;
+  max-height: 100vh;
+  height: auto;
+  object-fit: cover;
+}
+
+/* RWD adjustments */
+@media (max-width: 1200px) {
+  .hero {
+    flex-direction: column;
+    padding: 2rem;
+  }
+
+  .hero-text .hero-image {
+    width: 100%;
+  }
+
+  .hero-image {
+    order: -1;
+    display: none;
+    justify-content: center;
+  }
+
+  .hero-text {
+    width: auto;
+    padding: 0;
+  }
+  
+  .hero-buttons button {
+    margin-bottom: 1rem;
+  }
+}

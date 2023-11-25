@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 import './Login.css';
 
 function Login() {
@@ -9,6 +11,8 @@ function Login() {
   const [modalContent, setModalContent] = useState('');
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [resetEmail, setResetEmail] = useState('');
+  const navigate = useNavigate();
+  const [cookies, setCookie] = useCookies(['user']);
 
   const fakeUsersDB = [
     {
@@ -40,9 +44,13 @@ function Login() {
       setIsModalOpen(true);
     }
     else {
-      setModalTitle('Welcome');
-      setModalContent(`Hello, ${user.name}!`);
+      setModalTitle(`Welcome, ${user.name}!`);
+      setModalContent(``);
       setIsModalOpen(true);
+      setTimeout(() => {
+        setCookie('user', { name: user.name, email: user.email }, { path: '/' });
+        navigate('/');
+      }, 1500);
     }
   };
 

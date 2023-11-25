@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import marked from 'marked';
 import './Register.css';
 
@@ -16,6 +17,7 @@ function Register() {
   const [succeedSpan, setSucceedSpan] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const fakeUsersDB = [
     {
@@ -85,6 +87,9 @@ function Register() {
         showErrorModal('Oops', 'Email already exists.')
       } else {
         showSucceedModal('Email Sent Successfully', "Didn't receive the email? ", "Try again");
+        setTimeout(() => {
+          navigate('/login');
+        }, 1500);
       }
     }, 100);
   };

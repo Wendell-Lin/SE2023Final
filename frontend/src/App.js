@@ -7,9 +7,10 @@ function App() {
   return (
     <>
       <Navbar />
-      <div className="container">
+      <AppRoutes />
+      {/* <div className="container">
         <AppRoutes />
-      </div>
+      </div> */}
     </>
   );
 }

@@ -9,9 +9,11 @@ function Register() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [termsContent, setTermsContent] = useState('');
-  const [error, setError] = useState('');
+  const [errorTitle, setErrorTitle] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
   const [succeedMsg, setSucceedMsg] = useState('');
   const [succeedTitle, setSucceedTitle] = useState('');
+  const [succeedSpan, setSucceedSpan] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
 
@@ -29,6 +31,14 @@ function Register() {
       /^[\w-.]+@ntu\.edu\.tw$/i.test(event.target.value)
     );
   };
+
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
+  }
+
+  const handleNameChange = (event) => {
+    setName(event.target.value);
+  }
 
   useEffect(() => {
     if (isModalOpen) {
@@ -53,22 +63,28 @@ function Register() {
     setIsSubmitted(true);
 
     if (!emailValid) {
-      showErrorModal('Please enter a valid NTU email address.');
+      showErrorModal('Oops', 'Please enter a valid NTU email address.');
       return;
     }
 
     if (!isTermsChecked) {
-      showErrorModal('Please agree to the terms & policy');
+      showErrorModal('Oops', 'Please agree to the terms & policy');
       return;
+    }
+
+    const userData ={
+      name: name,
+      email: email,
+      password: password
     }
 
     setTimeout(() => {
       const userExists = fakeUsersDB.some(user => user.email === email);
 
       if (userExists) {
-        setError('Email has already been used');
+        showErrorModal('Oops', 'Email already exists.')
       } else {
-        showSucceedModal('Email Sent Successfully', "Didn't receive the email? Try again");
+        showSucceedModal('Email Sent Successfully', "Didn't receive the email? ", "Try again");
       }
     }, 100);
   };
@@ -82,13 +98,15 @@ function Register() {
     toggleModal();
   };
 
-  const showErrorModal = (message) => {
-    setError(message);
+  const showErrorModal = (title, message) => {
+    setErrorTitle(title);
+    setErrorMsg(message);
   };
 
-  const showSucceedModal = (title, message) => {
+  const showSucceedModal = (title, message, span) => {
     setSucceedTitle(title);
     setSucceedMsg(message);
+    setSucceedSpan(span);
   }
 
   return (
@@ -97,8 +115,14 @@ function Register() {
         <h1>Get Started Now</h1>
         <form onSubmit={handleSubmit}>
           <label htmlFor="name">Name</label>
-          <input type="text" id="name" placeholder="Enter your name" required />
-          
+          <input 
+            type="text" 
+            id="name" 
+            placeholder="Enter your name" 
+            value={name}
+            onChange={handleNameChange}
+            required 
+          />
           <label htmlFor="email">Email address</label>
           <input 
             type="email" 
@@ -110,7 +134,14 @@ function Register() {
           />
           
           <label htmlFor="password">Password</label>
-          <input type="password" id="password" placeholder="Password" required />
+          <input 
+            type="password"
+            id="password" 
+            placeholder="Password"
+            value={password}
+            onChange={handlePasswordChange}
+            required 
+          />
           
           <div className="terms-and-policy">
           <input 
@@ -131,12 +162,12 @@ function Register() {
             </div>
           </div>
           )}
-          {error && (
+          {errorMsg && (
             <div className="modal-backdrop">
               <div className="modal">
-                <h2>Error!</h2>
-                <p>{error}</p>
-                <button onClick={() => setError('')}>Close</button>
+                <h2>{errorTitle}!</h2>
+                <p>{errorMsg}</p>
+                <button onClick={() => showErrorModal('', '')}>Close</button>
               </div>
             </div>
           )}
@@ -144,8 +175,8 @@ function Register() {
             <div className="modal-backdrop">
               <div className="modal">
                 <h2>{succeedTitle}</h2>
-                <p>{succeedMsg}</p>
-                <button onClick={() => setSucceedMsg('')}>Close</button>
+                <p>{succeedMsg}<span className="resend-link">{succeedSpan}</span></p>
+                <button onClick={() => showSucceedModal('', '')}>Close</button>
               </div>
             </div>
           )}

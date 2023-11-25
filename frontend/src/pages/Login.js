@@ -13,7 +13,8 @@ function Login() {
   const [resetEmail, setResetEmail] = useState('');
   const [loginStatus, setLoginStatus] = useState(false);
   const navigate = useNavigate();
-  const [cookies, setCookie] = useCookies(['user']);
+  const [cookies, setCookie] = useCookies(['user', 'userDetails']);
+  const [remember, setRemember] = useState(false);
 
   const fakeUsersDB = [
     {
@@ -31,6 +32,10 @@ function Login() {
     setPassword(event.target.value);
   };
 
+  const handleRememberChange = (event) => {
+    setRemember(event.target.checked);
+  }
+
   const handleLogin = (event) => {
     event.preventDefault();
     const user = fakeUsersDB.find(u => u.email === email);
@@ -45,8 +50,9 @@ function Login() {
       setIsModalOpen(true);
     }
     else {
+      const expires = remember ? 30 : 1;
       setTimeout(() => {
-        setCookie('user', { name: user.name, email: user.email }, { path: '/' });
+        setCookie('user', 'user details', { path: '/', expires: new Date(Date.now() + 86400 * 1000 * expires) });
         navigate('/');
       }, 300);
     }
@@ -154,7 +160,12 @@ function Login() {
             </div>
           )}
           <div className="remember">
-            <input type="checkbox" id="remember" />
+            <input 
+              type="checkbox" 
+              id="remember"
+              checked={remember}
+              onChange={handleRememberChange}
+            />
             <label htmlFor="remember" className="custom-checkbox"></label>
             <label htmlFor="remember">Remember for 30 days</label>
           </div>

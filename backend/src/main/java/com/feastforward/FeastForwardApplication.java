@@ -2,17 +2,11 @@ package com.feastforward;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 import java.util.TimeZone;
 
 @SpringBootApplication
-@EntityScan(basePackageClasses = {
-		FeastForwardApplication.class,
-		Jsr310JpaConverters.class
-})
 public class FeastForwardApplication {
 	@PostConstruct
 	void init() {

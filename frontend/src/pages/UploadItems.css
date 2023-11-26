@@ -1,0 +1,40 @@
+.itemImageList {
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+  gap: 10px;
+  width: 1000px;
+}
+.image-upload-container {
+  height: 120px; /* Set the height to fit your design */
+  display: flex;
+  overflow-x: auto; /* Only scroll horizontally */
+}
+
+.itemImageList::-webkit-scrollbar {
+  display: none;
+}
+
+.itemImage {
+  flex: none;
+  /* border: 1px solid grey; */
+  padding: 10px;
+  /* box-sizing: border-box; */
+  /* max-width: 200px; */
+  min-height: 200px;
+  max-height: 200px;
+}
+
+
+.itemImage img {
+  max-width: 100%; /* Ensure the image is not wider than its container */
+  max-height: 100%; /* Ensure the image is not taller than its container */
+  object-fit: contain; /* This will make sure that the image maintains its aspect ratio */
+  /* border: 3px solid #FFFFFF; White border for the image */
+  /* box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); Soft shadow for depth */
+}
+
+.image-upload-label {
+  cursor: pointer;
+  /* additional styling for the label as needed */
+}

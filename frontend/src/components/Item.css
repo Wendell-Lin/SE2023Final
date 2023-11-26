@@ -1,0 +1,72 @@
+/* Item.css */
+.item-container {
+    background: #FFFFFF; /* or any color you want */
+    border-radius: 15px; /* Rounded corners */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Ensures that child elements do not break the rounded corners */
+    font-family: 'Arial', sans-serif; /* Example font */
+    margin-bottom: 20px; /* Space between items */
+    padding: 20px; /* Padding around the content */
+}
+
+.item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 0.8em;
+    color: #666666; /* Grey text for the expiration time */
+}
+
+.item-header .expiration-time {
+    flex: 1;
+}
+
+.item-header .like-icon {
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+h3 {
+    font-size: 1.2em;
+    color: #333333; /* Darker text for the title */
+    margin: 0;
+}
+
+.item-details {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.6;
+    font-size: 0.9em;
+}
+
+.item-details p {
+    margin: 5px 0;
+    color: #333;
+}
+
+.item-footer {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.item-footer .item-type {
+    background: #FFFFFF;
+    border-radius: 10px;
+    padding: 5px 10px;
+    font-size: 0.8em;
+}
+
+/* Additional styles for the image placeholder */
+.item-image-placeholder {
+    background: #CCCCCC; /* Placeholder color */
+    width: 100%; /* Full width */
+    height: 150px; /* Fixed height, you can adjust this */
+    margin-bottom: 10px; /* Space between the image and text */
+}
+
+/* Adjustments to the existing CSS may be required to fine-tune the design. */

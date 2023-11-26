@@ -3,27 +3,30 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    margin: 0 auto;
-    max-width: 1200px; /* Adjust based on your preference */
+
+    height: 80vh;
+    /* margin: 0 auto; */
+    /* max-width: 1200px; Adjust based on your preference */
 }
 
 .left-section {
-    width: 600px; /* Fixed width for the item list */
+    align-items: center;
+    
+    width: 440px; /* Fixed width for the item list */
     margin: 10px;
 }
 
 .right-section {
     flex-grow: 1; /* Allow right section to grow if there is extra space */
     flex-basis: 0; /* Start with a flex basis of 0 to ensure it grows */
-    max-width: 600px; /* Maximum width for the map */
+    /* max-width: 600px; Maximum width for the map */
     margin: 10px;
 }
-
-@media (max-width: 768px) {
+@media (max-width: 1080px) { /* Adjust the breakpoint as needed */
     .right-section {
-        display: none; /* Hide the right section on smaller screens */
+        display: none;
     }
     /* .left-section {
-        width: 100%; Full width on smaller screens
+        width: 720px;
     } */
 }

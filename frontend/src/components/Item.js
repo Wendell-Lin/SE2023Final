@@ -1,36 +1,64 @@
-// Item.js
-import React from 'react';
+import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart as fasHeart } from '@fortawesome/free-solid-svg-icons'; // For solid heart icon
+import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons'; // For regular heart icon
 import './Item.css'; // Make sure to create appropriate styles
 
-function Item({ 
-  name, 
-  amount, 
-  location, 
-  category, 
-  description, 
-  expirationTime, 
-  imageList 
+function Item({
+    itemId,
+    name, 
+    location, 
+    category,
+    latitude,
+    longitude, 
+    amount, 
+    description, 
+    expirationTime,
+    numberOfFollow,
+    imageList,
+    editable,
+    onOpenPopup,
 }) {
+    const [heartToggled, setHeartToggled] = useState(false);
+
+    // Function to toggle the heart icon
+    const toggleHeart = (e) => {
+        e.stopPropagation(); // Prevent the click from triggering the item's popup
+        setHeartToggled(!heartToggled);
+    };
+
     return (
-        <div className="item-container">
-            <div className="item-header">
-                <span className="expiration-time">Expiration Time: {expirationTime}</span>
-                <span className="like-icon">❤️</span>
-            </div>
-            {imageList && imageList.length > 0 && (
-                <div className="item-images">
-                    {/* Display the first image as a placeholder, for example */}
-                    <img src={imageList[0]} alt={name} />
+        <div className="item-container" onClick={() => onOpenPopup(editable)}>
+            <div className='item-upper'>
+                <div className='item-upper-left'>
+                    <span className="expiration-time">Expiration Time: {expirationTime}</span>
                 </div>
-            )}
-            <div className="item-title">{name}</div>
-            <div className="item-details">
-                <p>Amount: {amount}</p>
-                <p>Location: {location}</p>
-                <p>Description: {description}</p>
+                <div className='item-upper-right'>
+                    <span className="item-type">{category}</span>
+                    <button 
+                        className="like-icon" 
+                        onClick={toggleHeart}
+                        aria-label="Toggle favorite"
+                    >
+                        <FontAwesomeIcon icon={heartToggled ? fasHeart : farHeart} />
+                    </button>
+                </div>
             </div>
-            <div className="item-footer">
-                <span className="item-type">{category}</span>
+            <div className='item-lower'>
+                <div className='item-lower-left'>
+                    {imageList && imageList.length > 0 && (
+                        <img src={imageList[0]} alt={name} />
+                    )}
+                </div>
+                <div className='item-lower-right'>
+                    <h3 className="item-title">{name}</h3>
+                    <div className="item-details">
+                        <p>Amount: {amount}</p>
+                        <p>Location: {location}</p>
+                        <p>ppl watching: {numberOfFollow}</p>
+                    </div>
+                    <div className='item-description'>{description}</div>
+                </div>
             </div>
         </div>
     );

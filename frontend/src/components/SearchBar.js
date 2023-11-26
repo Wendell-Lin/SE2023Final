@@ -1,5 +1,6 @@
 // SearchBar.js
 import React, { useState } from 'react';
+import './SearchBar.css'
 
 function SearchBar({ onSearchTermChange }) {
     const [term, setTerm] = useState('');
@@ -10,7 +11,7 @@ function SearchBar({ onSearchTermChange }) {
     };
 
     return (
-        <div>
+        <div className='search-bar'>
             <input
                 type="text"
                 value={term}

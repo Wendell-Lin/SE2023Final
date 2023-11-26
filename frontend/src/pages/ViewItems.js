@@ -1,12 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import SearchBar from '../components/Search';
+import SearchBar from '../components/SearchBar';
 import ItemList from '../components/ItemList';
+import ItemDetail from '../components/ItemDetail';
 import Map from '../components/Map';
 import './ViewItems.css'
 
 const ViewItems = () => {
     const [items, setItems] = useState([]);
     const [filteredItems, setFilteredItems] = useState([]);
+
+    useEffect(() => {
+        document.body.style.backgroundColor = "#666D5D"; // Set your desired color
+    
+        return () => {
+          document.body.style.backgroundColor = null; // Reset to default or another color
+        };
+      }, []);
 
     useEffect(() => {
         // Fetch or initialize items here
@@ -16,9 +25,10 @@ const ViewItems = () => {
                 name: 'A bag of cookies', 
                 amount: 5, 
                 location: 'Library', 
-                description: 'I just got it as a gift, but I am losing weight...',
+                description: 'I just got it as a gift, but I am losingI just got it as a gift, but I am losing weight.... \nAnyone who is interested in it...\n JUST TAKE IT!!!',
                 expirationTime: '2023/10/09 09:15',
-                category: 'Snack'
+                category: 'Snack',
+                imageList: ['/images/log-decorative.png'],
             },
             { 
                 name: '師大第一腿', 
@@ -34,8 +44,10 @@ const ViewItems = () => {
                 location: '圖書館', 
                 description: 'yeah',
                 expirationTime: '2023/10/09 09:15', 
-                category: '便當'
+                category: '便當',
+                imageList: ['/images/log-decorative.png'],
             },
+            {},{},{}
             // ... more items
         ];
         setItems(initialItems);
@@ -58,8 +70,8 @@ const ViewItems = () => {
     return (
         <div className="view-container">
             <div className="left-section">
-                <SearchBar onSearchTermChange={onSearchTermChange} />
-                <ItemList items={filteredItems} />
+                <SearchBar className="test" onSearchTermChange={onSearchTermChange} />
+                <ItemList listHeight={"600px"} items={filteredItems} Popup={ItemDetail} />
             </div>
             <div className="right-section">
                 <Map latitude={latitude} longitude={longitude} />

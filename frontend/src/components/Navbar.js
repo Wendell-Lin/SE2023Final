@@ -3,16 +3,17 @@ import { Link, useLocation } from "react-router-dom";
 import CustomLink from "./Customlink";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
+import "./Navbar.css";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [cookies, setCookie, removeCookie] = useCookies(['username']);
-  const isLoggedIn = !!cookies.username;
+  const [cookies, setCookie, removeCookie] = useCookies(['user']);
+  const isLoggedIn = !!cookies.user;
   const hideNavbar = location.pathname === '/login' || location.pathname === '/register';
 
   const logout = () => {
-    removeCookie('username', { path: '/' });
+    removeCookie('user', { path: '/' });
     navigate("/");
   };
 
@@ -34,8 +35,8 @@ const Navbar = () => {
           </>
         ) : (
           <>
-            <CustomLink to="/login">Login</CustomLink>
-            <CustomLink to="/register">Register</CustomLink>
+            <Link to="/login" className="login-btn">Login</Link>
+            <Link to="/register" className="register-btn">Register</Link>
           </>
         )}
       </ul>

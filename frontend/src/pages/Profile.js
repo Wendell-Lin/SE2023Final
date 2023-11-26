@@ -16,7 +16,10 @@ function Profile(props) {
     const [isSavedItem, setIsSavedItem] = useState(false)
     function showSavedItem(){
         setIsSavedItem(isSavedItem => !isSavedItem)
-    }    
+    } 
+    const [userName, setUserName] = useState("Tom Tsaiii")
+    const [userId, setUserId] = useState("r1121111@ntu.edu.tw")
+    
     // console.log(sentEmail)
   return (
     <>
@@ -33,8 +36,8 @@ function Profile(props) {
                   </div>
                   <div className="column-3">
                     <div className="div-6">
-                      <div className="div-7">Tom Tsai</div>
-                      <div className="div-8">r12345678@ntu.edu.tw</div>
+                      <div className="div-7">{userName}</div>
+                      <div className="div-8">{userId}</div>
                     </div>
                   </div>
                 </div>
@@ -48,7 +51,7 @@ function Profile(props) {
                 <input 
                     type="text"
                     id="name" 
-                    placeholder="Tom Tsai" required
+                    placeholder={userName} required
                 />
                 <div className="info-title">Notification</div>
                 <div className="div-14">
@@ -78,7 +81,7 @@ function Profile(props) {
                 <label className="info-title">New Password (again)</label>
                 <input 
                     type="text"
-                    id="newpassword" 
+                    id="newpassword2" 
                     placeholder="New Password (again)" required
                 />  
               </form>
@@ -105,7 +108,29 @@ function Profile(props) {
                     className="img-2"
                   />
                 </div>
+
+
+                
               </div>
+              <div className="div-29">
+                  <img
+                    loading="lazy"
+                    src="images/item 2.png"
+                    className="img-2"
+                  />
+                  <img
+                    loading="lazy"
+                    src="images/item 2.png"
+                    className="img-2"
+                  />
+
+                  <img
+                    loading="lazy"
+                    src="images/item 2.png"
+                    className="img-2"
+                  />
+              </div>
+
             </div>
           </div>
         </div>

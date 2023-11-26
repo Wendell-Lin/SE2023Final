@@ -1,7 +1,7 @@
 .div {
-    /* justify-content: center; */
+    justify-content: center;
     background-color: #91968a;
-    /* padding: 0 22px; */
+    padding: 0 22px;
   }
   @media (max-width: 991px) {
     .div {
@@ -41,14 +41,14 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    margin: 49px auto 0;
-    padding: 50px 80px;
+    margin: 30px auto 0;
+    padding: 20px 70px;
   }
   @media (max-width: 991px) {
-    .div-3 {
+    .profile {
       max-width: 100%;
-      margin-top: 40px;
-      padding: 0 20px;
+      margin-top: 30px;
+      padding: 10px 25px;
     }
   }
   .profile-pic {
@@ -63,13 +63,6 @@
     gap: 20px;
     display: flex;
   }
-  @media (max-width: 991px) {
-    .div-5 {
-      flex-direction: column;
-      align-items: stretch;
-      gap: 0px;
-    }
-  }
   .column-2 {
     display: flex;
     flex-direction: column;
@@ -77,11 +70,7 @@
     width: 36%;
     margin-left: 0px;
   }
-  @media (max-width: 991px) {
-    .column-2 {
-      width: 100%;
-    }
-  }
+
   .img {
     aspect-ratio: 1.1;
     object-fit: contain;
@@ -105,22 +94,22 @@
     width: 64%;
     margin-left: 20px;
   }
-  @media (max-width: 991px) {
+  /* @media (max-width: 991px) {
     .column-3 {
       width: 100%;
     }
-  }
+  } */
   .div-6 {
     align-self: center;
   }
   .div-7 {
     color: #000;
-    font: 400 15px/22.5px Poppins, -apple-system, Roboto, Helvetica,
+    font: 400 20px/35px Poppins, -apple-system, Roboto, Helvetica,
       sans-serif;
   }
   .div-8 {
     color: #707070;
-    font: 500 8px/12px Poppins, -apple-system, Roboto, Helvetica,
+    font: 500 12px/20px Poppins, -apple-system, Roboto, Helvetica,
       sans-serif;
   }
 
@@ -291,7 +280,7 @@
   .div-26 {
     align-items: start;
     display: flex;
-    margin-bottom: 513px;
+    margin-bottom: 10px;
     width: 443px;
     max-width: 100%;
     gap: 14px;
@@ -338,14 +327,12 @@
     border-radius: 8px;
     background-color: var(--Secondary, #eef1f4);
     display: flex;
-    aspect-ratio: 0.9736842105263158;
     flex-direction: column;
     padding: 13px 12px;
   }
-  .img-2 {
+  /* .img-2 {
     aspect-ratio: 1;
     object-fit: contain;
     object-position: center;
-    width: 13px;
     overflow: hidden;
-  }
+  } */

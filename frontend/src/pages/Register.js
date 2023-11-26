@@ -1,21 +1,46 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import marked from 'marked';
 import './Register.css';
 
 function Register() {
-  const [isTermsChecked, setIsTermsChecked] = useState(true);
+  const [isTermsChecked, setIsTermsChecked] = useState(false);
   const [email, setEmail] = useState('');
   const [emailValid, setEmailValid] = useState(true);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [termsContent, setTermsContent] = useState('');
+  const [errorTitle, setErrorTitle] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
+  const [succeedMsg, setSucceedMsg] = useState('');
+  const [succeedTitle, setSucceedTitle] = useState('');
+  const [succeedSpan, setSucceedSpan] = useState('');
+  const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+
+  const fakeUsersDB = [
+    {
+      email: 'admin@ntu.edu.tw',
+      password: '123',
+      name: 'admin'
+    }
+  ];
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
     setEmailValid(
-      /^[\w-\.]+@ntu\.edu\.tw$/i.test(event.target.value)
+      /^[\w-.]+@ntu\.edu\.tw$/i.test(event.target.value)
     );
   };
+
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
+  }
+
+  const handleNameChange = (event) => {
+    setName(event.target.value);
+  }
 
   useEffect(() => {
     if (isModalOpen) {
@@ -40,14 +65,30 @@ function Register() {
     setIsSubmitted(true);
 
     if (!emailValid) {
-      alert('Please enter a valid NTU email address.');
+      showErrorModal('Oops', 'Please enter a valid NTU email address.');
       return;
     }
 
     if (!isTermsChecked) {
-      alert('Please agree to the terms & policy');
+      showErrorModal('Oops', 'Please agree to the terms & policy');
       return;
     }
+
+    const userData ={
+      name: name,
+      email: email,
+      password: password
+    }
+
+    setTimeout(() => {
+      const userExists = fakeUsersDB.some(user => user.email === email);
+
+      if (userExists) {
+        showErrorModal('Oops', 'Email already exists.')
+      } else {
+        showSucceedModal('Email Sent Successfully', "Didn't receive the email? ", "Try again");
+      }
+    }, 100);
   };
 
   const handleCheckboxChange = (event) => {
@@ -59,14 +100,31 @@ function Register() {
     toggleModal();
   };
 
+  const showErrorModal = (title, message) => {
+    setErrorTitle(title);
+    setErrorMsg(message);
+  };
+
+  const showSucceedModal = (title, message, span) => {
+    setSucceedTitle(title);
+    setSucceedMsg(message);
+    setSucceedSpan(span);
+  }
+
   return (
     <div className="register-container">
       <div className="register-form">
         <h1>Get Started Now</h1>
         <form onSubmit={handleSubmit}>
           <label htmlFor="name">Name</label>
-          <input type="text" id="name" placeholder="Enter your name" required />
-          
+          <input 
+            type="text" 
+            id="name" 
+            placeholder="Enter your name" 
+            value={name}
+            onChange={handleNameChange}
+            required 
+          />
           <label htmlFor="email">Email address</label>
           <input 
             type="email" 
@@ -78,7 +136,14 @@ function Register() {
           />
           
           <label htmlFor="password">Password</label>
-          <input type="password" id="password" placeholder="Password" required />
+          <input 
+            type="password"
+            id="password" 
+            placeholder="Password"
+            value={password}
+            onChange={handlePasswordChange}
+            required 
+          />
           
           <div className="terms-and-policy">
           <input 
@@ -98,6 +163,24 @@ function Register() {
               <button onClick={toggleModal}>Close</button>
             </div>
           </div>
+          )}
+          {errorMsg && (
+            <div className="modal-backdrop">
+              <div className="modal">
+                <h2>{errorTitle}!</h2>
+                <p>{errorMsg}</p>
+                <button onClick={() => showErrorModal('', '')}>Close</button>
+              </div>
+            </div>
+          )}
+          {succeedMsg && (
+            <div className="modal-backdrop">
+              <div className="modal">
+                <h2>{succeedTitle}</h2>
+                <p>{succeedMsg}<span className="resend-link">{succeedSpan}</span></p>
+                <button onClick={() => setTimeout(() => {navigate('/')}, 100)}>Close</button>
+              </div>
+            </div>
           )}
           <button type="submit">Sign up</button>
         </form>

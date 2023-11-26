@@ -22,6 +22,7 @@
 .register-form label {
   display: block;
   margin-bottom: 10px;
+  text-align: left;
 }
   
 .register-form input {
@@ -73,6 +74,10 @@
 .terms-link {
   color: #0000EE; /* A standard link color */
   cursor: pointer;
+  text-decoration: none;
+}
+
+.terms-link:hover {
   text-decoration: underline;
 }
 
@@ -99,14 +104,38 @@
   z-index: 11;
 }
 
-.modal p {
+.modal h2 {
+  margin-bottom: 10px;
+  color: #3A5B22;
+  font-size: 32px;
+  text-align: center;
+}
+
+.modal h3 {
   margin-bottom: 10px;
   text-align: justify;
+  font-size: 16px;
+}
+
+.modal p {
+  margin-bottom: 10px;
+  text-align: center;
+  font-size: 16px;
 }
 
 .modal li {
   margin-bottom: 10px;
   text-align: justify;
+}
+
+.resend-link {
+  color: #0000EE;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.resend-link:hover {
+  text-decoration: underline;
 }
   
 .register-form button {

@@ -34,3 +34,8 @@ build/
 
 ### OS ###
 .DS_Store
+
+### sensitive or environment-specific files ###
+application-*.yml
+applicaion.properties
+

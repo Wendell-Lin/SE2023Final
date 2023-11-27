@@ -68,8 +68,13 @@ h3 {
     align-items: center;
 }
 
+.item-upper-left {
+    margin-left: 20px;
+}
+
 .item-lower {
     display: flex;
+    padding: 10px;
 }
 
 .item-lower-left {
@@ -81,18 +86,14 @@ h3 {
 }
 
 .item-lower-left img {
-    max-width: 128px; /* Ensure the image fits within the container */
+    width: 128px; /* Ensure the image fits within the container */
     height: auto;
     border-radius: 15px; /* Space between the image and text */
 }
-
-.item-details {
-    padding: 0px;
-}
-
 .item-details p {
     margin: 0;
-
+    font-size: 10px;
+    color: #707070;
 }
 /* Item.css */
 .like-icon {
@@ -100,6 +101,16 @@ h3 {
     border: none;
     cursor: pointer;
     /* color: lightgrey; Default color */
+}
+.item-type,
+.expiration-time {
+    color: #707070;
+    font-size: 10px;
+}
+.item-details,
+.item-description {
+    padding-top: 10px;
+    font-size: 10px;
 }
 
 /* Adjustments to the existing CSS may be required to fine-tune the design. */

@@ -9,8 +9,6 @@ function ItemFollow({ itemId, saved, onToggleSaved }) {
         onToggleSaved(itemId);
     };
 
-    console.log(saved);
-
     return (
         <button className="like-icon" onClick={handleToggle} aria-label="Toggle favorite">
             {/* <FontAwesomeIcon icon={saved ? fasHeart : farHeart} /> */}

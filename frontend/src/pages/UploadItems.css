@@ -3,7 +3,7 @@
   overflow-x: auto;
   white-space: nowrap;
   gap: 10px;
-  width: 1000px;
+  width: 360px;
 }
 .image-upload-container {
   height: 120px; /* Set the height to fit your design */
@@ -17,12 +17,11 @@
 
 .itemImage {
   flex: none;
+  position: relative;
   /* border: 1px solid grey; */
   padding: 10px;
   /* box-sizing: border-box; */
-  /* max-width: 200px; */
-  min-height: 200px;
-  max-height: 200px;
+  max-width: 120px; /* Do limit height and width together*/
 }
 
 
@@ -37,4 +36,66 @@
 .image-upload-label {
   cursor: pointer;
   /* additional styling for the label as needed */
+}
+.remove-image-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: rgba(255, 0, 0, 0.7); /* Red background with some transparency */
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+.parent-container {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  height: 100%; /* Adjust as necessary for your design */
+  width: 100%; /* Full width of the container */
+  /* height: 100vh; Full viewport height */
+}
+
+.upload-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
+  border-radius: 20px;
+  margin: 20px;
+  padding: 20px;
+  width: 80%;
+  min-width: 440px;
+  max-width: 1200px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Optional: Adds shadow for better aesthetics */
+}
+.upload-button {
+  margin-top: 20px;
+  background-color: #3A5B22;
+  color: white;
+  width: 400px;
+  height: 32px;
+  border-radius: 20px;
+  box-shadow: none;
+  border: none;
+  cursor: pointer;
+  font: bold;
+}
+
+.upload-container form label {
+  font-weight: 500;
+}
+
+.upload-container form input,
+.upload-container form select,
+.upload-container form textarea {
+  border: 1px solid #ccc; /* Adjust the border width here */
+  border-radius: 10px;
+  margin-bottom: 10px;
+  width: 400px;
+  height: 32px;
+}
+
+.upload-container form textarea {
+  height: 64px;
 }

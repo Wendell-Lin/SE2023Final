@@ -81,7 +81,7 @@ h3 {
 }
 
 .item-lower-left img {
-    max-width: 100px; /* Ensure the image fits within the container */
+    max-width: 128px; /* Ensure the image fits within the container */
     height: auto;
     border-radius: 15px; /* Space between the image and text */
 }
@@ -100,10 +100,6 @@ h3 {
     border: none;
     cursor: pointer;
     /* color: lightgrey; Default color */
-}
-
-.like-icon.heart-toggled {
-    /* color: darkgrey; Color when toggled */
 }
 
 /* Adjustments to the existing CSS may be required to fine-tune the design. */

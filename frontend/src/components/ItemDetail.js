@@ -27,7 +27,7 @@ function ItemDetail({ item, onClose, onToggleSaved }) {
                 </div>
                 {item.imageList &&  <div className="item-image-list">
                     {item.imageList.map((imageUrl, index) => (
-                        <img key={index} src={imageUrl} alt={`Image ${index}`} />
+                        <img key={index} src={imageUrl} alt={`${index}`} />
                     ))}
                 </div>}
 

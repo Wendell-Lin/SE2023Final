@@ -36,9 +36,11 @@ function Item({
             </div>
             <div className='item-lower'>
                 <div className='item-lower-left'>
-                    {imageList && imageList.length > 0 && (
+                    {(imageList && imageList.length > 0) ? (
                         <img src={imageList[0]} alt={name} />
-                    )}
+                    ):
+                        <img src={'images/image_placeholder.png'} alt={"image_placeholder"} />
+                    }
                 </div>
                 <div className='item-lower-right'>
                     <h3 className="item-title">{name}</h3>

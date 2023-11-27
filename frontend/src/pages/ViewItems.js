@@ -10,7 +10,7 @@ const ViewItems = () => {
     const [filteredItems, setFilteredItems] = useState([]);
 
     useEffect(() => {
-        document.body.style.backgroundColor = "#666D5D"; // Set your desired color
+        document.body.style.backgroundColor = "#91968a"; // Set your desired color
     
         return () => {
           document.body.style.backgroundColor = null; // Reset to default or another color
@@ -82,7 +82,7 @@ const ViewItems = () => {
         <div className="view-container">
             <div className="left-section">
                 <SearchBar className="test" onSearchTermChange={onSearchTermChange} />
-                <ItemList listHeight={"600px"} items={filteredItems} Popup={ItemDetail} />
+                <ItemList listHeight={"720px"} items={filteredItems} Popup={ItemDetail} />
             </div>
             <div className="right-section">
                 <Map latitude={latitude} longitude={longitude} />

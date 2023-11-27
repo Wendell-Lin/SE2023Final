@@ -12,6 +12,7 @@ const Map = ({ latitude, longitude }) => {
     return (
         <div style={mapStyles}>
             Map Placeholder - Latitude: {latitude}, Longitude: {longitude}
+            <img src='/images/Map.png'></img>
         </div>
     );
 };

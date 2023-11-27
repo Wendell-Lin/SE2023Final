@@ -53,8 +53,6 @@ function ItemList({ listHeight, items, Popup }) {
         }));
     };
 
-    console.log(itemList)
-
     return (
         <div className="list-container" style={listStyle}>
             {itemList.map((item, index) => (

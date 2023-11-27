@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart as fasHeart } from '@fortawesome/free-solid-svg-icons'; // For solid heart icon
-import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons'; // For regular heart icon
+import React from 'react';
 import './Item.css'; // Make sure to create appropriate styles
+import ItemFollow from './ItemFollow';
 
 function Item({
     itemId,
@@ -16,17 +14,11 @@ function Item({
     expirationTime,
     numberOfFollow,
     imageList,
-    editable,
+    saved,
+    onToggleSaved,
     onOpenPopup,
+    editable,
 }) {
-    const [heartToggled, setHeartToggled] = useState(false);
-
-    // Function to toggle the heart icon
-    const toggleHeart = (e) => {
-        e.stopPropagation(); // Prevent the click from triggering the item's popup
-        setHeartToggled(!heartToggled);
-    };
-
     return (
         <div className="item-container" onClick={() => onOpenPopup(editable)}>
             <div className='item-upper'>
@@ -35,13 +27,11 @@ function Item({
                 </div>
                 <div className='item-upper-right'>
                     <span className="item-type">{category}</span>
-                    <button 
-                        className="like-icon" 
-                        onClick={toggleHeart}
-                        aria-label="Toggle favorite"
-                    >
-                        <FontAwesomeIcon icon={heartToggled ? fasHeart : farHeart} />
-                    </button>
+                    <ItemFollow 
+                        itemId={itemId}
+                        saved={saved}
+                        onToggleSaved={onToggleSaved}
+                    />
                 </div>
             </div>
             <div className='item-lower'>

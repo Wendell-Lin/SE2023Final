@@ -45,4 +45,24 @@
     align-items: center;
     z-index: 999; /* Ensure it's below the popup */
 }
+.item-image-list {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap; /* Keep items in a single line */
+    padding: 10px;
+    gap: 10px; /* Space between images */
+    max-height: 200px; /* Maximum height of the image container */
+    max-width: 100%; /* Adjust the width as per your requirement */
+}
+
+.item-image-list::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for Webkit browsers */
+}
+
+.item-image-list img {
+    max-height: 150px; /* Images will scale to fit the container height */
+    max-width: 150px;
+    object-fit: cover; /* Adjust as needed */
+    flex-shrink: 0; /* Prevents images from shrinking in the flex container */
+}
 /* Add more styling as needed */

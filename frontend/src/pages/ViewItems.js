@@ -22,15 +22,25 @@ const ViewItems = () => {
         // This should be an array of objects, not just strings
         const initialItems = [
             { 
+                itemId: '1',
                 name: 'A bag of cookies', 
                 amount: 5, 
                 location: 'Library', 
                 description: 'I just got it as a gift, but I am losingI just got it as a gift, but I am losing weight.... \nAnyone who is interested in it...\n JUST TAKE IT!!!',
                 expirationTime: '2023/10/09 09:15',
                 category: 'Snack',
-                imageList: ['/images/log-decorative.png'],
+                imageList: [
+                    '/images/log-decorative.png',
+                    '/images/log-decorative.png',
+                    '/images/log-decorative.png',
+                    '/images/log-decorative.png',
+                    '/images/log-decorative.png',
+                    '/images/log-decorative.png',
+                    '/images/log-decorative.png',
+                ],
             },
             { 
+                itemId: '2',
                 name: '師大第一腿', 
                 amount: 5, 
                 location: '德田館', 
@@ -39,6 +49,7 @@ const ViewItems = () => {
                 category: '便當'
             },
             { 
+                itemId: '3',
                 name: '烤肉飯', 
                 amount: 5, 
                 location: '圖書館', 
@@ -47,7 +58,7 @@ const ViewItems = () => {
                 category: '便當',
                 imageList: ['/images/log-decorative.png'],
             },
-            {},{},{}
+            {itemId: '4'},{itemId: '5'},{itemId: '6'}
             // ... more items
         ];
         setItems(initialItems);

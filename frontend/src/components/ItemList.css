@@ -2,6 +2,7 @@
 .list-container {
     overflow-y: auto;
     /* height: 80vh; */
+    position: relative;
     max-height: 600px;
     margin-top: 10px;
     /* padding-bottom: 100px; Increase bottom padding to give more space */
@@ -25,4 +26,10 @@
 
 .item-container:last-child {
     margin-bottom: 0; /* Remove the margin for the last item if it's still being cropped */
+}
+.right-popup {
+    position: absolute;
+    right: 0; /* Keep this to align to the right */
+    top: 0;
+    /* Add any other styling for right popups */
 }

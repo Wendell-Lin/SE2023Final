@@ -2,6 +2,7 @@ package com.feastforward.controller;
 
 import com.feastforward.model.Item;
 import com.feastforward.payload.request.CreateItemRequest;
+import com.feastforward.payload.request.UpdateItemRequest;
 import com.feastforward.payload.response.MessageResponse;
 import com.feastforward.repository.ItemRepository;
 import com.feastforward.service.ItemService;
@@ -55,7 +56,7 @@ public class ItemController {
     }
 
     @PutMapping("/updateItem/{itemId}")
-    public ResponseEntity<?> updateItem(@PathVariable(value = "itemId") Long itemId, @RequestBody CreateItemRequest itemRequest) {
+    public ResponseEntity<?> updateItem(@PathVariable(value = "itemId") Long itemId, @RequestBody UpdateItemRequest itemRequest) {
         try {
             Optional<Item> item = itemRepository.findById(itemId);
             if (item.isEmpty()) {

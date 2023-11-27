@@ -2,6 +2,7 @@ package com.feastforward.service;
 
 import com.feastforward.model.Item;
 import com.feastforward.payload.request.CreateItemRequest;
+import com.feastforward.payload.request.UpdateItemRequest;
 import com.feastforward.repository.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,7 +32,7 @@ public class ItemService {
     }
 
     // RequestBody is the same with createItem
-    public Item updateItem(long itemId, CreateItemRequest itemRequest) {
+    public Item updateItem(long itemId, UpdateItemRequest itemRequest) {
         Item item = itemRepository.findById(itemId).orElseThrow(() -> new RuntimeException("Error: Item is not found."));
         item.setName(itemRequest.getName());
         item.setCreatorId(itemRequest.getCreatorId());

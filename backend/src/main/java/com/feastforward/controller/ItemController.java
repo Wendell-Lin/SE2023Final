@@ -12,6 +12,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.util.Optional;
+
+
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/items")
@@ -42,8 +45,45 @@ public class ItemController {
         }
     }
 
+    @GetMapping("/getItems")
+    public ResponseEntity<?> getItems() {
+        try {
+            return new ResponseEntity<>(itemRepository.findAll(), HttpStatus.OK);
+        } catch (Exception e) {
+            throw new RuntimeException("An error occurred while getting the items: " + e.getMessage());
+        }
+    }
+
+    @PutMapping("/updateItem/{itemId}")
+    public ResponseEntity<?> updateItem(@PathVariable(value = "itemId") Long itemId, @RequestBody CreateItemRequest itemRequest) {
+        try {
+            Optional<Item> item = itemRepository.findById(itemId);
+            if (item.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            Item _item = ItemService.updateItem(itemId, itemRequest);
+            return new ResponseEntity<>(_item, HttpStatus.OK);
+        } catch (Exception e) {
+            throw new RuntimeException("An error occurred while updating the item: " + e.getMessage());
+        }
+    }
+
     @GetMapping("/getItemDetail/{itemId}")
     public Item getItemDetail(@PathVariable(value = "itemId") Long itemId) {
         return itemRepository.findById(itemId).orElseThrow(() -> new RuntimeException("Error: Item is not found."));
+    }
+
+    @DeleteMapping("/deleteItem/{itemId}")
+    public ResponseEntity<?> deleteItem(@PathVariable(value = "itemId") Long itemId) {
+        try {
+            Optional<Item> item = itemRepository.findById(itemId);
+            if (item.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            itemRepository.deleteById(itemId);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            throw new RuntimeException("An error occurred while deleting the item: " + e.getMessage());
+        }
     }
 }

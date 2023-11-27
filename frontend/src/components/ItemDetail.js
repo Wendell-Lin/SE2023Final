@@ -31,15 +31,15 @@ function ItemDetail({ item, onClose, onToggleSaved }) {
                     ))}
                 </div>}
 
-                <div className="item-detail-header">
-                    <h2>{item.name}</h2>
-                </div>
                 <div className="item-lower-right">
                     {/* <img src={item.imageList[0]} alt={item.name} /> */}
-                    <p>amount: {item.amount}</p>
-                    <p>ppl watching: {item.numberOfFollower} </p>
-                    <p>location: {item.location}</p>
-                    <p>Description: {item.description}</p>
+                    <h3 className="item-title">{item.name}</h3>
+                    <div className="item-details">
+                        <p>Amount: {item.amount}</p>
+                        <p>Location: {item.location}</p>
+                        <p>ppl watching: {item.numberOfFollow}</p>
+                    </div>
+                    <div className='item-description'>{item.description}</div>
                 </div>
             </div>
         </div>

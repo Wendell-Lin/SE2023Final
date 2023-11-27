@@ -119,8 +119,26 @@
     gap: 20px;
     padding: 9px 11px 9px 10px;  
   }
+  .info-col input[type=password]{
+    border-radius: 10px;
+    border: 1px solid #d9d9d9;
+    align-self: center;
+    display: flex;
+    width: 404px;
+    max-width: 100%;
+    align-items: start;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 9px 11px 9px 10px;  
+  }
 
   .info-col input[type=text]::placeholder{
+    color: var(--muted, #d9d9d9);
+    font: 500 10px/15px Poppins, -apple-system, Roboto, Helvetica,
+      sans-serif;
+  }
+
+  .info-col input[type=password]::placeholder{
     color: var(--muted, #d9d9d9);
     font: 500 10px/15px Poppins, -apple-system, Roboto, Helvetica,
       sans-serif;

@@ -322,11 +322,11 @@
       sans-serif;
   }
   .div-29 {
-    justify-content: center;
+    /* justify-content: center; */
     align-items: center;
     border-radius: 8px;
     background-color: var(--Secondary, #eef1f4);
-    display: flex;
+    /* display: flex; */
     flex-direction: column;
     padding: 13px 12px;
   }

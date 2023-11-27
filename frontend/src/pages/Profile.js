@@ -5,16 +5,21 @@ import ProfileItemList from '../components/ProfileItemList';
 
 function Profile(props) {
    //------------------- User Info----------------------  
-  const [userInfo, setUserInfo] = useState([])
-    useEffect(() => {
-      const initialUser = {
-        name: "Tom Tsaiiii", 
-        email: "r1121111@ntu.edu.tw",
-        notification: false,
-        userImg: "images/Image_placeholder.png",
-      };
-      setUserInfo(initialUser);
-    }, []); // <-- 添加空list，確保只會render once
+  const [userInfo, setUserInfo] = useState({
+    name: "Pompom", 
+    email: "r1121111@ntu.edu.tw",
+    notification: false,
+    userImg: "images/Image_placeholder.png",
+  })
+    // useEffect(() => {
+    //   const initialUser = {
+    //     name: "Tom Tsaiiii", 
+    //     email: "r1121111@ntu.edu.tw",
+    //     notification: false,
+    //     userImg: "images/Image_placeholder.png",
+    //   };
+    //   setUserInfo(initialUser);
+    // }, []); // <-- 添加空list，確保只會render once
 
     //------------------- Food Item----------------------
     const [filteredItems, setFilteredItems] = useState([]);
@@ -86,13 +91,13 @@ function Profile(props) {
 
   return (
     <>
-      <div className="div">
-        <div className="div-2">
-          <div className="column">
+      <div className="profile_container">
+        <div className="profile_allInfo">
+          <div className="userInfo_column">
             <PersonalInfo userInfo={userInfo}/>
           </div>
 
-          <div className="column-4">
+          <div className="ItemList_column">
             <ProfileItemList filteredItems={filteredItems} uploadedItems={uploadedItems}/>
           </div>
         </div>

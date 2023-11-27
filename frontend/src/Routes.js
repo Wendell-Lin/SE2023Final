@@ -6,6 +6,7 @@ import UploadItems from "./pages/UploadItems";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Profile from './pages/Profile';
+import UpdateItem from './components/UpdateItem';
 
 const AppRoutes = () => {
   return (
@@ -16,6 +17,7 @@ const AppRoutes = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/profile" element={<Profile />} />
+      <Route path="/UpdateItem" element={<UpdateItem />} />
     </Routes>
   );
 };

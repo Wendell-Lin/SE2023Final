@@ -103,3 +103,11 @@ h3 {
 }
 
 /* Adjustments to the existing CSS may be required to fine-tune the design. */
+
+.edit{
+    width: 20px;
+    float: right;
+    margin-right: 13px; /* shift left */
+    margin-top: 5px;   /* shift right */
+    margin-bottom: 5px; /* shift down */
+}

@@ -1,10 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import './UploadItems.css'
-import itemJson from '../components/Item.json'
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import './UpdateItem.css';
 
-const UploadItems = () => {
-  const [formData, setFormData] = useState(itemJson);
+function UpdateItem(props) {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+
+  // parse JSON string
+  const encodedItemData = searchParams.get('itemData');
+
+  // decode the JSON string
+  const itemData = encodedItemData ? JSON.parse(decodeURIComponent(encodedItemData)) : null;
+  console.log(itemData)
+  
+  const [formData, setFormData] = useState(itemData);
   const [succeedMsg, setSucceedMsg] = useState('');
   const navigate = useNavigate();
 
@@ -45,7 +54,7 @@ const UploadItems = () => {
 
   const renderImageScroll = () => (
     <div className="itemImageList">
-      {formData.images.map((file, index) => (
+      {formData.images?.map((file, index) => (
         <div key={index} className="itemImage">
           <img src={file.preview} alt={`preview-${index}`} />
           <button 
@@ -62,7 +71,7 @@ const UploadItems = () => {
   const handleUpload = (event) => {
     event.preventDefault();
     console.log(formData);
-    setSucceedMsg("Sucessfully upload item");
+    setSucceedMsg("Sucessfully update item");
   }
 
   return (
@@ -73,7 +82,7 @@ const UploadItems = () => {
           <h2>{succeedMsg}</h2>
           <button 
             className='close-button'
-            onClick={() => setTimeout(() => {navigate('/viewitems')}, 100)}>Close</button>
+            onClick={() => setTimeout(() => {navigate('/profile')}, 100)}>Close</button>
         </div>
       </div>
     )}
@@ -113,7 +122,7 @@ const UploadItems = () => {
             <input type="text" name="location" value={formData.location} onChange={handleInputChange} required/>
             <label>Description</label>
             <textarea name="description" value={formData.description} onChange={handleInputChange} />
-            <button className='upload-button' type="submit">Upload</button>
+            <button className='upload-button' type="submit">Update</button>
           </form>
         </div>
       </div>
@@ -121,4 +130,6 @@ const UploadItems = () => {
   );
 }
 
-export default UploadItems;
+
+export default UpdateItem
+

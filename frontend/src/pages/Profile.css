@@ -1,14 +1,14 @@
-.div {
+.profile_container {
     justify-content: center;
     background-color: #91968a;
     padding: 0 22px;
   }
   @media (max-width: 991px) {
-    .div {
+    .profile_container {
       padding: 0 20px;
     }
   }
-  .div-2 {
+  .profile_allInfo {
     gap: 20px;
     display: flex;
   }
@@ -19,7 +19,7 @@
       gap: 0px;
     }
   }
-  .column {
+  .userInfo_column {
     display: flex;
     flex-direction: column;
     line-height: normal;
@@ -27,12 +27,12 @@
     margin-left: 0px;
   }
   @media (max-width: 991px) {
-    .column {
+    .userInfo_column {
       width: 100%;
     }
   }
   
-  .column-4 {
+  .ItemList_column {
     display: flex;
     flex-direction: column;
     line-height: normal;
@@ -40,7 +40,7 @@
     margin-left: 20px;
   }
   @media (max-width: 991px) {
-    .column-4 {
+    .userInfo_column {
       width: 100%;
     }
   }

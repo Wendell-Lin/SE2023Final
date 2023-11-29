@@ -37,5 +37,5 @@ build/
 
 ### sensitive or environment-specific files ###
 application-*.yml
-applicaion.properties
+application.properties
 

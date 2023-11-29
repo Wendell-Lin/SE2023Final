@@ -11,11 +11,11 @@ const ViewItems = () => {
 
     useEffect(() => {
         document.body.style.backgroundColor = "#91968a"; // Set your desired color
-    
+
         return () => {
-          document.body.style.backgroundColor = null; // Reset to default or another color
+            document.body.style.backgroundColor = null; // Reset to default or another color
         };
-      }, []);
+        }, []);
 
     useEffect(() => {
         // Fetch or initialize items here
@@ -27,7 +27,7 @@ const ViewItems = () => {
                 amount: 5, 
                 location: 'Library', 
                 description: 'I just got it as a gift, but I am losingI just got it as a gift, but I am losing weight.... \nAnyone who is interested in it...\n JUST TAKE IT!!!',
-                expirationTime: '2023/10/09 09:15',
+                expirationTime: '2023-11-28T16:36:00.000Z',
                 category: 'Snack',
                 imageList: [
                     '/images/log-decorative.png',
@@ -38,6 +38,8 @@ const ViewItems = () => {
                     '/images/log-decorative.png',
                     '/images/log-decorative.png',
                 ],
+                latitude: '25.017498286570472',
+                longitude: '121.54061584453842'
             },
             { 
                 itemId: '2',
@@ -45,7 +47,7 @@ const ViewItems = () => {
                 amount: 5, 
                 location: '德田館', 
                 description: '好吃',
-                expirationTime: '2023/10/09 09:15', 
+                expirationTime: '2023-11-29T10:17:00.000+03:00', 
                 category: '便當'
             },
             { 
@@ -54,7 +56,7 @@ const ViewItems = () => {
                 amount: 5, 
                 location: '圖書館', 
                 description: 'yeah',
-                expirationTime: '2023/10/09 09:15', 
+                expirationTime: '2023-11-29T10:17', 
                 category: '便當',
                 imageList: ['/images/log-decorative.png'],
             },
@@ -74,9 +76,6 @@ const ViewItems = () => {
         });
         setFilteredItems(updatedFilteredItems);
     };
-    
-    const latitude = 37.42216;
-    const longitude = -122.08427;
 
     return (
         <div className="view-container">
@@ -85,7 +84,7 @@ const ViewItems = () => {
                 <ItemList listHeight={"720px"} items={filteredItems} Popup={ItemDetail} />
             </div>
             <div className="right-section">
-                <Map latitude={latitude} longitude={longitude} />
+                <Map items={filteredItems}/>
             </div>
         </div>
     );

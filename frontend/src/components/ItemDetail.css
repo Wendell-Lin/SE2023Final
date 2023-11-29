@@ -18,14 +18,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
-}
-
-.item-detail-header .close-button {
-    background: none;
-    border: none;
-    font-size: 1.2rem;
-    cursor: pointer;
+    /* margin-bottom: 0px; */
 }
 
 .item-detail-body img {
@@ -65,4 +58,15 @@
     object-fit: cover; /* Adjust as needed */
     flex-shrink: 0; /* Prevents images from shrinking in the flex container */
 }
+.item-type,
+.expiration-time {
+    color: #707070;
+    font-size: 10px;
+}
+.item-details,
+.item-description {
+    padding-top: 10px;
+    font-size: 10px;
+}
+
 /* Add more styling as needed */

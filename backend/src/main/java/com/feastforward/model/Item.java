@@ -77,7 +77,7 @@ public class Item implements Serializable {
     }
 
     public void setId(Long id) { 
-        this.id = id; 
+        this.id = id;
     }
 
     public String getName() {
@@ -88,12 +88,12 @@ public class Item implements Serializable {
         this.name = name;
     }
 
-    public Long getCreatorId() {
-        return creatorId;
+    public User getCreator() {
+        return creator;
     }
 
-    public void setCreatorId(Long creatorId) {
-        this.creatorId = creatorId;
+    public void setCreator(User creator) {
+        this.creator = creator;
     }
 
     public Category getCategory() { 

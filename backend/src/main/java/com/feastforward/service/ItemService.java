@@ -1,6 +1,7 @@
 package com.feastforward.service;
 
 import com.feastforward.model.Item;
+import com.feastforward.model.User;
 import com.feastforward.model.Category;
 import com.feastforward.payload.request.CreateItemRequest;
 import com.feastforward.payload.request.UpdateItemRequest;
@@ -31,7 +32,24 @@ public class ItemService {
     @Autowired
     FileService fileService;
 
+    @Autowired
+    UserService userService;
+
+    public void incrementNumberOfFollowers(long itemId) {
+        Item item = itemRepository.findById(itemId).orElseThrow(() -> new RuntimeException("Error: Item is not found."));
+        item.incrementNumberOfFollowers();
+        itemRepository.save(item);
+    }
+
+    public void decrementNumberOfFollowers(long itemId) {
+        Item item = itemRepository.findById(itemId).orElseThrow(() -> new RuntimeException("Error: Item is not found."));
+        item.decrementNumberOfFollowers();
+        itemRepository.save(item);
+    }
+
     public Item createItem(CreateItemRequest itemRequest) {
+
+        User creator = userService.getCurrentUser();
 
         String categoryName = itemRequest.getCategoryName();
         Optional<Category> existingCategory = categoryRepository.findByName(categoryName);
@@ -58,7 +76,7 @@ public class ItemService {
 
         Item item = new Item();
         item.setName(itemRequest.getName());
-        item.setCreatorId(itemRequest.getCreatorId());
+        item.setCreator(creator);
         item.setCategory(category);
         item.setLatitude(itemRequest.getLatitude());
         item.setLongitude(itemRequest.getLongitude());
@@ -98,7 +116,6 @@ public class ItemService {
         
         Item item = itemRepository.findById(itemId).orElseThrow(() -> new RuntimeException("Error: Item is not found."));
         item.setName(itemRequest.getName());
-        item.setCreatorId(itemRequest.getCreatorId());
         item.setCategory(category);
         item.setLatitude(itemRequest.getLatitude());
         item.setLongitude(itemRequest.getLongitude());

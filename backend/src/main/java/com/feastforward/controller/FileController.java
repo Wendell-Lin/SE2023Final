@@ -47,14 +47,23 @@ public class FileController {
         return ResponseEntity.ok("File uploaded successfully");
     }
 
+    // @GetMapping("/download/{filename}")
+    // public ResponseEntity<ByteArrayResource> downloadFile(@PathVariable String filename) {
+    //     ByteArrayResource resource = fileService.getFile(filename);
+    //     return ResponseEntity
+    //             .ok()
+    //             .contentLength(resource.contentLength())
+    //             .contentType(MediaType.APPLICATION_OCTET_STREAM)
+    //             .body(resource);
+    // }
+
     @GetMapping("/download/{filename}")
-    public ResponseEntity<ByteArrayResource> downloadFile(@PathVariable String filename) {
-        ByteArrayResource resource = fileService.getFile(filename);
+    public ResponseEntity<String> downloadFile(@PathVariable String filename) {
+        String base64String = fileService.getFile(filename);
         return ResponseEntity
                 .ok()
-                .contentLength(resource.contentLength())
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                .body(resource);
+                .body(base64String);
     }
 
     @DeleteMapping("/delete/{filename}")

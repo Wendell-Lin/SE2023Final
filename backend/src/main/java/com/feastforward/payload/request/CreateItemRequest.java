@@ -16,9 +16,6 @@ public class CreateItemRequest {
     @Size(max = 50)
     private String name;
 
-    @NotNull(message= "creator id may not be empty")
-    private Long creatorId;
-
     private String categoryName;
 
     @NotNull(message= "latitude may not be empty")
@@ -29,6 +26,8 @@ public class CreateItemRequest {
 
     @NotNull(message= "quantity may not be empty")
     private Integer quantity;
+
+    private String location;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Date startTime;
@@ -51,14 +50,6 @@ public class CreateItemRequest {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Long getCreatorId() {
-        return creatorId;
-    }
-
-    public void setCreatorId(Long creatorId) {
-        this.creatorId = creatorId;
     }
 
     public String getCategoryName() {
@@ -91,6 +82,14 @@ public class CreateItemRequest {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    public String getLocation() { 
+        return location; 
+    }
+
+    public void setLocation(String location) { 
+        this.location = location; 
     }
 
     public Date getStartTime() {

@@ -26,7 +26,7 @@ import com.feastforward.model.Role;
 import com.feastforward.payload.request.LoginRequest;
 import com.feastforward.payload.request.SignupRequest;
 import com.feastforward.payload.response.JwtResponse;
-import com.feastforward.payload.response.MessageResponse;
+import com.feastforward.payload.response.GenericResponse;
 import com.feastforward.repository.RoleRepository;
 import com.feastforward.repository.UserRepository;
 import com.feastforward.security.jwt.JwtUtils;
@@ -36,6 +36,7 @@ import com.feastforward.security.service.UserDetailsImpl;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
+
     @Autowired
     AuthenticationManager authenticationManager;
 
@@ -77,13 +78,13 @@ public class AuthController {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("Error: Username is already taken!"));
+                    .body(new GenericResponse("Error: Username is already taken!"));
         }
 
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("Error: Email is already in use!"));
+                    .body(new GenericResponse("Error: Email is already in use!"));
         }
 
         // Create new user's account
@@ -124,6 +125,7 @@ public class AuthController {
         user.setRoles(roles);
         userRepository.save(user);
 
-        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+        return ResponseEntity.ok(new GenericResponse("User registered successfully!"));
     }
+    
 }

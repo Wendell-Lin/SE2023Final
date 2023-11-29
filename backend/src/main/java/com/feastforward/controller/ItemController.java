@@ -2,7 +2,7 @@ package com.feastforward.controller;
 
 import com.feastforward.model.Item;
 import com.feastforward.payload.request.CreateItemRequest;
-import com.feastforward.payload.response.MessageResponse;
+import com.feastforward.payload.response.GenericResponse;
 import com.feastforward.repository.ItemRepository;
 import com.feastforward.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;

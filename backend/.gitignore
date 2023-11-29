@@ -33,9 +33,9 @@ build/
 .vscode/
 
 ### OS ###
-.DS_Store
+**/.DS_Store
 
 ### sensitive or environment-specific files ###
 application-*.yml
-applicaion.properties
+**/applicaion.properties
 

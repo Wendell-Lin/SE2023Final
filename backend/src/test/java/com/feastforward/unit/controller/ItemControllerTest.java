@@ -48,8 +48,7 @@ public class ItemControllerTest {
     public void getItemsTest() throws Exception {
         Item item = new Item();
         item.setName("test");
-        item.setCategoryId(1);
-        item.setCreatorId(1);
+        item.setCreatorId(1L);
         item.setQuantity(1);
         
         // List allItems = singletonList(item);

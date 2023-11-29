@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import authService from '../services/authService';
@@ -16,14 +16,6 @@ function Login() {
   const navigate = useNavigate();
   const [cookies, setCookie] = useCookies(['user', 'userDetails']);
   const [remember, setRemember] = useState(false);
-
-  const fakeUsersDB = [
-    {
-      email: 'admin@ntu.edu.tw',
-      password: '123',
-      name: 'admin'
-    }
-  ];
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);

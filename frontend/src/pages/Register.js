@@ -52,7 +52,7 @@ function Register() {
     setIsModalOpen(!isModalOpen);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setIsSubmitted(true);
 
@@ -67,15 +67,19 @@ function Register() {
     }
 
     try {
-      const data = authService.register(name, email, password, ['user']);
+      const data = await authService.register(name, email, password, ['user']);
       showSucceedModal('Registration Successful', data.message, "Proceed to Login");
       navigate('/login');
     } catch (error) {
-      if (error.response && error.response.data) {
-        showErrorModal('Registration Failed', error.response.data.message);
-      } else {
-        showErrorModal('Registration Failed', 'An unexpected error occurred.');
+      let title = 'Error';
+      let content = 'An unexpected error occurred.';
+      
+      if (error.response && error.response.status === 400) {
+        title = 'Registration Failed';
+        content = error.response.data.message || 'Email or Username already exists.';
       }
+      setErrorTitle(title);
+      setErrorMsg(content);
     }
   };
 

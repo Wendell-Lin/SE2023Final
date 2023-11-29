@@ -42,32 +42,29 @@ function Login() {
     setModalTitle('');
     setModalContent('');
     try {
-      const user = authService.login(email, password);
+      const data = authService.login(email, password);
       const expires = remember ? 30 : 1;
       setTimeout(() => {
-        setCookie('user', 'user details', { path: '/', expires: new Date(Date.now() + 86400 * 1000 * expires) });
+        setCookie('token', data.accessToken, { path: '/' });
+        setCookie('user', { id: data.id, username: data.username, roles: data.roles, expires: new Date(Date.now() + 86400 * 1000 * expires) }, { path: '/' });
         navigate('/');
       }, 300);
-    }
-    catch (error) {
+    } catch (error) {
       if (error.response) {
-        const status = error.response.status;
-        if (status === 400) {
-          setModalTitle('Missing Credentials');
-          setModalContent('Email and password are required.');
-        } else if (status === 401) {
-          setModalTitle('Authentication Failed');
-          setModalContent('Email or password is not correct.');
-        } else if (status === 404) {
-          setModalTitle('Not Found');
-          setModalContent('The requested resource was not found.');
-        } else {
-          setModalTitle('Error');
-          setModalContent('An unexpected error occurred.');
-        }
+          const status = error.response.status;
+          if (status === 400) {
+              setModalTitle('Missing Credentials');
+              setModalContent(error.response.data.usernameOrEmail || error.response.data.password || 'Email and password are required.');
+          } else if (status === 401) {
+              setModalTitle('Authentication Failed');
+              setModalContent('Bad credentials: Incorrect username or password.');
+          } else {
+              setModalTitle('Error');
+              setModalContent('An unexpected error occurred.');
+          }
       } else {
-        setModalTitle('Network Error');
-        setModalContent('Unable to connect to the server.');
+          setModalTitle('Network Error');
+          setModalContent('Unable to connect to the server.');
       }
       setIsModalOpen(true);
     }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import authService from '../services/authService';
@@ -17,14 +17,6 @@ function Login() {
   const [cookies, setCookie] = useCookies(['user', 'userDetails']);
   const [remember, setRemember] = useState(false);
 
-  const fakeUsersDB = [
-    {
-      email: 'admin@ntu.edu.tw',
-      password: '123',
-      name: 'admin'
-    }
-  ];
-
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
   };
@@ -37,38 +29,36 @@ function Login() {
     setRemember(event.target.checked);
   }
 
-  const handleLogin = (event) => {
+  const handleLogin = async (event) => {
     event.preventDefault();
-    setModalTitle('');
-    setModalContent('');
+    setIsModalOpen(false);
+  
     try {
-      const user = authService.login(email, password);
+      const data = await authService.login(email, password);
       const expires = remember ? 30 : 1;
-      setTimeout(() => {
-        setCookie('user', 'user details', { path: '/', expires: new Date(Date.now() + 86400 * 1000 * expires) });
-        navigate('/');
-      }, 300);
-    }
-    catch (error) {
+      setCookie('user', data, { path: '/', expires: new Date(Date.now() + 86400 * 1000 * expires) });
+      navigate('/');
+    } catch (error) {
+      let title = 'Error';
+      let content = 'An unexpected error occurred.';
+      
       if (error.response) {
-        const status = error.response.status;
-        if (status === 400) {
-          setModalTitle('Missing Credentials');
-          setModalContent('Email and password are required.');
-        } else if (status === 401) {
-          setModalTitle('Authentication Failed');
-          setModalContent('Email or password is not correct.');
-        } else if (status === 404) {
-          setModalTitle('Not Found');
-          setModalContent('The requested resource was not found.');
-        } else {
-          setModalTitle('Error');
-          setModalContent('An unexpected error occurred.');
+        const { status, data } = error.response;
+        if (status === 401) {
+          title = 'Login Failed';
+          content = 'The email or password you entered is incorrect.';
+        } else if (status === 400) {
+          title = 'Missing Credentials';
+          content = data.message || 'Email and password are required.';
         }
+      } else if (error.request) {
+        content = 'No response from the server.';
       } else {
-        setModalTitle('Network Error');
-        setModalContent('Unable to connect to the server.');
+        content = error.message;
       }
+      
+      setModalTitle(title);
+      setModalContent(content);
       setIsModalOpen(true);
     }
   };
@@ -85,16 +75,33 @@ function Login() {
     setIsModalOpen(true);
   };
 
-  const handleRequestReset = () => {
-    const user = fakeUsersDB.find(u => u.email === resetEmail);
-    if (user) {
+  const handleRequestReset = async () => {
+    try {
+      const data = await authService.resetPassword(resetEmail);
       setModalTitle('Success');
-      setModalContent('A link to reset your password has been sent to your email.');
-    } else {
-      setModalTitle('Error');
-      setModalContent('No account found with that email address.');
+      setModalContent(data.message || 'A link to reset your password has been sent to your email.');
+    } catch (error) {
+      let title = 'Error';
+      let content = 'An unexpected error occurred.';
+      
+      if (error.response) {
+        const { status, data } = error.response;
+        if (status === 400) {
+          title = 'Reset Failed';
+          content = data.message || 'User cannot be found by this email.';
+        }
+      } else if (error.request) {
+        content = 'No response from the server.';
+      } else {
+        content = error.message;
+      }
+      
+      setModalTitle(title);
+      setModalContent(content);
     }
+    setIsModalOpen(true);
   };
+  
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -113,7 +120,6 @@ function Login() {
           placeholder="Enter your email"
           value={email}
           onChange={handleEmailChange}
-          required 
           />
           
           <div className="password-container">
@@ -124,7 +130,6 @@ function Login() {
             placeholder="Password"
             value={password}
             onChange={handlePasswordChange}
-            required 
             />
             <a href="#forgot-password" className="forgot-password-link" onClick={handleForgotPasswordClick}>forgot password</a>
           </div>

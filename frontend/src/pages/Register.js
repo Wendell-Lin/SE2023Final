@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import marked from 'marked';
+import authService from '../services/authService';
 import './Register.css';
 
 function Register() {
@@ -18,14 +18,6 @@ function Register() {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
-
-  const fakeUsersDB = [
-    {
-      email: 'admin@ntu.edu.tw',
-      password: '123',
-      name: 'admin'
-    }
-  ];
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -60,7 +52,7 @@ function Register() {
     setIsModalOpen(!isModalOpen);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setIsSubmitted(true);
 
@@ -74,21 +66,21 @@ function Register() {
       return;
     }
 
-    const userData ={
-      name: name,
-      email: email,
-      password: password
-    }
-
-    setTimeout(() => {
-      const userExists = fakeUsersDB.some(user => user.email === email);
-
-      if (userExists) {
-        showErrorModal('Oops', 'Email already exists.')
-      } else {
-        showSucceedModal('Email Sent Successfully', "Didn't receive the email? ", "Try again");
+    try {
+      const data = await authService.register(name, email, password, ['user']);
+      showSucceedModal('Registration Successful', data.message, "Proceed to Login");
+      navigate('/login');
+    } catch (error) {
+      let title = 'Error';
+      let content = 'An unexpected error occurred.';
+      
+      if (error.response && error.response.status === 400) {
+        title = 'Registration Failed';
+        content = error.response.data.message || 'Email or Username already exists.';
       }
-    }, 100);
+      setErrorTitle(title);
+      setErrorMsg(content);
+    }
   };
 
   const handleCheckboxChange = (event) => {

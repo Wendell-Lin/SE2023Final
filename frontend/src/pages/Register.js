@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import marked from 'marked';
+import authService from '../services/authService';
 import './Register.css';
 
 function Register() {
@@ -18,14 +18,6 @@ function Register() {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
-
-  const fakeUsersDB = [
-    {
-      email: 'admin@ntu.edu.tw',
-      password: '123',
-      name: 'admin'
-    }
-  ];
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -74,21 +66,17 @@ function Register() {
       return;
     }
 
-    const userData ={
-      name: name,
-      email: email,
-      password: password
-    }
-
-    setTimeout(() => {
-      const userExists = fakeUsersDB.some(user => user.email === email);
-
-      if (userExists) {
-        showErrorModal('Oops', 'Email already exists.')
+    try {
+      const data = authService.register(name, email, password, ['user']);
+      showSucceedModal('Registration Successful', data.message, "Proceed to Login");
+      navigate('/login');
+    } catch (error) {
+      if (error.response && error.response.data) {
+        showErrorModal('Registration Failed', error.response.data.message);
       } else {
-        showSucceedModal('Email Sent Successfully', "Didn't receive the email? ", "Try again");
+        showErrorModal('Registration Failed', 'An unexpected error occurred.');
       }
-    }, 100);
+    }
   };
 
   const handleCheckboxChange = (event) => {

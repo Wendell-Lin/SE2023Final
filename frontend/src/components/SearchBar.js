@@ -12,11 +12,12 @@ function SearchBar({ onSearchTermChange }) {
 
     return (
         <div className='search-bar'>
+            <img src='/images/Search.png' alt='search'/>
             <input
                 type="text"
                 value={term}
                 onChange={onInputChange}
-                placeholder="Search items..."
+                placeholder="Search"
             />
         </div>
     );

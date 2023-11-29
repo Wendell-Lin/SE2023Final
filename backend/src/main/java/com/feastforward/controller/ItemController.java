@@ -31,7 +31,7 @@ public class ItemController {
     public String create(@RequestBody CreateItemRequest itemRequest) {
         System.out.println("itemRequest: " + itemRequest);
         System.out.println("itemRequest.getName(): " + itemRequest.getName());
-        System.out.println("itemRequest.getCategoryId(): " + itemRequest.getCategoryId());
+        System.out.println("itemRequest.getCategoryId(): " + itemRequest.getCategoryName());
         System.out.println("itemRequest.getCreatorId(): " + itemRequest.getCreatorId());
         return "test";
     }
@@ -49,7 +49,7 @@ public class ItemController {
     @GetMapping("/getItems")
     public ResponseEntity<?> getItems() {
         try {
-            return new ResponseEntity<>(itemRepository.findAll(), HttpStatus.OK);
+            return new ResponseEntity<>(ItemService.getNonExpiredItemList(), HttpStatus.OK);
         } catch (Exception e) {
             throw new RuntimeException("An error occurred while getting the items: " + e.getMessage());
         }

@@ -17,9 +17,9 @@ public class CreateItemRequest {
     private String name;
 
     @NotNull(message= "creator id may not be empty")
-    private Integer creatorId;
+    private Long creatorId;
 
-    private Integer categoryId;
+    private String categoryName;
 
     @NotNull(message= "latitude may not be empty")
     private double latitude;
@@ -28,7 +28,7 @@ public class CreateItemRequest {
     private double longitude;
 
     @NotNull(message= "quantity may not be empty")
-    private double quantity;
+    private Integer quantity;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Date startTime;
@@ -39,8 +39,6 @@ public class CreateItemRequest {
 
     @Size(max = 200)
     private String description;
-
-    private Integer numberOfFollowers;
 
     @Size(max = 10)
     @BatchSize(size = 100)
@@ -55,20 +53,20 @@ public class CreateItemRequest {
         this.name = name;
     }
 
-    public int getCreatorId() {
+    public Long getCreatorId() {
         return creatorId;
     }
 
-    public void setCreatorId(int creatorId) {
+    public void setCreatorId(Long creatorId) {
         this.creatorId = creatorId;
     }
 
-    public int getCategoryId() {
-        return categoryId;
+    public String getCategoryName() {
+        return categoryName;
     }
 
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
+    public void setCategoryId(String categoryName) {
+        this.categoryName = categoryName;
     }
 
     public double getLatitude() {
@@ -87,11 +85,11 @@ public class CreateItemRequest {
         this.longitude = longitude;
     }
 
-    public double getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(double quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 
@@ -109,14 +107,6 @@ public class CreateItemRequest {
 
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
-    }
-
-    public int getNumberOfFollowers() {
-        return numberOfFollowers;
-    }
-
-    public void setNumberOfFollowers(int numberOfFollowers) {
-        this.numberOfFollowers = numberOfFollowers;
     }
 
     public List<String> getImageList() {

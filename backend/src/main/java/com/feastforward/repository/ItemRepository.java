@@ -2,6 +2,7 @@ package com.feastforward.repository;
 
 import java.util.Optional;
 import java.util.List;
+import java.util.Date;
 
 import com.feastforward.model.Item;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,6 +17,6 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 
     List<Item> findByCategoryId(Long categoryId);
 
-    
+    List<Item> findByEndTimeGreaterThan(Date endTime);
 
 }

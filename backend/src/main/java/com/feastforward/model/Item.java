@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+
+import org.checkerframework.checker.units.qual.N;
 import org.hibernate.annotations.BatchSize;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -27,10 +29,14 @@ public class Item implements Serializable {
 
     @Column(name = "creator_id", nullable = false)
     @NotNull(message= "creator id may not be empty")
-    private Integer creatorId;
+    private Long creatorId;
 
-    @Column(name = "category_id", nullable = true)
-    private Integer categoryId;
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = true)
+    private Category category;
+
+    @Column(name = "location", nullable = true)
+    private String location;
 
     @Column(name = "latitude", nullable = false)
     @NotNull(message= "latitude may not be empty")
@@ -42,7 +48,7 @@ public class Item implements Serializable {
 
     @Column(name = "quantity", nullable = false)
     @NotNull(message= "quantity may not be empty")
-    private double quantity;
+    private Integer quantity;
 
     @Column(name = "start_time", nullable = true)
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
@@ -57,7 +63,8 @@ public class Item implements Serializable {
     @Size(max = 200)
     private String description;
 
-    @Column(name = "number_of_followers", nullable = true)
+    @Column(name = "number_of_followers", nullable = false)
+    @NotNull(message= "number of followers may not be empty")
     private Integer numberOfFollowers;
 
     @Column(name = "image_list", nullable = true)
@@ -82,20 +89,28 @@ public class Item implements Serializable {
         this.name = name;
     }
 
-    public int getCreatorId() {
+    public Long getCreatorId() {
         return creatorId;
     }
 
-    public void setCreatorId(int creatorId) {
+    public void setCreatorId(Long creatorId) {
         this.creatorId = creatorId;
     }
 
-    public int getCategoryId() {
-        return categoryId;
+    public Category getCategory() { 
+        return category; 
     }
 
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public String getLocation() { 
+        return location; 
+    }
+
+    public void setLocation(String location) { 
+        this.location = location; 
     }
 
     public double getLatitude() {
@@ -114,11 +129,11 @@ public class Item implements Serializable {
         this.longitude = longitude;
     }
 
-    public double getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(double quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 
@@ -138,12 +153,20 @@ public class Item implements Serializable {
         this.endTime = endTime;
     }
 
-    public int getNumberOfFollowers() {
+    public Integer getNumberOfFollowers() {
         return numberOfFollowers;
     }
 
     public void setNumberOfFollowers(int numberOfFollowers) {
         this.numberOfFollowers = numberOfFollowers;
+    }
+
+    public void incrementNumberOfFollowers() {
+        this.numberOfFollowers++;
+    }
+
+    public void decrementNumberOfFollowers() {
+        this.numberOfFollowers--;
     }
 
     public List<String> getImageList() {
@@ -165,4 +188,5 @@ public class Item implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
+
 }

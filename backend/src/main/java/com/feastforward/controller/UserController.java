@@ -6,7 +6,6 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -58,14 +57,12 @@ public class UserController {
 
     // Reset password with a link (for forgot password feature)
     @PostMapping("/resetPasswordWithLink")
-    public ResponseEntity<?> resetPassword(HttpServletRequest request, @RequestParam("email") String userEmail) {
+    public ResponseEntity<?> resetPasswordWithLink(HttpServletRequest request, @RequestParam("email") String userEmail) {
 
         // Get user by email
         Optional<User> userOptional = userRepository.findByEmail(userEmail);
         if (!userOptional.isPresent()) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new GenericResponse("Error: User cannot be not found by this email!"));
+            throw new IllegalArgumentException("User cannot be not found by this email");
         }
         User user = userOptional.get();
 
@@ -83,9 +80,7 @@ public class UserController {
         } catch (MailException e) {
             // Log the exception for debugging purposes
             e.printStackTrace();
-            return ResponseEntity
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new GenericResponse("Error: Unable to send email!"));
+            throw new InternalError("Unable to send email");
         }
 
         return ResponseEntity.ok(new GenericResponse("Email sent!"));
@@ -126,14 +121,12 @@ public class UserController {
     // ============ Handling Update Password Feature ============
 
     // Reset password with old password
-    @PostMapping("/resetPasswordWithOld")
-    public ResponseEntity<?> resetPassword(@RequestParam("email") String userEmail) {
+    @PostMapping("/resetPwdWithNewPwd")
+    public ResponseEntity<?> resetPasswordWithNewPassword(@RequestParam("email") String userEmail) {
         // Get user by email
         Optional<User> userOptional = userRepository.findByEmail(userEmail);
         if (!userOptional.isPresent()) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new GenericResponse("Error: User cannot be not found by this email!"));
+            throw new IllegalArgumentException("User cannot be not found by this email");
         }
         User user = userOptional.get();
 
@@ -147,9 +140,7 @@ public class UserController {
         } catch (MailException e) {
             // Log the exception for debugging purposes
             e.printStackTrace();
-            return ResponseEntity
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new GenericResponse("Error: Unable to send email!"));
+            throw new InternalError("Unable to send email");
         }
 
         return ResponseEntity.ok(new GenericResponse("Email sent!"));
@@ -160,9 +151,7 @@ public class UserController {
     public ResponseEntity<?> updatePassword(Locale locale, @Valid @RequestParam("oldPassword") String oldPassword, @RequestParam("newPassword") String newPassword) {
         User user = userService.getCurrentUser();
         if (!userService.checkIfValidOldPassword(user, oldPassword)) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new GenericResponse("Error: Old password is incorrect!"));
+            throw new IllegalArgumentException("Invalid old password");
         }
         userService.changeUserPassword(user, newPassword);
         return ResponseEntity.ok(new GenericResponse(messages.getMessage("message.updatePasswordSuc", null, locale)));

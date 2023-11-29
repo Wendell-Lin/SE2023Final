@@ -50,9 +50,10 @@ function Login() {
         } else if (status === 400) {
           title = 'Missing Credentials';
           content = data.message || 'Email and password are required.';
+        } else if (status === 500) {
+          title = 'Server Error';
+          content = 'Please try again later.';
         }
-      } else if (error.request) {
-        content = 'No response from the server.';
       } else {
         content = error.message;
       }

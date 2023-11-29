@@ -15,9 +15,9 @@ function ItemDetail({ item, onClose, onToggleSaved }) {
                 <div className='item-upper'>
                     <div className='item-upper-left'>
                         <span className="expiration-time">Expiration Time: {item.expirationTime}</span>
+                        <span className="item-type">{item.category}</span>
                     </div>
                     <div className='item-upper-right'>
-                        <span className="item-type">{item.category}</span>
                         <ItemFollow 
                             itemId={item.itemId}
                             saved={item.saved}

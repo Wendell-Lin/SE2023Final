@@ -122,8 +122,8 @@ const UploadItems = () => {
             />
             {renderImageScroll()}
             {/* <button type="button" onClick={() => document.getElementById('image-upload').click()}>Select Images</button> */}
-            <label>Name</label>
-            <input type="text" name="name" value={formData.name} onChange={handleInputChange} required/>
+            <label htmlFor='name'>Name</label>
+            <input id='name' type="text" name="name" value={formData.name} onChange={handleInputChange} required/>
             <label htmlFor='category'>Category</label>
             <select id='category' name="category" value={formData.category} onChange={handleInputChange}>
               <option value="便當">便當</option>

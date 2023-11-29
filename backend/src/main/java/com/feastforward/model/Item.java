@@ -25,10 +25,10 @@ public class Item implements Serializable {
     @NotBlank(message= "item name may not be empty")
     @Size(max = 50)
     private String name;
-
-    @Column(name = "creator_id", nullable = false)
-    @NotNull(message= "creator id may not be empty")
-    private Long creatorId;
+    
+    @ManyToOne
+    @JoinColumn(name = "creator_id", nullable = false)
+    private User creator;
 
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = true)

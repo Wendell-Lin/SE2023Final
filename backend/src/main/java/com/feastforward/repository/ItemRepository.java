@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Date;
 
 import com.feastforward.model.Item;
+import com.feastforward.model.User;
+import com.feastforward.model.Category;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,9 +16,9 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 
     Optional<Item> findById(Long id);
 
-    List<Item> findByCreatorId(Long creatorId);
+    List<Item> findByCreator(User creator);
 
-    List<Item> findByCategoryId(Long categoryId);
+    List<Item> findByCategory(Category category);
 
     List<Item> findByEndTimeGreaterThan(Date endTime);
 

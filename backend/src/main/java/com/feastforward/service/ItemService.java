@@ -59,7 +59,6 @@ public class ItemService {
         Item item = new Item();
         item.setName(itemRequest.getName());
         item.setCreatorId(itemRequest.getCreatorId());
-        item.setCreatorId(itemRequest.getCreatorId());
         item.setCategory(category);
         item.setLatitude(itemRequest.getLatitude());
         item.setLongitude(itemRequest.getLongitude());

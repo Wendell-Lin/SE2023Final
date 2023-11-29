@@ -29,7 +29,7 @@ public class User {
     private String email;
 
     @NotBlank
-    @Size(max = 120)
+    @Size(min = 4, max = 120)
     private String password;
 
     @ManyToMany(fetch = FetchType.LAZY)

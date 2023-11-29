@@ -17,3 +17,11 @@ app.cors.allowedOrigins=http://localhost:3000
 ## Jackson Properties
 spring.jackson.serialization.WRITE_DATES_AS_TIMESTAMPS= false
 spring.jackson.time-zone= GMT+8
+
+## Mail Properties
+spring.mail.host=smtp.gmail.com
+spring.mail.port=587
+spring.mail.username=feastforwardse@gmail.com
+spring.mail.password=idyh zikj mowp xkfi
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true

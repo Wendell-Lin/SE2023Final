@@ -19,11 +19,9 @@ function PersonalInfo({ userInfo }) {
   const [formData, setFormData] = useState(initFormData);
   const [succeedMsg, setSucceedMsg] = useState("");
   const [isSentEmail, setIsSentEmail] = useState(userInfo.notification);
-  const [getNewPassword, setNewPassword] = useState("");
-
-  useEffect(() => {
-    console.log("New Password Updated");
-  }, [setNewPassword]);
+  const [oldpassword, setOldPassword] = useState("");
+  const [newpassword, setNewPasswordInput] = useState("");
+  const [confirmpassword, setConfirmPassword] = useState("");
 
   useEffect(() => {
     console.log("Set Successd msg");
@@ -44,7 +42,6 @@ function PersonalInfo({ userInfo }) {
 
   // click email
   const [editInfo, setEditInfo] = useState(false);
-
   function sentEditInfo() {
     setEditInfo((prevEditInfo) => !prevEditInfo);
   }
@@ -56,19 +53,6 @@ function PersonalInfo({ userInfo }) {
     }));
   };
 
-  // 有問題
-  // Image
-  const [selectedFile, setSelectedFile] = useState(null);
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    setSelectedFile(file);
-  };
-
-  const handleImageClick = () => {
-    document.getElementById("fileInput").click();
-  };
-
-  // 後端判斷密碼
   // Change User Profile
   const handleSubmit_info = (event) => {
     event.preventDefault();
@@ -84,44 +68,87 @@ function PersonalInfo({ userInfo }) {
     setFormData(initFormData);
   };
 
+  // 有問題
+  // Image
+  const [selectedFile, setSelectedFile] = useState(null);
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    setSelectedFile(file);
+  };
+
+  const handleImageClick = () => {
+    document.getElementById("fileInput").click();
+  };
+
+  // Forgot password
+  const [modalTitle, setModalTitle] = useState("");
+  const [modalContent, setModalContent] = useState("");
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleForgotPasswordClick = (event) => {
+    event.preventDefault();
+    setShowForgotPassword(true);
+    setModalTitle("Forgot Password");
+    setModalContent("");
+    setIsModalOpen(true);
+  };
+  // Password
+  // 後端判斷密碼
+  const handleOldPasswordChange = (e) => {
+    setOldPassword(e.target.value);
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      oldpassword: e.target.value,
+    }));
+  };
+
+  const handleNewPasswordChange = (e) => {
+    setNewPasswordInput(e.target.value);
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      newpassword: e.target.value,
+    }));
+  };
+
+  const handleConfirmPasswordChange = (e) => {
+    setConfirmPassword(e.target.value);
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      confirmpassword: e.target.value,
+    }));
+  };
+
   // Change Password
   // 要再加個forget password
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("Old");
-    console.log(formData.oldpassword);
-    console.log("New");
-    console.log(userInfoData.password);
-    if (formData.oldpassword === userInfoData.password) {
-      if (formData.newpassword === formData.confirmpassword) {
-        setNewPassword(formData.newpassword);
-        console.log("password update successfully");
+
+    // PUT user info(由後端判斷是否正確)
+    if (oldpassword === userInfoData.password) {
+      if (newpassword === confirmpassword) {
         setSucceedMsg("Successfully Change Password");
       } else {
         setSucceedMsg("New password and confirm password do not match");
-        setNewPassword("");
         console.log("new and confirm error");
       }
     } else {
       setSucceedMsg("Incorrect old password");
-      setNewPassword("");
-      console.log("not match old");
     }
 
-    console.log(formData);
     setUserInfo({
       name: userInfo.name,
       email: userInfo.email, // unchanged
       notification: userInfo.notification,
       userImg: userInfo.userImg,
-      password: getNewPassword,
+      password: newpassword,
     });
-    // 更新後的值
-    console.log({ getNewPassword });
-    console.log(userInfoData.password);
 
-    setFormData(initFormData);
+    console.log("Current data");
+    console.log(userInfoData); // 這邊還是舊資料
+    console.log("Edit data");
     console.log(formData);
+    setFormData(initFormData);
   };
 
   return (
@@ -216,7 +243,7 @@ function PersonalInfo({ userInfo }) {
               placeholder="Current Password"
               value={formData.oldpassword}
               required
-              onChange={handleInputChange}
+              onChange={handleOldPasswordChange}
             />
 
             <label className="info-title">New Password</label>
@@ -226,7 +253,7 @@ function PersonalInfo({ userInfo }) {
               placeholder="New Password"
               value={formData.newpassword}
               required
-              onChange={handleInputChange}
+              onChange={handleNewPasswordChange}
             />
 
             <label className="info-title">New Password (again)</label>
@@ -236,13 +263,27 @@ function PersonalInfo({ userInfo }) {
               placeholder="New Password (again)"
               value={formData.confirmpassword}
               required
-              onChange={handleInputChange}
+              onChange={handleConfirmPasswordChange}
             />
             <div className="sent-edit">
-              <button type="submit" onClick={sentEditInfo} className="button">
+              <button
+                type="submit"
+                onClick={handleInputChange}
+                className="button"
+              >
                 Change Password
               </button>
+            {/* <div className="info-col"> */}
+              <a
+                href="#forgot-password"
+                className="forgot-password"
+                onClick={handleForgotPasswordClick}
+              >
+                forgot password
+              </a>
+            {/* </div> */}
             </div>
+            
           </div>
         </form>
       </div>

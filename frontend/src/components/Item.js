@@ -34,6 +34,7 @@ function Item({
         expirationTime:expirationTime,
         numberOfFollow:numberOfFollow,
         imageList:imageList,
+        saved:saved
     }
     const encodedItemData = encodeURIComponent(JSON.stringify(itemData));
 

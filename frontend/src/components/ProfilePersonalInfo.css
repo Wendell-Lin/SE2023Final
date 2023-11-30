@@ -155,16 +155,11 @@
       sans-serif;
   }
 
-  /* .info-col input[type=checkbox]{
-
-  } */
-
   .info-col input[type='checkbox']:checked + .custom-checkbox::before {
     content: '✓';
     color: white;
   }
   
-
   .info-title {
     display: flex;
     color: #000;
@@ -241,3 +236,16 @@
     background-color:#fff;
     border:2px #3a5b22 solid;
   }
+
+  .forgot-password {
+    padding: 6px 20px;
+    background-color:#fff;
+    color: #0000EE;
+    /* text-decoration: none; */
+    cursor: pointer;
+  }
+  
+  .forgot-password:hover {
+    text-decoration: underline;
+  }
+  

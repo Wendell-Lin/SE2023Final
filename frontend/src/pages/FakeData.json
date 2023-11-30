@@ -16,8 +16,10 @@
             "latitude": null,
             "longitude": null,
             "expirationTime": "2023/10/09 09:15",
+            "numberOfFollow":2,
             "category": "Snack",
-            "imageList": ["/images/log-decorative.png", "/images/log-decorative.png"]
+            "imageList": ["/images/log-decorative.png", "/images/log-decorative.png"],
+            "saved": 0
         },
         {
             "itemId": "efgh",
@@ -28,8 +30,10 @@
             "latitude": null,
             "longitude": null,
             "expirationTime": "2023/10/09 09:15",
+            "numberOfFollow":4,
             "category": "便當",
-            "imageList": ["/images/log-decorative.png", "/images/log-decorative.png"]
+            "imageList": ["/images/log-decorative.png", "/images/log-decorative.png"],
+            "saved": 0
         }
     ],
     "savedItems":[
@@ -42,8 +46,10 @@
             "latitude": null,
             "longitude": null,
             "expirationTime": "2023/10/09 09:15",
+            "numberOfFollow":5,
             "category": "Snack",
-            "imageList": ["/images/log-decorative.png"]
+            "imageList": ["/images/log-decorative.png"],
+            "saved": 1
         },
         {
             "itemId": "monpg",
@@ -54,8 +60,10 @@
             "latitude": null,
             "longitude": null,
             "expirationTime": "2023/10/09 09:15",
+            "numberOfFollow":5,
             "category": "便當",
-            "imageList": ["/images/log-decorative.png"]
+            "imageList": ["/images/log-decorative.png"],
+            "saved": 1
         }
     ]
 }

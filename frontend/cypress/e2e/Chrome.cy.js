@@ -24,3 +24,33 @@ describe('Login Flow', () => {
     cy.contains('The email or password you entered is incorrect.').should('exist');
   });
 });
+
+describe('Register Flow', () => {
+  beforeEach(() => {
+    cy.visit('http://localhost:3000/register');
+    cy.viewport(1440, 900);
+  });
+  it('should successfully register a user', () => {
+    cy.get('input#name').type('John Doe');
+    cy.get('input#email').type('john.doe@ntu.edu.tw');
+    cy.get('input#password').type('Password123!');
+    cy.get('label[for="terms"]').should('be.visible').click();
+    cy.get('button[type="submit"]').click();
+    cy.url().should('include', '/login');
+  });
+  it('should show error for already used email', () => {
+    cy.get('input#name').type('Jane Doe');
+    cy.get('input#email').type('existinguser@ntu.edu.tw');
+    cy.get('input#password').type('Password123!');
+    cy.get('label[for="terms"]').should('be.visible').click();
+    cy.get('button[type="submit"]').click();
+    cy.contains('Email or Username already exists.').should('be.visible');
+  });
+  it('should show error for not agreeing to terms and conditions', () => {
+    cy.get('input#name').type('New User');
+    cy.get('input#email').type('new.user@ntu.edu.tw');
+    cy.get('input#password').type('Password123!');
+    cy.get('button[type="submit"]').click();
+    cy.contains('Please agree to the terms & policy').should('be.visible');
+  });
+});

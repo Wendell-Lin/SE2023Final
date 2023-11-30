@@ -1,7 +1,7 @@
 describe('Login Flow', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000/login');
-    cy.viewport(1440, 900);
+    cy.viewport('macbook-13');
   });
   it('should successfully log in a user', () => {
     cy.visit('http://localhost:3000/login');
@@ -28,7 +28,7 @@ describe('Login Flow', () => {
 describe('Register Flow', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000/register');
-    cy.viewport(1440, 900);
+    cy.viewport('macbook-13');
   });
   it('should successfully register a user', () => {
     cy.get('input#name').type('John Doe');

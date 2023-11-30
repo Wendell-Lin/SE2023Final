@@ -35,27 +35,11 @@ public class FileController {
         return ResponseEntity.ok(files);
     }
 
-    // @PostMapping("/upload")
-    // public  ResponseEntity<String> uploadFile(MultipartFile file) throws IOException {
-    //     fileService.uploadFile(file);
-    //     return ResponseEntity.ok("File uploaded successfully");
-    // }
-
     @PostMapping("/upload")
     public ResponseEntity<String> uploadFile(@RequestBody String base64String) throws IOException {
         fileService.uploadFile(base64String, "test");
         return ResponseEntity.ok("File uploaded successfully");
     }
-
-    // @GetMapping("/download/{filename}")
-    // public ResponseEntity<ByteArrayResource> downloadFile(@PathVariable String filename) {
-    //     ByteArrayResource resource = fileService.getFile(filename);
-    //     return ResponseEntity
-    //             .ok()
-    //             .contentLength(resource.contentLength())
-    //             .contentType(MediaType.APPLICATION_OCTET_STREAM)
-    //             .body(resource);
-    // }
 
     @GetMapping("/download/{filename}")
     public ResponseEntity<String> downloadFile(@PathVariable String filename) {

@@ -127,7 +127,6 @@ public class ItemService {
         item.setDescription(itemRequest.getDescription());
         item.setImageList(imageNames);
 
-        // return itemRepository.update(item);
         return itemRepository.save(item);
     }
 
@@ -146,19 +145,10 @@ public class ItemService {
             for (String imageName : imageList) {
                 String base64Image = fileService.getFile(imageName);
                 base64ImageList.add(base64Image);
-                // try {
-                //     byte[] imageByteArray = fileService.getFile(imageName).getByteArray();
-                //     String base64Image = java.util.Base64.getEncoder().encodeToString(imageByteArray);
-                //     base64ImageList.add(base64Image);
-                // } catch (Exception e) {
-                //     throw new RuntimeException("Error: Image download failed.");
-                // }
             }
             item.setImageList(base64ImageList);
         }
 
         return nonExpiredItemList;
-        // return itemRepository.findByEndTimeGreaterThan(currentTime);
-        // return nonExpiredItemList.stream().map(item -> mapper.mapItemToItemDto(item)).collect(Collectors.toList());
     }
 }

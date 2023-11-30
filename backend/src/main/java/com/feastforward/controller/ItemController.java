@@ -94,7 +94,6 @@ public class ItemController {
         } catch (Exception e) {
             throw new RuntimeException("An error occurred while getting the item detail: " + e.getMessage());
         }
-        // return itemRepository.findById(itemId).orElseThrow(() -> new RuntimeException("Error: Item is not found."));
     }
 
     @DeleteMapping("/deleteItem/{itemId}")

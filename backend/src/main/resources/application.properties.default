@@ -25,3 +25,12 @@ spring.mail.username=feastforwardse@gmail.com
 spring.mail.password=idyh zikj mowp xkfi
 spring.mail.properties.mail.smtp.auth=true
 spring.mail.properties.mail.smtp.starttls.enable=true
+
+## File Properties
+ spring.cloud.gcp.project-id=software-engineering-401503
+ spring.cloud.gcp.credentials.location=classpath:software-engineering-401503-f188dc19edb2.json
+
+ gcp.bucket.name=feastforward_img
+
+ spring.servlet.multipart.max-file-size=10MB
+ spring.servlet.multipart.max-request-size=10MB

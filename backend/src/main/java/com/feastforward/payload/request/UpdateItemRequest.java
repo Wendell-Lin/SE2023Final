@@ -16,10 +16,7 @@ public class UpdateItemRequest {
     @Size(max = 50)
     private String name;
 
-    @NotNull(message= "creator id may not be empty")
-    private Integer creatorId;
-
-    private Integer categoryId;
+    private String categoryName;
 
     @NotNull(message= "latitude may not be empty")
     private double latitude;
@@ -28,7 +25,9 @@ public class UpdateItemRequest {
     private double longitude;
 
     @NotNull(message= "quantity may not be empty")
-    private double quantity;
+    private Integer quantity;
+
+    private String location;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Date startTime;
@@ -39,8 +38,6 @@ public class UpdateItemRequest {
 
     @Size(max = 200)
     private String description;
-
-    private Integer numberOfFollowers;
 
     @Size(max = 10)
     @BatchSize(size = 100)
@@ -55,20 +52,12 @@ public class UpdateItemRequest {
         this.name = name;
     }
 
-    public int getCreatorId() {
-        return creatorId;
+    public String getCategoryName() {
+        return categoryName;
     }
 
-    public void setCreatorId(int creatorId) {
-        this.creatorId = creatorId;
-    }
-
-    public int getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
+    public void setCategoryId(String categoryName) {
+        this.categoryName = categoryName;
     }
 
     public double getLatitude() {
@@ -87,12 +76,20 @@ public class UpdateItemRequest {
         this.longitude = longitude;
     }
 
-    public double getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(double quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    public String getLocation() {
+        return location; 
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public Date getStartTime() {
@@ -109,14 +106,6 @@ public class UpdateItemRequest {
 
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
-    }
-
-    public int getNumberOfFollowers() {
-        return numberOfFollowers;
-    }
-
-    public void setNumberOfFollowers(int numberOfFollowers) {
-        this.numberOfFollowers = numberOfFollowers;
     }
 
     public List<String> getImageList() {

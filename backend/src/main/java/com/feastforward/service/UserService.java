@@ -17,6 +17,7 @@ import org.springframework.mail.SimpleMailMessage;
 
 import com.feastforward.model.PasswordResetToken;
 import com.feastforward.model.User;
+import com.feastforward.payload.request.UpdateUserProfileRequest;
 import com.feastforward.repository.PasswordResetTokenRepository;
 import com.feastforward.repository.UserRepository;
 
@@ -107,5 +108,12 @@ public class UserService {
         } else {
             throw new BadCredentialsException("User is not authenticated");
         }
+    }
+
+    public User updateUserProfile(User user, UpdateUserProfileRequest request) {
+        user.setUsername(request.getUsername());
+        user.setNotification(request.getNotification());
+        user.setUserImg(request.getUserImg());
+        return userRepository.save(user);
     }
 }

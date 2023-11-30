@@ -19,18 +19,29 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column
     @NotBlank
     @Size(max = 20)
     private String username;
 
+    @Column
     @NotBlank
     @Size(max = 50)
     @Email
     private String email;
 
+    @Column
     @NotBlank
     @Size(min = 4, max = 120)
     private String password;
+
+    // does the user open the email notification
+    @Column
+    private Boolean notification = false;
+
+    @Column
+    @Size(max = 255)
+    private String userImg = null;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(  name = "user_roles",
@@ -77,6 +88,22 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Boolean getNotification() {
+        return notification;
+    }
+
+    public void setNotification(Boolean notification) {
+        this.notification = notification;
+    }
+
+    public String getUserImg() {
+        return userImg;
+    }
+
+    public void setUserImg(String userImg) {
+        this.userImg = userImg;
     }
 
     public Set<Role> getRoles() {

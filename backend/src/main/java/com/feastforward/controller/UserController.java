@@ -12,7 +12,10 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.feastforward.model.PasswordResetToken;
 import com.feastforward.model.User;
 import com.feastforward.model.dto.PasswordDto;
+import com.feastforward.payload.request.UpdateUserProfileRequest;
 import com.feastforward.payload.response.GenericResponse;
 import com.feastforward.repository.PasswordResetTokenRepository;
 import com.feastforward.repository.UserRepository;
@@ -158,4 +162,32 @@ public class UserController {
     }
 
     // ============
+
+    @GetMapping("test")
+    public ResponseEntity<String> test() {
+        return ResponseEntity.ok("test success");
+    }
+
+    @GetMapping("{userId}")
+    public ResponseEntity<User> getUserProfile(@PathVariable("UseriId") Long userId) {
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isPresent()) {
+            return ResponseEntity.ok(userOptional.get());
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PutMapping("{userId}")
+    public ResponseEntity<User> updateUserProfile(@PathVariable("UseriId") Long userId,
+            @RequestBody UpdateUserProfileRequest updateUserProfileRequest) {
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isPresent()) {
+            User _user = userService.updateUserProfile(userOptional.get(), updateUserProfileRequest);
+            return ResponseEntity.ok(_user);
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
 }

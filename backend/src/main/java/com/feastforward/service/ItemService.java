@@ -78,6 +78,7 @@ public class ItemService {
         item.setName(itemRequest.getName());
         item.setCreator(creator);
         item.setCategory(category);
+        item.setLocation(itemRequest.getLocation());
         item.setLatitude(itemRequest.getLatitude());
         item.setLongitude(itemRequest.getLongitude());
         item.setQuantity(itemRequest.getQuantity());
@@ -117,6 +118,7 @@ public class ItemService {
         Item item = itemRepository.findById(itemId).orElseThrow(() -> new RuntimeException("Error: Item is not found."));
         item.setName(itemRequest.getName());
         item.setCategory(category);
+        item.setLocation(itemRequest.getLocation());
         item.setLatitude(itemRequest.getLatitude());
         item.setLongitude(itemRequest.getLongitude());
         item.setQuantity(itemRequest.getQuantity());
@@ -156,7 +158,7 @@ public class ItemService {
         }
 
         return nonExpiredItemList;
-
         // return itemRepository.findByEndTimeGreaterThan(currentTime);
+        // return nonExpiredItemList.stream().map(item -> mapper.mapItemToItemDto(item)).collect(Collectors.toList());
     }
 }

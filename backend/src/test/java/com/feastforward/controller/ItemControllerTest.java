@@ -37,8 +37,6 @@ public class ItemControllerTest {
     public void setUp() {
         Item item = new Item();
         item.setName("test");
-        item.setCategoryId(1);
-        item.setCreatorId(1);
         itemRepository.save(item);
     }
 
@@ -51,8 +49,6 @@ public class ItemControllerTest {
     public void testCreateItem() throws Exception {
         CreateItemRequest createItemRequest = new CreateItemRequest();
         createItemRequest.setName("test");
-        createItemRequest.setCategoryId(1);
-        createItemRequest.setCreatorId(1);
         mockMvc.perform(post("/api/items/createItem")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(createItemRequest)))
@@ -90,8 +86,6 @@ public class ItemControllerTest {
     public void testUpdateItem() throws Exception {
         UpdateItemRequest updateItemRequest = new UpdateItemRequest();
         updateItemRequest.setName("test");
-        updateItemRequest.setCategoryId(1);
-        updateItemRequest.setCreatorId(1);
         mockMvc.perform(post("/api/items/updateItem/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(updateItemRequest)))
@@ -105,8 +99,6 @@ public class ItemControllerTest {
     public void testUpdateItemNotFound() throws Exception {
         UpdateItemRequest updateItemRequest = new UpdateItemRequest();
         updateItemRequest.setName("test");
-        updateItemRequest.setCategoryId(1);
-        updateItemRequest.setCreatorId(1);
         mockMvc.perform(post("/api/items/updateItem/10")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(updateItemRequest)))
@@ -117,8 +109,6 @@ public class ItemControllerTest {
     public void testUpdateItemBadRequest() throws Exception {
         UpdateItemRequest updateItemRequest = new UpdateItemRequest();
         updateItemRequest.setName("test");
-        updateItemRequest.setCategoryId(1);
-        updateItemRequest.setCreatorId(1);
         mockMvc.perform(post("/api/items/updateItem/abc")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(updateItemRequest)))

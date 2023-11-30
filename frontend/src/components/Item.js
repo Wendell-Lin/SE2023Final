@@ -1,6 +1,7 @@
 import React from 'react';
 import './Item.css'; // Make sure to create appropriate styles
 import ItemFollow from './ItemFollow';
+import { useNavigate } from 'react-router-dom';
 
 function Item({
     itemId,
@@ -18,10 +19,46 @@ function Item({
     onToggleSaved,
     onOpenPopup,
     editable,
+    isUploaded // new!!
 }) {
+
+    const itemData = {
+        itemId:itemId,
+        name:name, 
+        location:location, 
+        category:category,
+        latitude:latitude,
+        longitude:longitude, 
+        amount:amount, 
+        description:description, 
+        expirationTime:expirationTime,
+        numberOfFollow:numberOfFollow,
+        imageList:imageList,
+    }
+    const encodedItemData = encodeURIComponent(JSON.stringify(itemData));
+
+    const navigate = useNavigate();
+    const setEditItem = () => {
+        console.log("Edit");
+        // navigate to update item page with param
+        navigate('/updateItem?itemData=' + encodedItemData);
+    }
+
     return (
         <div className="item-container" onClick={() => onOpenPopup(editable)}>
-            <div className='item-upper'>
+            {/* new!! */}
+            
+            <div onClick={() => isUploaded && setEditItem()}>
+            {isUploaded ? (
+                <img
+                loading="lazy"
+                src="images/edit.png"
+                className="edit"
+                />
+            ) : null}
+            </div>
+            {/* new!! */}
+            <div className='item-upper'>                
                 <div className='item-upper-left'>
                     <span className="expiration-time">Expiration Time: {expirationTime}</span>
                     <span className="item-type">{category}</span>
@@ -33,7 +70,10 @@ function Item({
                     />
                 <div className='item-upper-right'>
                 </div>
+                
             </div>
+
+            
             <div className='item-lower'>
                 <div className='item-lower-left'>
                     {(imageList && imageList.length > 0) ? (
@@ -51,7 +91,7 @@ function Item({
                     </div>
                     <div className='item-description'>{description}</div>
                 </div>
-            </div>
+            </div>            
         </div>
     );
 }

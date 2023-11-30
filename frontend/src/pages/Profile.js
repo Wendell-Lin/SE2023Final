@@ -1,137 +1,37 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import './Profile.css';
-
-// function sentEmailinitial(){
-//     console.log('Initial')
-//     return 0
-// }
-//() => sentEmailinitial() 如果初始化是要用function來進行，要用arrow functoin 這樣每次只會初始化一次
+import PersonalInfo from '../components/ProfilePersonalInfo';
+import ProfileItemList from '../components/ProfileItemList';
+import FakeData from './FakeData.json'
 
 function Profile(props) {
+  console.log(FakeData)
+  //------------------- User Info----------------------  
+  const [userInfo, setUserInfo] = useState(FakeData.user)
+    //------------------- Food Item----------------------
+    const [filteredItems, setFilteredItems] = useState(FakeData.savedItems);
+    const [uploadedItems, setUploadedItems] = useState(FakeData.uploadedItems);
 
-    const [editInfo, setEditInfo] = useState(false)
-    function sentEditInfo(){
-        setEditInfo(editInfo => !editInfo)
-    }
-    const [isSavedItem, setIsSavedItem] = useState(false)
-    function showSavedItem(){
-        setIsSavedItem(isSavedItem => !isSavedItem)
-    } 
-    const [userName, setUserName] = useState("Tom Tsaiii")
-    const [userId, setUserId] = useState("r1121111@ntu.edu.tw")
+    useEffect(() => {
+        document.body.style.backgroundColor = "#666D5D"; // Set your desired color
     
-    // console.log(sentEmail)
+        return () => {
+          document.body.style.backgroundColor = null; // Reset to default or another color
+        };
+      }, []);
+
+//------------------- Food Item----------------------
+
   return (
     <>
-      <div className="div">
-        <div className="div-2">
-          <div className="column">
-            <div className="profile">
-              <div className="profile-pic">
-                <div className="div-5">
-                  <div className="column-2">
-                    <img
-                      src="images/Image_placeholder.png"
-                    />
-                  </div>
-                  <div className="column-3">
-                    <div className="div-6">
-                      <div className="div-7">{userName}</div>
-                      <div className="div-8">{userId}</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-
-
-              <div className="info-col">
-              <form>
-                <label className="info-title">Name</label>
-                <input 
-                    type="text"
-                    id="name" 
-                    placeholder={userName} required
-                />
-                <div className="info-title">Notification</div>
-                <div className="div-14">
-                <input 
-                    type="checkbox"
-                    id="isSentEmail" 
-                />
-                <div className="div-16">Email</div>
-                </div>
-                
-
-                <label className="info-title">Current Password</label>
-                <input 
-                    type="text"
-                    id="password" 
-                    placeholder="Current Password" required
-                />
-
-                <label className="info-title">New Password</label>
-                <input 
-                    type="text"
-                    id="newpassword" 
-                    placeholder="New Password" required
-                />  
-
-
-                <label className="info-title">New Password (again)</label>
-                <input 
-                    type="text"
-                    id="newpassword2" 
-                    placeholder="New Password (again)" required
-                />  
-              </form>
-               
-                <div className="div-23">
-                    <button onClick={sentEditInfo} className="button" type='submit'> Change Password</button>                    
-                </div>
-              </div>
-            </div>
+      <div className="profile_container">
+        <div className="profile_allInfo">
+          <div className="userInfo_column">
+            <PersonalInfo userInfo={userInfo}/>
           </div>
 
-
-
-
-          <div className="column-4">
-            <div className="div-25">
-              <div className="div-26">
-                <button onClick={showSavedItem} className={ isSavedItem === true ? "item-list-shown": "item-list-unshown"} type='submit'> Saved Items</button>
-                <button onClick={showSavedItem} className={ isSavedItem === false ? "item-list-shown": "item-list-unshown"} type='submit'> Uploaded Items</button>                                        
-                <div className="div-29">
-                  <img
-                    loading="lazy"
-                    src="images/add_icon.png"
-                    className="img-2"
-                  />
-                </div>
-
-
-                
-              </div>
-              <div className="div-29">
-                  <img
-                    loading="lazy"
-                    src="images/item 2.png"
-                    className="img-2"
-                  />
-                  <img
-                    loading="lazy"
-                    src="images/item 2.png"
-                    className="img-2"
-                  />
-
-                  <img
-                    loading="lazy"
-                    src="images/item 2.png"
-                    className="img-2"
-                  />
-              </div>
-
-            </div>
+          <div className="ItemList_column">
+            <ProfileItemList filteredItems={filteredItems} uploadedItems={uploadedItems}/>
           </div>
         </div>
       </div>
@@ -139,11 +39,6 @@ function Profile(props) {
       </>
   );
 }
-
-
-
-
-
 
 
 export default Profile

@@ -7,6 +7,7 @@ const UploadItems = () => {
   const [formData, setFormData] = useState(itemJson);
   const [succeedMsg, setSucceedMsg] = useState('');
   const navigate = useNavigate();
+  const [isLocationFetched, setIsLocationFetched] = useState(false);
 
   useEffect(() => {
     document.body.style.backgroundColor = "#91968a"; // Set your desired color
@@ -15,6 +16,16 @@ const UploadItems = () => {
       document.body.style.backgroundColor = null; // Reset to default or another color
     };
   }, []);
+  useEffect(() => {
+    if (isLocationFetched) {
+      // Perform your form submission or other actions here
+      console.log(formData);
+      // todo: POST /item with formData
+  
+      setSucceedMsg("Successfully uploaded item");
+    }
+  }, [isLocationFetched, formData]); // Depend on both isLocationFetched and formData
+  
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -48,7 +59,8 @@ const UploadItems = () => {
       {formData.images.map((file, index) => (
         <div key={index} className="itemImage">
           <img src={file.preview} alt={`preview-${index}`} />
-          <button 
+          <button
+            type='button'
             className="remove-image-btn"
             onClick={() => removeImage(index)}>x</button>
         </div>
@@ -61,8 +73,28 @@ const UploadItems = () => {
   );
   const handleUpload = (event) => {
     event.preventDefault();
-    console.log(formData);
-    setSucceedMsg("Sucessfully upload item");
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          // Update formData with user location and then submit
+          setFormData(prevFormData => ({
+            ...prevFormData,
+            latitude: position.coords.latitude, // Adjust precision as needed
+            longitude: position.coords.longitude // Adjust precision as needed
+          }));
+          setIsLocationFetched(true); // Set the flag when location data is fetched
+        },
+        (error) => {
+          console.error("Error Code = " + error.code + " - " + error.message);
+          setIsLocationFetched(true); // Set the flag when location data is fetched
+          // Handle error or submit form without location
+        }
+      );
+    } else {
+      console.error("Geolocation is not supported by this browser.");
+      setIsLocationFetched(true); // Set the flag when location data is fetched
+      // Handle the case where geolocation is not supported
+    }
   }
 
   return (
@@ -90,16 +122,17 @@ const UploadItems = () => {
             />
             {renderImageScroll()}
             {/* <button type="button" onClick={() => document.getElementById('image-upload').click()}>Select Images</button> */}
-            <label>Name</label>
-            <input type="text" name="name" value={formData.name} onChange={handleInputChange} required/>
-            <label>Category</label>
-            <select name="category" value={formData.category} onChange={handleInputChange}>
-              <option value="Snack">Snack</option>
+            <label htmlFor='name'>Name</label>
+            <input id='name' type="text" name="name" value={formData.name} onChange={handleInputChange} required/>
+            <label htmlFor='category'>Category</label>
+            <select id='category' name="category" value={formData.category} onChange={handleInputChange}>
               <option value="便當">便當</option>
+              <option value="Snack">Snack</option>
               {/* Add your categories here */}
             </select>
-            <label>Amount</label>
-            <input 
+            <label htmlFor="amount">Amount</label>
+            <input
+              id="amount"
               type="number" 
               name="amount" 
               min={1}
@@ -107,12 +140,12 @@ const UploadItems = () => {
               onChange={handleInputChange}
               required
             />
-            <label>Expiration Time</label>
-            <input type="datetime-local" name="expirationTime" value={formData.expirationTime} onChange={handleInputChange} required/>
-            <label>Location</label>
-            <input type="text" name="location" value={formData.location} onChange={handleInputChange} required/>
-            <label>Description</label>
-            <textarea name="description" value={formData.description} onChange={handleInputChange} />
+            <label htmlFor="expirationTime">Expiration Time</label>
+            <input id="expirationTime" type="datetime-local" name="expirationTime" value={formData.expirationTime} onChange={handleInputChange} required/>
+            <label htmlFor="location">Location</label>
+            <input id="location" type="text" name="location" value={formData.location} onChange={handleInputChange} required/>
+            <label htmlFor="description">Description</label>
+            <textarea id="description" name="description" value={formData.description} onChange={handleInputChange} />
             <button className='upload-button' type="submit">Upload</button>
           </form>
         </div>

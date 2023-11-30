@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
+import authService from '../services/authService';
 import './Login.css';
 
 function Login() {
@@ -38,23 +39,37 @@ function Login() {
 
   const handleLogin = (event) => {
     event.preventDefault();
-    const user = fakeUsersDB.find(u => u.email === email);
-    if (!user) {
-      setModalTitle('Oops');
-      setModalContent('The email address you entered does not exist.');
-      setIsModalOpen(true);
-    }
-    else if (user.password !== password) {
-      setModalTitle('Oops');
-      setModalContent('The password you entered is incorrect.');
-      setIsModalOpen(true);
-    }
-    else {
+    setModalTitle('');
+    setModalContent('');
+    try {
+      const user = authService.login(email, password);
       const expires = remember ? 30 : 1;
       setTimeout(() => {
         setCookie('user', 'user details', { path: '/', expires: new Date(Date.now() + 86400 * 1000 * expires) });
         navigate('/');
       }, 300);
+    }
+    catch (error) {
+      if (error.response) {
+        const status = error.response.status;
+        if (status === 400) {
+          setModalTitle('Missing Credentials');
+          setModalContent('Email and password are required.');
+        } else if (status === 401) {
+          setModalTitle('Authentication Failed');
+          setModalContent('Email or password is not correct.');
+        } else if (status === 404) {
+          setModalTitle('Not Found');
+          setModalContent('The requested resource was not found.');
+        } else {
+          setModalTitle('Error');
+          setModalContent('An unexpected error occurred.');
+        }
+      } else {
+        setModalTitle('Network Error');
+        setModalContent('Unable to connect to the server.');
+      }
+      setIsModalOpen(true);
     }
   };
 

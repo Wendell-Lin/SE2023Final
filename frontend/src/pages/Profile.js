@@ -10,6 +10,7 @@ function Profile(props) {
     email: "r1121111@ntu.edu.tw",
     notification: false,
     userImg: "images/Image_placeholder.png",
+    password: "123123"
   })
     // useEffect(() => {
     //   const initialUser = {

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import './ProfilePersonalInfo.css';
 
 // photo
@@ -9,7 +9,17 @@ function PersonalInfo({userInfo}) {
   const [formData, setFormData] = useState(userInfo);
   const [succeedMsg, setSucceedMsg] = useState('');
   const [isSentEmail, setIsSentEmail] = useState(userInfo.notification);
+  const [getNewPassword, setNewPassword] = useState('');
   
+  
+  useEffect(() => {
+    console.log("New Password Updated:", getNewPassword);
+  }, [getNewPassword]);
+
+  useEffect(() => {
+    console.log("Set Successd msg:", setSucceedMsg);
+  }, [setSucceedMsg]);  
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prevFormData => ({
@@ -18,22 +28,6 @@ function PersonalInfo({userInfo}) {
     }));
   };
 
-  // Submit
-  const handleUpload = (event) => {
-    event.preventDefault();
-    console.log(formData);
-    setSucceedMsg("Successfully Edit User Info");
-    setUserInfo(formData)
-    setFormData({
-      name: "",
-      email: userInfo.email, // unchanged
-      notification: userInfoData.notification,
-      userImg: userInfoData.userImg,
-      oldpassword:"",
-      newpassword:"",
-      newpassword2:""
-    })
-  };
 
   // click email
   const [editInfo, setEditInfo] = useState(false)  
@@ -61,17 +55,54 @@ function PersonalInfo({userInfo}) {
     document.getElementById('fileInput').click();
   };
 
-  // 比較密碼
-  // const handlePasswordChange = () =>{
-  //   const msg = ""
-  //   if (formData.newpassword === formData.newpassword2){
-  //     msg ="correct";
-  //   }
-  //   else{
-  //     msg ="Please confirm your new password";
-  //   }
+  // 後端判斷密碼
+  // Submit
+  const handleSubmit = (event) => {
+    event.preventDefault();
       
-  // }
+    if (formData.oldpassword === userInfoData.password) {
+       if (formData.newpassword === formData.confirmpassword) {
+        setNewPassword(formData.newpassword);
+        console.log('password update successfully');
+        setSucceedMsg("Successfully Edit User Info");
+        }
+        else {
+          setSucceedMsg("New password and confirm password do not match");
+          setNewPassword("");
+          console.log('new and confirm error');
+        }
+      } 
+      else {
+      setSucceedMsg("Incorrect old password");
+      setNewPassword("");
+      console.log('not match old');
+    }
+    
+    console.log(formData);
+    setUserInfo({
+      name: formData.name,
+      email: userInfo.email, // unchanged
+      notification: formData.notification,
+      userImg: formData.userImg,
+      password: getNewPassword
+    })
+    // 更新後的值
+    console.log({getNewPassword});
+    console.log(userInfoData.password);
+    
+    setFormData({
+      name: "",
+      email: userInfo.email, // unchanged
+      notification: userInfoData.notification,
+      userImg: userInfoData.userImg,
+      oldpassword:"",
+      newpassword:"",
+      confirmpassword:""
+    })
+    console.log(formData);
+  };
+  
+
   
   return (
     <>
@@ -88,7 +119,7 @@ function PersonalInfo({userInfo}) {
 
 
       <div className="profile">
-        <form onSubmit={handleUpload}>
+        <form onSubmit={handleSubmit}>
         <div className="edit-profile">Edit Personal Information</div>
         <div className="profile-picNname">
           <div className="picture_frame">
@@ -145,7 +176,7 @@ function PersonalInfo({userInfo}) {
                 placeholder="Current Password" 
                 value={formData.oldpassword}
                 required
-                onChange={handleInputChange} 
+                onChange={handleInputChange}
             />
 
             <label className="info-title">New Password</label>
@@ -155,18 +186,18 @@ function PersonalInfo({userInfo}) {
                 placeholder="New Password" 
                 value={formData.newpassword}
                 required
-                onChange={handleInputChange} 
+                onChange={handleInputChange}
             />  
 
 
             <label className="info-title">New Password (again)</label>
             <input 
                 type="password"
-                name="newpassword2" 
+                name="confirmpassword" 
                 placeholder="New Password (again)" 
-                value={formData.newpassword2}
+                value={formData.confirmpassword}
                 required
-                onChange={handleInputChange} 
+                onChange={handleInputChange}
             />  
             <div className="sent-edit">
                 <button type="submit" onClick={sentEditInfo} className="button"> Finished </button>                    

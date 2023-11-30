@@ -61,15 +61,14 @@ function Item({
             <div className='item-upper'>                
                 <div className='item-upper-left'>
                     <span className="expiration-time">Expiration Time: {expirationTime}</span>
-                </div>
-                
-                <div className='item-upper-right'>
                     <span className="item-type">{category}</span>
+                </div>
                     <ItemFollow 
                         itemId={itemId}
                         saved={saved}
                         onToggleSaved={onToggleSaved}
                     />
+                <div className='item-upper-right'>
                 </div>
                 
             </div>

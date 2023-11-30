@@ -1,7 +1,7 @@
 /* ItemList.css */
 .list-container {
     overflow-y: auto;
-    /* height: 80vh; */
+    height: 80vh;
     position: relative;
     max-height: 600px;
     margin-top: 10px;

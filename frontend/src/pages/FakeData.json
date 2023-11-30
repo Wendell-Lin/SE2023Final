@@ -1,0 +1,61 @@
+{
+    "user": {
+        "name": "Pompom", 
+        "email": "r1121111@ntu.edu.tw",
+        "notification": false,
+        "userImg": "images/Image_placeholder.png",
+        "password": "123123"
+    },
+    "uploadedItems": [
+        {
+            "itemId": "abcd",
+            "name": "A bag of candy", 
+            "amount": 4, 
+            "location": "Library", 
+            "description": "歐趴歐趴",
+            "latitude": null,
+            "longitude": null,
+            "expirationTime": "2023/10/09 09:15",
+            "category": "Snack",
+            "imageList": ["/images/log-decorative.png", "/images/log-decorative.png"]
+        },
+        {
+            "itemId": "efgh",
+            "name": "烤肉飯", 
+            "amount": 1, 
+            "location": "圖書館", 
+            "description": "這好貴但又免費",
+            "latitude": null,
+            "longitude": null,
+            "expirationTime": "2023/10/09 09:15",
+            "category": "便當",
+            "imageList": ["/images/log-decorative.png", "/images/log-decorative.png"]
+        }
+    ],
+    "savedItems":[
+        { 
+            "itemId": "ijkl",
+            "name": "A bag of cookies", 
+            "amount": 5, 
+            "location": "Library", 
+            "description": "I just got it as a gift, but I am losingI just got it as a gift, but I am losing weight.... \nAnyone who is interested in it...\n JUST TAKE IT!!!",
+            "latitude": null,
+            "longitude": null,
+            "expirationTime": "2023/10/09 09:15",
+            "category": "Snack",
+            "imageList": ["/images/log-decorative.png"]
+        },
+        {
+            "itemId": "monpg",
+            "name": "師大第一腿", 
+            "amount": 5, 
+            "location": "德田館", 
+            "description": "好吃",
+            "latitude": null,
+            "longitude": null,
+            "expirationTime": "2023/10/09 09:15",
+            "category": "便當",
+            "imageList": ["/images/log-decorative.png"]
+        }
+    ]
+}

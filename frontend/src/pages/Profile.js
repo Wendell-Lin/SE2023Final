@@ -2,29 +2,15 @@ import React, {useState, useEffect} from "react";
 import './Profile.css';
 import PersonalInfo from '../components/ProfilePersonalInfo';
 import ProfileItemList from '../components/ProfileItemList';
+import FakeData from './FakeData.json'
 
 function Profile(props) {
-   //------------------- User Info----------------------  
-  const [userInfo, setUserInfo] = useState({
-    name: "Pompom", 
-    email: "r1121111@ntu.edu.tw",
-    notification: false,
-    userImg: "images/Image_placeholder.png",
-    password: "123123"
-  })
-    // useEffect(() => {
-    //   const initialUser = {
-    //     name: "Tom Tsaiiii", 
-    //     email: "r1121111@ntu.edu.tw",
-    //     notification: false,
-    //     userImg: "images/Image_placeholder.png",
-    //   };
-    //   setUserInfo(initialUser);
-    // }, []); // <-- 添加空list，確保只會render once
-
+  console.log(FakeData)
+  //------------------- User Info----------------------  
+  const [userInfo, setUserInfo] = useState(FakeData.user)
     //------------------- Food Item----------------------
-    const [filteredItems, setFilteredItems] = useState([]);
-    const [uploadedItems, setUploadedItems] = useState([]);
+    const [filteredItems, setFilteredItems] = useState(FakeData.savedItems);
+    const [uploadedItems, setUploadedItems] = useState(FakeData.uploadedItems);
 
     useEffect(() => {
         document.body.style.backgroundColor = "#666D5D"; // Set your desired color
@@ -33,60 +19,6 @@ function Profile(props) {
           document.body.style.backgroundColor = null; // Reset to default or another color
         };
       }, []);
-
-    useEffect(() => {
-        // Fetch or initialize items here
-        // This should be an array of objects, not just strings
-        const initialItems = [
-            { 
-                name: 'A bag of cookies', 
-                amount: 5, 
-                location: 'Library', 
-                description: 'I just got it as a gift, but I am losingI just got it as a gift, but I am losing weight.... \nAnyone who is interested in it...\n JUST TAKE IT!!!',
-                expirationTime: '2023/10/09 09:15',
-                category: 'Snack',
-                imageList: ['/images/log-decorative.png'],
-            },
-            { 
-                name: '師大第一腿', 
-                amount: 5, 
-                location: '德田館', 
-                description: '好吃',
-                expirationTime: '2023/10/09 09:15', 
-                category: '便當'
-            },
-
-            {},{},{}
-            // ... more items
-        ];
-        // setItems(initialItems);
-        setFilteredItems(initialItems);
-    }, []);
-    useEffect(() => {
-      // Fetch or initialize items here
-      // This should be an array of objects, not just strings
-      const initialItems2 = [
-          { 
-              name: 'A bag of cookies', 
-              amount: 5, 
-              location: 'Library', 
-              description: 'I just got it as a gift, but I am losingI just got it as a gift, but I am losing weight.... \nAnyone who is interested in it...\n JUST TAKE IT!!!',
-              expirationTime: '2023/10/09 09:15',
-              category: 'Snack',
-              imageList: ['/images/log-decorative.png'],
-          },
-          { 
-            name: '烤肉飯', 
-            amount: 5, 
-            location: '圖書館', 
-            description: 'yeah',
-            expirationTime: '2023/10/09 09:15', 
-            category: '便當',
-            imageList: ['/images/log-decorative.png'],
-        },
-      ];
-      setUploadedItems(initialItems2);
-  }, []);
 
 //------------------- Food Item----------------------
 

@@ -7,8 +7,11 @@ import { useNavigate } from 'react-router-dom';
 function ProfileItemList({filteredItems, uploadedItems}) {
   const [isSavedItem, setIsSavedItem] = useState(false)
   function showSavedItem(){
-      setIsSavedItem(isSavedItem => !isSavedItem)
-  } 
+      setIsSavedItem(false)
+  }
+  function showUploadedItem(){
+    setIsSavedItem(true)
+} 
 
   const navigate = useNavigate();
   const handleNavigate = () => {
@@ -24,8 +27,8 @@ function ProfileItemList({filteredItems, uploadedItems}) {
     <>
       <div className="itemlist">
         <div className="topbar">
-          <button onClick={showSavedItem} className={ isSavedItem === true ? "item-list-shown": "item-list-unshown"} type='submit'> Saved Items</button>
-          <button onClick={showSavedItem} className={ isSavedItem === false ? "item-list-shown": "item-list-unshown"} type='submit'> Uploaded Items</button>                                        
+          <button onClick={showSavedItem} className={ !isSavedItem === true ? "item-list-shown": "item-list-unshown"} type='submit'> Saved Items</button>
+          <button onClick={showUploadedItem} className={ !isSavedItem === false ? "item-list-shown": "item-list-unshown"} type='submit'> Uploaded Items</button>                                        
           <div className="add">
             <img
               loading="lazy"
@@ -35,9 +38,9 @@ function ProfileItemList({filteredItems, uploadedItems}) {
             />
           </div>                
         </div>
-
+        
         <div className="item-list">
-          <ItemList isUploaded={!isSavedItem} listHeight={"600px"} items={isSavedItem === true ? filteredItems: uploadedItems} Popup={ItemDetail} />
+          <ItemList isUploaded={isSavedItem} listHeight={"600px"} items={isSavedItem === true ? filteredItems: uploadedItems} Popup={ItemDetail} />
         </div>
 
       </div>

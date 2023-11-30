@@ -22,7 +22,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.feastforward.model.PasswordResetToken;
 import com.feastforward.model.User;
+import com.feastforward.model.dto.Mapper;
 import com.feastforward.model.dto.PasswordDto;
+import com.feastforward.model.dto.UserProfileDto;
 import com.feastforward.payload.request.UpdateUserProfileRequest;
 import com.feastforward.payload.response.GenericResponse;
 import com.feastforward.repository.PasswordResetTokenRepository;
@@ -34,7 +36,7 @@ import jakarta.validation.Valid;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/user")
 public class UserController {
 
     @Autowired
@@ -51,6 +53,9 @@ public class UserController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    Mapper mapper;
 
     // ============  Handling Forgot Password Feature  ============
 
@@ -163,28 +168,30 @@ public class UserController {
 
     // ============
 
-    @GetMapping("test")
-    public ResponseEntity<String> test() {
-        return ResponseEntity.ok("test success");
-    }
-
     @GetMapping("{userId}")
-    public ResponseEntity<User> getUserProfile(@PathVariable("UseriId") Long userId) {
+    public ResponseEntity<UserProfileDto> getUserProfile(@PathVariable("userId") Long userId) {
         Optional<User> userOptional = userRepository.findById(userId);
         if (userOptional.isPresent()) {
-            return ResponseEntity.ok(userOptional.get());
+            return ResponseEntity.ok(
+                mapper.mapUserToUserProfileDto(userOptional.get())
+            );
         } else {
             return ResponseEntity.badRequest().build();
         }
     }
 
     @PutMapping("{userId}")
-    public ResponseEntity<User> updateUserProfile(@PathVariable("UseriId") Long userId,
-            @RequestBody UpdateUserProfileRequest updateUserProfileRequest) {
+    public ResponseEntity<UserProfileDto> updateUserProfile(
+        @PathVariable("userId") Long userId,
+        @RequestBody UpdateUserProfileRequest updateUserProfileRequest
+    ) {
         Optional<User> userOptional = userRepository.findById(userId);
         if (userOptional.isPresent()) {
-            User _user = userService.updateUserProfile(userOptional.get(), updateUserProfileRequest);
-            return ResponseEntity.ok(_user);
+            User _user = userService.updateUserProfile(
+                userOptional.get(), updateUserProfileRequest);
+            return ResponseEntity.ok(
+                mapper.mapUserToUserProfileDto(_user)
+            );
         } else {
             return ResponseEntity.badRequest().build();
         }

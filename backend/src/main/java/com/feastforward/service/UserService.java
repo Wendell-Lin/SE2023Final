@@ -1,9 +1,11 @@
 package com.feastforward.service;
 
+import java.time.Instant;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.Optional;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -38,6 +40,9 @@ public class UserService {
 
     @Value("${spring.mail.username}")
     private String supportEmail;
+
+    @Autowired
+    FileService fileService;
 
     // ============  Handling password reset & construct mail message  ============
     public void createPasswordResetTokenForUser(User user, String token) {
@@ -111,9 +116,31 @@ public class UserService {
     }
 
     public User updateUserProfile(User user, UpdateUserProfileRequest request) {
-        user.setUsername(request.getUsername());
-        user.setNotification(request.getNotification());
-        user.setUserImg(request.getUserImg());
+        // handle image
+        // save new image to GCP
+        String newImageName = null;
+        String base64String = request.getUserImg();
+        if (base64String != null){
+            newImageName = Instant.now().getEpochSecond() + RandomStringUtils.randomAlphanumeric(10);
+            try {
+                fileService.uploadFile(base64String, newImageName);
+            } catch (Exception e) {
+                throw new RuntimeException("Error: Image upload failed.");
+            }
+        }
+        // remove old image from GCP
+        String oldImageName = user.getImageName();
+        if (oldImageName != null){
+            try {
+                fileService.deleteFile(oldImageName);
+            } catch (Exception e) {
+                throw new RuntimeException("Error: Image deletion failed.");
+            }
+        }
+        // update user
+        user.setImageName(newImageName);
+        user.setUsername(request.getName());
+        user.setNotifOn(request.getNotification());
         return userRepository.save(user);
     }
 }

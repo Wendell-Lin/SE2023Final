@@ -17,6 +17,15 @@ const Navbar = () => {
     navigate("/");
   };
 
+  const handleItemClick = (path) => (e) => {
+    if (!isLoggedIn) {
+        e.preventDefault();
+        navigate('/');
+    } else {
+        navigate(path);
+    }
+  };
+
   if (hideNavbar) {
     return null;
   }
@@ -26,8 +35,8 @@ const Navbar = () => {
       <Link to="/" className="site-title">FeastForward</Link>
       <ul>
         <CustomLink to="/">Home</CustomLink>
-        <CustomLink to="/viewitems">View Items</CustomLink>
-        <CustomLink to="/uploaditems">Upload Items</CustomLink>
+        <CustomLink to="/viewitems" onLinkClick={handleItemClick('/viewitems')}>View Items</CustomLink>
+        <CustomLink to="/uploaditems" onLinkClick={handleItemClick('/uploaditems')}>Upload Items</CustomLink>
         {isLoggedIn ? (
           <>
             <CustomLink to="/profile">Profile</CustomLink>

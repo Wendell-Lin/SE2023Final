@@ -12,7 +12,7 @@ function Login() {
   const [modalContent, setModalContent] = useState('');
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [resetEmail, setResetEmail] = useState('');
-  const [loginStatus, setLoginStatus] = useState(false);
+  const [loginStatus] = useState(false);
   const navigate = useNavigate();
   const [cookies, setCookie] = useCookies(['user', 'userDetails']);
   const [remember, setRemember] = useState(false);
@@ -35,8 +35,12 @@ function Login() {
   
     try {
       const data = await authService.login(email, password);
+      const { username, userEmail, accessToken } = data;
       const expires = remember ? 30 : 1;
       setCookie('user', data, { path: '/', expires: new Date(Date.now() + 86400 * 1000 * expires) });
+      setCookie('username', username, { path: '/', expires: new Date(Date.now() + 86400 * 1000 * expires) });
+      setCookie('userEmail', userEmail, { path: '/', expires: new Date(Date.now() + 86400 * 1000 * expires) });
+      setCookie('accessToken', accessToken, { path: '/', expires: new Date(Date.now() + 86400 * 1000 * expires) });
       navigate('/');
     } catch (error) {
       let title = 'Error';

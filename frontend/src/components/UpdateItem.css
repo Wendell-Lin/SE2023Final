@@ -1,0 +1,105 @@
+.div {
+  border-radius: 20px;
+  border: 1px solid rgba(0, 0, 0, 0);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  background-color: #fff;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  padding: 16px 19px 26px 29px;
+}
+@media (max-width: 991px) {
+  .div {
+    max-width: 100%;
+    padding-left: 20px;
+  }
+}
+.div-2 {
+  display: flex;
+  width: 100%;
+  padding-right: 5px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.div-3 {
+  color: #707070;
+  margin: auto 0;
+  font: 500 8px/12px Poppins, -apple-system, Roboto, Helvetica,
+    sans-serif;
+}
+.div-4 {
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.div-5 {
+  color: #707070;
+  margin: auto 0;
+  font: 500 8px/12px Poppins, -apple-system, Roboto, Helvetica,
+    sans-serif;
+}
+.img {
+  aspect-ratio: 1;
+  object-fit: contain;
+  object-position: center;
+  width: 25px;
+  overflow: hidden;
+  align-self: stretch;
+  max-width: 100%;
+}
+.div-6 {
+  background-color: #d7d0d0;
+  display: flex;
+  height: 179px;
+  flex-direction: column;
+}
+.div-7 {
+  color: #000;
+  margin-top: 10px;
+  font: 400 15px/22.5px Poppins, -apple-system, Roboto, Helvetica,
+    sans-serif;
+}
+.div-8 {
+  color: #707070;
+  margin-top: 10px;
+  font: 500 8px/12px Poppins, -apple-system, Roboto, Helvetica,
+    sans-serif;
+}
+.div-9 {
+  color: #707070;
+  margin-top: 6px;
+  white-space: nowrap;
+  font: 500 8px/12px Poppins, -apple-system, Roboto, Helvetica,
+    sans-serif;
+}
+@media (max-width: 991px) {
+  .div-9 {
+    white-space: initial;
+  }
+}
+.div-10 {
+  color: #707070;
+  margin-top: 4px;
+  font: 500 8px/12px Poppins, -apple-system, Roboto, Helvetica,
+    sans-serif;
+}
+.div-11 {
+  color: #000;
+  margin-top: 11px;
+  font: 500 8px/12px Poppins, -apple-system, Roboto, Helvetica,
+    sans-serif;
+}
+.div-12 {
+  color: #707070;
+  margin-top: 89px;
+  font: 500 8px/12px Poppins, -apple-system, Roboto, Helvetica,
+    sans-serif;
+}
+@media (max-width: 991px) {
+  .div-12 {
+    margin-top: 40px;
+  }
+}

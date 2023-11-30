@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Item from './Item';
 import './ItemList.css';
 
-function ItemList({ listHeight, items, Popup }) {
+function ItemList({ isUploaded, listHeight, items, Popup }) {
     const [savedItemIds, setSavedItemIds] = useState(new Set([
         // '1', '3'
     ]));
@@ -74,6 +74,7 @@ function ItemList({ listHeight, items, Popup }) {
         <div className="list-container" style={listStyle}>
             {itemList.map((item, index) => (
                 <Item 
+                    isUploaded={isUploaded}
                     key={index} 
                     {...item}
                     onToggleSaved={() => toggleSaved(item.itemId)}

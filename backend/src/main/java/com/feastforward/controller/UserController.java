@@ -41,6 +41,7 @@ import com.feastforward.payload.response.ItemsResponse;
 import com.feastforward.repository.ItemRepository;
 import com.feastforward.repository.PasswordResetTokenRepository;
 import com.feastforward.repository.UserRepository;
+import com.feastforward.service.FollowService;
 import com.feastforward.service.ItemService;
 import com.feastforward.service.UserService;
 
@@ -69,6 +70,9 @@ public class UserController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    FollowService followService;
 
     @Autowired
     Mapper mapper;
@@ -210,7 +214,7 @@ public class UserController {
     {
         User user = userService.getCurrentUser();
         List<ItemDto> itemDtos = user
-                .getFollowItems()
+                .getFollowedItems()
                 .stream()
                 .map(mapper::mapItemToItemDto)
                 .collect(Collectors.toList());
@@ -219,36 +223,35 @@ public class UserController {
 
     @PutMapping("follow-item")
     public ResponseEntity<ItemsResponse> updateUserFollowItem(
-        @RequestBody UpdateUserFollowItemRequest updateUserFollowItemRequest
+        @RequestBody UpdateUserFollowItemRequest request
     ) {
         // blank response component
         List<ItemDto> itemDtos = new ArrayList<>();
-        String message;
+        String message = "success";
         // user and items
-        User user = userService.getCurrentUser();
-        Optional<Item> itemOptional = itemRepository.findById(updateUserFollowItemRequest.getItemId());
-        if (!itemOptional.isPresent()){
-            message = "Error: item does not exist";
-            return ResponseEntity.badRequest()
-            .body(new ItemsResponse(itemDtos, message));
-        }
-        // workable user and item
-        Item item = itemOptional.get();
-        if (user.getFollowItems().contains(item) &&
-            updateUserFollowItemRequest.getFollow() == false){
-            user.getFollowItems().remove(item);
-            user = userRepository.save(user);
-            message = "Success";
-        }else if (!user.getFollowItems().contains(item) &&
-            updateUserFollowItemRequest.getFollow() == true){
-            user.getFollowItems().add(item);
-            user = userRepository.save(user);
-            message = "Success";
-        }else{
-            message = "updataUserFollowItem: redundant request";
+        Long userId = userService.getCurrentUser().getId();
+        Long itemId = request.getItemId();
+        Boolean follow = request.getFollow();
+        try{
+            if (follow == true){
+                followService.followItem(userId, itemId);
+            } else {
+                followService.unfollowItem(userId, itemId);
+            }
+        } catch(Exception e){
+            message = e.getMessage();
+            return ResponseEntity.badRequest().body(
+                new ItemsResponse(itemDtos, message));
         }
         // item dto list, response
-        itemDtos = user.getFollowItems().stream().map(mapper::mapItemToItemDto).toList();
+        itemDtos = userService.getCurrentUser().getFollowedItems().stream().map(mapper::mapItemToItemDto).toList();
         return ResponseEntity.ok(new ItemsResponse(itemDtos, message));
+    }
+
+    @GetMapping("upload-item")
+    public ResponseEntity<ItemsResponse> getCreatedItem(){
+        User user = userService.getCurrentUser();
+        List<ItemDto> itemDtos = user.getCreatedItems().stream().map(mapper::mapItemToItemDto).toList();
+        return ResponseEntity.ok(new ItemsResponse(itemDtos, "success"));
     }
 }

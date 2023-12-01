@@ -35,16 +35,8 @@ public class ItemService {
     @Autowired
     UserService userService;
 
-    public void incrementNumberOfFollowers(long itemId) {
-        Item item = itemRepository.findById(itemId).orElseThrow(() -> new RuntimeException("Error: Item is not found."));
-        item.incrementNumberOfFollowers();
-        itemRepository.save(item);
-    }
-
-    public void decrementNumberOfFollowers(long itemId) {
-        Item item = itemRepository.findById(itemId).orElseThrow(() -> new RuntimeException("Error: Item is not found."));
-        item.decrementNumberOfFollowers();
-        itemRepository.save(item);
+    public int countFollowersByItemId(Long itemId) {
+        return itemRepository.countFollowersByItemId(itemId);
     }
 
     public Item createItem(CreateItemRequest itemRequest) {
@@ -85,7 +77,6 @@ public class ItemService {
         item.setStartTime(itemRequest.getStartTime());
         item.setEndTime(itemRequest.getEndTime());
         item.setDescription(itemRequest.getDescription());
-        item.setNumberOfFollowers(0);
         item.setImageList(imageNames);
 
         return itemRepository.save(item);

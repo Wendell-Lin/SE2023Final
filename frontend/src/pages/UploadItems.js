@@ -24,6 +24,7 @@ const UploadItems = () => {
     if (isLocationFetched) {
       // console.log(itemData)
       hadleUploadRequest();
+      setIsLocationFetched(false);
     }
   }, [isLocationFetched, formData]); // Depend on both isLocationFetched and formData
   
@@ -143,12 +144,32 @@ const UploadItems = () => {
           setIsLocationFetched(true);
         },
         (error) => {
+          const currentTimeUTC = new Date().toISOString();
+          const base64Images = formData.imageList.map(image => image.base64);
+          const newItemData = {
+            ...formData,
+            quantity: parseInt(formData.quantity),
+            startTime: currentTimeUTC,
+            endTime: convertToUTC0(formData.endTime),
+            imageList: base64Images,
+          };
           console.error("Error Code = " + error.code + " - " + error.message);
+          setItemData(newItemData); // set to itemData to upload instad of immute formData
           setIsLocationFetched(true);
         }
       );
     } else {
+      const currentTimeUTC = new Date().toISOString();
+      const base64Images = formData.imageList.map(image => image.base64);
+      const newItemData = {
+        ...formData,
+        quantity: parseInt(formData.quantity),
+        startTime: currentTimeUTC,
+        endTime: convertToUTC0(formData.endTime),
+        imageList: base64Images,
+      };
       console.error("Geolocation is not supported by this browser.");
+      setItemData(newItemData); // set to itemData to upload instad of immute formData
       setIsLocationFetched(true);
     }
   }
@@ -161,7 +182,18 @@ const UploadItems = () => {
           <h2>{succeedMsg}</h2>
           <button 
             className='close-button'
-            onClick={() => setTimeout(() => {navigate('/viewitems')}, 100)}>Close</button>
+              onClick={() => {
+                if (!succeedMsg.startsWith("Failed")) {
+                    setTimeout(() => {
+                        navigate('/viewitems');
+                    }, 100);
+                } else {
+                    // Close the modal window only
+                    setSucceedMsg(''); // Reset the message to close the modal
+                }
+            }}>
+              Close
+          </button>
         </div>
       </div>
     )}

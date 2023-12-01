@@ -9,6 +9,8 @@ import com.feastforward.model.User;
 import com.feastforward.model.Category;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -22,4 +24,6 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 
     List<Item> findByEndTimeGreaterThan(Date endTime);
 
+    @Query("SELECT COUNT(follower) FROM Item item JOIN item.followers follower WHERE item.id = :itemId")
+    int countFollowersByItemId(@Param("itemId") Long itemId);
 }

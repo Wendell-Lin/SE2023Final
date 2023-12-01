@@ -1,12 +1,12 @@
 {
-    "token": "",
     "name": "",
-    "amount": 1,
+    "quantity": 1,
     "location": "",
-    "category": "",
+    "categoryName": "便當",
     "latitude": null,
     "longitude": null,
     "description": "",
-    "expirationTime": "",
-    "images": []
+    "startTime": "",
+    "endTime": "",
+    "imageList": []
 }

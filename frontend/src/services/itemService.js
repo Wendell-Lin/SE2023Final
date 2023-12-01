@@ -1,6 +1,5 @@
 import axios from 'axios';
 import config from './apiConfig.json';
-import { useCookies } from 'react-cookie';
 
 const API_URL = config.API_URL;
 

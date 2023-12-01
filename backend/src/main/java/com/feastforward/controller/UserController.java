@@ -249,7 +249,9 @@ public class UserController {
     }
 
     @GetMapping("upload-item")
-    public ResponseEntity<?> getCreatedItem(){
-        return ResponseEntity.ok().build();
+    public ResponseEntity<ItemsResponse> getCreatedItem(){
+        User user = userService.getCurrentUser();
+        List<ItemDto> itemDtos = user.getCreatedItems().stream().map(mapper::mapItemToItemDto).toList();
+        return ResponseEntity.ok(new ItemsResponse(itemDtos, "success"));
     }
 }

@@ -4,6 +4,8 @@ import com.feastforward.model.Item;
 import com.feastforward.model.User;
 import com.feastforward.service.FileService;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -34,9 +36,9 @@ public class Mapper {
     public UserProfileDto mapUserToUserProfileDto(User user){
         UserProfileDto userProfileDto = new UserProfileDto();
         // normal properties
-        userProfileDto.setName(user.getUsername());
+        userProfileDto.setUsername(user.getUsername());
         userProfileDto.setEmail(user.getEmail());
-        userProfileDto.setNotification(user.getNotifOn());
+        userProfileDto.setNotifOn(user.getNotifOn());
         // image
         String base64String = null;
         String imageName = user.getImageName();
@@ -47,7 +49,7 @@ public class Mapper {
                 throw new RuntimeException("Error: Image retrieval failed.");
             }
         }
-        userProfileDto.setUserImg(base64String);
+        userProfileDto.setImage(base64String);
         return userProfileDto;
     }
 }

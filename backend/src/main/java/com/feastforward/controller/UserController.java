@@ -1,11 +1,18 @@
 package com.feastforward.controller;
 
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -20,15 +27,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.feastforward.model.Item;
 import com.feastforward.model.PasswordResetToken;
 import com.feastforward.model.User;
+import com.feastforward.model.dto.ItemDto;
 import com.feastforward.model.dto.Mapper;
 import com.feastforward.model.dto.PasswordDto;
 import com.feastforward.model.dto.UserProfileDto;
+import com.feastforward.payload.request.UpdateUserFollowItemRequest;
 import com.feastforward.payload.request.UpdateUserProfileRequest;
 import com.feastforward.payload.response.GenericResponse;
+import com.feastforward.payload.response.ItemsResponse;
+import com.feastforward.repository.ItemRepository;
 import com.feastforward.repository.PasswordResetTokenRepository;
 import com.feastforward.repository.UserRepository;
+import com.feastforward.service.ItemService;
 import com.feastforward.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -47,6 +60,9 @@ public class UserController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    ItemRepository itemRepository;
 
     @Autowired
     PasswordResetTokenRepository passwordResetTokenRepository;
@@ -166,35 +182,73 @@ public class UserController {
         return ResponseEntity.ok(new GenericResponse(messages.getMessage("message.updatePasswordSuc", null, locale)));
     }
 
-    // ============
+    // user profile
 
-    @GetMapping("{userId}")
-    public ResponseEntity<UserProfileDto> getUserProfile(@PathVariable("userId") Long userId) {
-        Optional<User> userOptional = userRepository.findById(userId);
-        if (userOptional.isPresent()) {
-            return ResponseEntity.ok(
-                mapper.mapUserToUserProfileDto(userOptional.get())
-            );
-        } else {
-            return ResponseEntity.badRequest().build();
-        }
+    @GetMapping("/profile")
+    public ResponseEntity<UserProfileDto> getUserProfile() {
+        User user = userService.getCurrentUser();
+        return ResponseEntity.ok(mapper.mapUserToUserProfileDto(user));
     }
 
-    @PutMapping("{userId}")
+    @PutMapping("/profile")
     public ResponseEntity<UserProfileDto> updateUserProfile(
-        @PathVariable("userId") Long userId,
         @RequestBody UpdateUserProfileRequest updateUserProfileRequest
     ) {
-        Optional<User> userOptional = userRepository.findById(userId);
-        if (userOptional.isPresent()) {
-            User _user = userService.updateUserProfile(
-                userOptional.get(), updateUserProfileRequest);
+        User updatedUser = userService.updateUserProfile(updateUserProfileRequest);
+        if (updatedUser != null) {
             return ResponseEntity.ok(
-                mapper.mapUserToUserProfileDto(_user)
+                mapper.mapUserToUserProfileDto(updatedUser)
             );
         } else {
             return ResponseEntity.badRequest().build();
         }
     }
 
+    // user follow items
+    @GetMapping("follow-item")
+    public ResponseEntity<ItemsResponse> getUserFollowItem() 
+    {
+        User user = userService.getCurrentUser();
+        List<ItemDto> itemDtos = user
+                .getFollowItems()
+                .stream()
+                .map(mapper::mapItemToItemDto)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(new ItemsResponse(itemDtos, "success"));
+    }
+
+    @PutMapping("follow-item")
+    public ResponseEntity<ItemsResponse> updateUserFollowItem(
+        @RequestBody UpdateUserFollowItemRequest updateUserFollowItemRequest
+    ) {
+        // blank response component
+        List<ItemDto> itemDtos = new ArrayList<>();
+        String message;
+        // user and items
+        User user = userService.getCurrentUser();
+        Optional<Item> itemOptional = itemRepository.findById(updateUserFollowItemRequest.getItemId());
+        if (!itemOptional.isPresent()){
+            message = "Error: item does not exist";
+            return ResponseEntity.badRequest()
+            .body(new ItemsResponse(itemDtos, message));
+        }
+        // workable user and item
+        Item item = itemOptional.get();
+        if (user.getFollowItems().contains(item) &&
+            updateUserFollowItemRequest.getFollow() == false){
+            user.getFollowItems().remove(item);
+            user = userRepository.save(user);
+            message = "Success";
+        }else if (!user.getFollowItems().contains(item) &&
+            updateUserFollowItemRequest.getFollow() == true){
+            user.getFollowItems().add(item);
+            user = userRepository.save(user);
+            message = "Success";
+        }else{
+            message = "updataUserFollowItem: redundant request";
+        }
+        // item dto list, response
+        itemDtos = user.getFollowItems().stream().map(mapper::mapItemToItemDto).toList();
+        return ResponseEntity.ok(new ItemsResponse(itemDtos, message));
+    }
 }

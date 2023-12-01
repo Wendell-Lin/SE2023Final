@@ -6,10 +6,10 @@ import lombok.Data;
 @Data
 public class UpdateUserProfileRequest {
     @Size(max = 20)
-    private String name;
+    private String username;
 
-    private Boolean notification = false;
+    private Boolean notifOn = false;
 
     @Size(max = 255)
-    private String userImg = null;
+    private String image = null;
 }

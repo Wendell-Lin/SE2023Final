@@ -64,7 +64,7 @@ function Profile(props) {
       }
     }
   };
-
+  console.log(userInfo)
 
   //------------------- Food Item----------------------
   const [filteredItems, setFilteredItems] = useState(FakeData.savedItems);
@@ -85,7 +85,7 @@ function Profile(props) {
       <div className="profile_container">
         <div className="profile_allInfo">
           <div className="userInfo_column">
-            <PersonalInfo userInfo={userInfo} cookies={cookies} />
+            <PersonalInfo />
           </div>
 
           <div className="ItemList_column">

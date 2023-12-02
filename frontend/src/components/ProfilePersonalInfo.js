@@ -2,31 +2,73 @@ import React, { useState, useEffect } from "react";
 import "./ProfilePersonalInfo.css";
 import { useCookies } from "react-cookie";
 import { updatedProfile, updatePwd } from "../services/profileService";
+import profileService from "../services/profileService";
 
 // photo
-function PersonalInfo({ userInfo, cookies }) {
+function PersonalInfo() {
+  const [cookies] = useCookies();
   // load cookie
-  console.log(cookies);
-
+  // console.log(cookies);
+  const [userInfoData, setUserInfo] = useState({
+    name: "",
+    email: "",
+    notification: false,
+    userImg: "images/Image_placeholder.png",
+    accessToken: "",
+  });
   // update Form Data
   // Form Data init
   const initFormData = {
     name: "",
-    email: userInfo.email, // unchanged
-    notification: userInfo.notification, // unchanged
-    userImg: userInfo.userImg, // unchanged
+    email: userInfoData?.email, // unchanged
+    notification: userInfoData?.notification, // unchanged
+    userImg: userInfoData?.userImg, // unchanged
     oldpassword: "",
     newpassword: "",
     confirmpassword: "",
   };
+  // GET User profile
+  useEffect(() => {
+    loadProfile();
+  }, []);
 
-  const [userInfoData, setUserInfo] = useState(userInfo);
+  const loadProfile = async () => {
+    console.log('Load Profile')
+    try {
+      const responseData = await profileService.getProfile(cookies);
+      console.log("Successfully get profile");
+      setUserInfo({
+        name: responseData.username,
+        email: responseData.email,
+        notification: responseData.notifOn,
+        userImg:
+          responseData.image === null
+            ? "images/Image_placeholder.png"
+            : responseData.image,
+        accessToken: cookies.accessToken,
+      });
+    } catch (error) {
+      console.log("Get profile FAIL");
+      if (error.response) {
+        const { status, data } = error.response;
+        if (status === 500) {
+          console.log("Internal Server Error");
+        } else if (status === 401) {
+          console.log("Unauthorized");
+          console.log(error.message);
+        }
+      }
+    }
+  };
+
+  // const [userInfoData, setUserInfo] = useState(userInfo);
   const [formData, setFormData] = useState(initFormData);
   const [succeedMsg, setSucceedMsg] = useState("");
-  const [isSentEmail, setIsSentEmail] = useState(userInfo.notification);
+  const [isSentEmail, setIsSentEmail] = useState(userInfoData.notification);
   const [oldpassword, setOldPassword] = useState("");
   const [newpassword, setNewPasswordInput] = useState("");
   const [confirmpassword, setConfirmPassword] = useState("");
+  console.log(userInfoData)
 
   useEffect(() => {
     console.log("Set Successd msg");
@@ -44,6 +86,7 @@ function PersonalInfo({ userInfo, cookies }) {
     }));
     console.log(formData);
   };
+
 
   // click email
   const [editInfo, setEditInfo] = useState(false);
@@ -106,7 +149,7 @@ function PersonalInfo({ userInfo, cookies }) {
     console.log(formData);
     setUserInfo({
       name: formData.name,
-      email: userInfo.email, // unchanged
+      email: userInfoData.email, // unchanged
       notification: formData.notification,
       userImg: formData.userImg,
     });

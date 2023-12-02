@@ -35,10 +35,23 @@ const MyMapComponent = ({
   const handleClosePopup = () => {
       setSelectedItem(null);
   };
+  const calculateAndDisplayRoute = (directionsService, directionsRenderer, start, end) => {
+    directionsService.route({
+      origin: start,
+      destination: end,
+      travelMode: window.google.maps.TravelMode.DRIVING,
+    }, (response, status) => {
+      if (status === 'OK') {
+        directionsRenderer.setDirections(response);
+      } else {
+        console.error('Directions request failed due to ' + status);
+      }
+    });
+  };
 
   useEffect(() => {
-    
     const map = new window.google.maps.Map(ref.current, { center, zoom });
+    const directionsService = new window.google.maps.DirectionsService();
     const directionsRenderer = new window.google.maps.DirectionsRenderer();
     directionsRenderer.setMap(map);
 
@@ -51,9 +64,21 @@ const MyMapComponent = ({
             title: item.name,
         });
         marker.addListener('click', () => {
-          getSaveIds(item);
-          // handleOpenPopup(item);
-          // toggleSaved(item.id);
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition((position) => {
+              const userLocation = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+              };
+              const markerLocation = { lat: parseFloat(item.latitude), lng: parseFloat(item.longitude) };
+  
+              calculateAndDisplayRoute(directionsService, directionsRenderer, userLocation, markerLocation);
+            }, () => {
+              getSaveIds(item);
+            });
+          } else {
+            getSaveIds(item);
+          }
         });
       }
     });

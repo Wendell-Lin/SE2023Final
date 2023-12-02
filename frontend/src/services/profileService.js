@@ -35,7 +35,7 @@ const updateProfile = async (cookies, updatedProfileData) => {
 
 const updatePwd = async (cookies, oldPassword, newPassword) => {
     const response = await axios.post(
-      API_URL + "/user/updatePassword?oldPassword="+ oldPassword + "?newPassword=" + newPassword,
+      API_URL + "/user/updatePassword?oldPassword="+ oldPassword + "&newPassword=" + newPassword,{},
       // API_URL + "/user/updatePassword",{
       //   params: {oldPassword, newPassword},
       // },

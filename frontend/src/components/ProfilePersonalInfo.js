@@ -227,6 +227,7 @@ function PersonalInfo() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     // PUT user info(由後端判斷是否正確)
+    console.log("change pwd")
     try {
       console.log(oldpassword)
       console.log(newpassword)
@@ -243,6 +244,9 @@ function PersonalInfo() {
         } else if (status === 401) {
           console.log("Bad credentials");
           console.log(error.message);
+        } else if (status === 400){
+          console.log("Illegal argument: Invalid old password")
+          setSucceedMsg("Incorrect old password");
         }
       }
     }

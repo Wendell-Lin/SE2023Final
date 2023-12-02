@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from "react";
 import "./ProfilePersonalInfo.css";
+import { useCookies } from "react-cookie";
+import { updatedProfile, updatePwd } from "../services/profileService";
 
 // photo
-function PersonalInfo({ userInfo }) {
+function PersonalInfo({ userInfo, cookies }) {
+  // load cookie
+  console.log(cookies);
+
   // update Form Data
   // Form Data init
   const initFormData = {
@@ -53,7 +58,48 @@ function PersonalInfo({ userInfo }) {
     }));
   };
 
+  // 有問題
+  // Image
+  const [selectedFile, setSelectedFile] = useState(null);
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    setSelectedFile(file);
+  };
+  const handleImageClick = () => {
+    document.getElementById("fileInput").click();
+  };
+
   // Change User Profile
+  // Use PUT
+  // const handleSubmit_info = async (event) => {
+  //   event.preventDefault();
+  //   try {
+  //     const responseData = await updatedProfile(cookies);
+  //     console.log("Successfully update profile");
+  //     console.log(formData);
+  //     setUserInfo({
+  //       name: formData.name,
+  //       email: userInfo.email, // unchanged
+  //       notification: formData.notification,
+  //       userImg: formData.userImg,
+  //     });
+  //     setFormData(initFormData);
+  //     setSucceedMsg("Successfully Edit Profile");
+
+  //   } catch (error) {
+  //     console.log("Get profile FAIL");
+  //     if (error.response) {
+  //       const { status, data } = error.response;
+  //       if (status === 500) {
+  //         console.log("Internal Server Error");
+  //       } else if (status === 401) {
+  //         console.log("Unauthorized");
+  //         console.log(error.message);
+  //       }
+  //     }
+  //   }
+  // };
+
   const handleSubmit_info = (event) => {
     event.preventDefault();
     setSucceedMsg("Successfully Edit Profile");
@@ -66,18 +112,6 @@ function PersonalInfo({ userInfo }) {
     });
 
     setFormData(initFormData);
-  };
-
-  // 有問題
-  // Image
-  const [selectedFile, setSelectedFile] = useState(null);
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    setSelectedFile(file);
-  };
-
-  const handleImageClick = () => {
-    document.getElementById("fileInput").click();
   };
 
   // Forgot password
@@ -93,7 +127,8 @@ function PersonalInfo({ userInfo }) {
     setModalContent("");
     setIsModalOpen(true);
   };
-  // Password
+
+  // Input Password
   // 後端判斷密碼
   const handleOldPasswordChange = (e) => {
     setOldPassword(e.target.value);
@@ -120,35 +155,59 @@ function PersonalInfo({ userInfo }) {
   };
 
   // Change Password
-  // 要再加個forget password
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     // PUT user info(由後端判斷是否正確)
-    if (oldpassword === userInfoData.password) {
-      if (newpassword === confirmpassword) {
-        setSucceedMsg("Successfully Change Password");
-      } else {
-        setSucceedMsg("New password and confirm password do not match");
-        console.log("new and confirm error");
-      }
-    } else {
-      setSucceedMsg("Incorrect old password");
-    }
+    // try {
+    //     if (newpassword === confirmpassword) {
+    //       const responseData = await updatePwd(cookies, oldpassword, newpassword);
+    //       setSucceedMsg("Successfully Change Password");
+    //     } else {
+    //       setSucceedMsg("New password and confirm password do not match");
+    //       console.log("new and confirm error");
+    //     }
+    // } catch (error) {
+    //   console.log("Get profile FAIL");
+    //   if (error.response) {
+    //     const { status, data } = error.response;
+    //     if (status === 500) {
+    //       console.log("Internal Server Error");
+    //     } else if (status === 401) {
+    //       console.log("Bad credentials");
+    //       console.log(error.message);
+    //     }
+    //   }
+    // }
 
-    setUserInfo({
-      name: userInfo.name,
-      email: userInfo.email, // unchanged
-      notification: userInfo.notification,
-      userImg: userInfo.userImg,
-      password: newpassword,
-    });
+    // const handleSubmit = (event) => {
+    //   event.preventDefault();
 
-    console.log("Current data");
-    console.log(userInfoData); // 這邊還是舊資料
-    console.log("Edit data");
-    console.log(formData);
-    setFormData(initFormData);
+    //   // PUT user info(由後端判斷是否正確)
+    // if (oldpassword === userInfoData.password) {
+    //   if (newpassword === confirmpassword) {
+    //     setSucceedMsg("Successfully Change Password");
+    //   } else {
+    //     setSucceedMsg("New password and confirm password do not match");
+    //     console.log("new and confirm error");
+    //   }
+    // } else {
+    //   setSucceedMsg("Incorrect old password");
+    // }
+
+    //   setUserInfo({
+    //     name: userInfo.name,
+    //     email: userInfo.email, // unchanged
+    //     notification: userInfo.notification,
+    //     userImg: userInfo.userImg,
+    //     password: newpassword,
+    //   });
+
+    //   console.log("Current data");
+    //   console.log(userInfoData); // 這邊還是舊資料
+    //   console.log("Edit data");
+    //   console.log(formData);
+    //   setFormData(initFormData);
   };
 
   return (
@@ -273,7 +332,7 @@ function PersonalInfo({ userInfo }) {
               >
                 Change Password
               </button>
-            {/* <div className="info-col"> */}
+              {/* <div className="info-col"> */}
               <a
                 href="#forgot-password"
                 className="forgot-password"
@@ -281,9 +340,8 @@ function PersonalInfo({ userInfo }) {
               >
                 forgot password
               </a>
-            {/* </div> */}
+              {/* </div> */}
             </div>
-            
           </div>
         </form>
       </div>

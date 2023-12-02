@@ -19,6 +19,7 @@ import com.feastforward.security.jwt.AuthEntryPointJwt;
 import com.feastforward.security.jwt.AuthTokenFilter;
 import com.feastforward.security.service.UserDetailsServiceImpl;
 
+
 @Configuration
 @EnableMethodSecurity
 public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
@@ -62,7 +63,7 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
                         auth.requestMatchers("/api/auth/**").permitAll()
                                 .requestMatchers("/api/test/**").permitAll()
                                 .requestMatchers("/api/items/**").permitAll()
-                                .requestMatchers("/api/users/**").permitAll()
+                                .requestMatchers("/api/user/**").permitAll()
                                 .requestMatchers("/api/file/**").permitAll()
                                 .anyRequest().authenticated()
                 );

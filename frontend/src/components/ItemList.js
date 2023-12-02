@@ -5,7 +5,7 @@ import './ItemList.css';
 import userService from '../services/userService';
 import { useCookies } from 'react-cookie'
 
-function ItemList({ isUploaded, listHeight, items, Popup }) {
+function ItemList({ setSelectItem, isUploaded, listHeight, items, Popup }) {
     const [savedItemIds, setSavedItemIds] = useState(new Set([
         // '1', '3'
     ]));
@@ -117,12 +117,14 @@ function ItemList({ isUploaded, listHeight, items, Popup }) {
             }));
         }
     };
+    console.log(itemList)
     
 
     return (
         <div className="list-container" style={listStyle}>
             {itemList.map((item, index) => (
                 <Item 
+                    setSelectItem={setSelectItem}
                     isUploaded={isUploaded}
                     key={index} 
                     {...item}

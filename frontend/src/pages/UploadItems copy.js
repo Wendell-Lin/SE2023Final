@@ -1,29 +1,17 @@
 import React, { useState, useEffect } from 'react';
+import './UploadItems.css'
 import itemJson from '../components/Item.json'
 import itemService from '../services/itemService';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
-import './UpdateItem.css';
 
-
-function UpdateItem({item}) {
-  console.log("UPDATE")
-  console.log(item)
-  // const location = useLocation();
-  const [formData, setFormData] = useState(item);
-  const [itemData, setItemData] = useState(item);
+const UploadItems = () => {
+  const [formData, setFormData] = useState(itemJson);
+  const [itemData, setItemData] = useState(itemJson);
   const [succeedMsg, setSucceedMsg] = useState('');
+  const navigate = useNavigate();
   const [isLocationFetched, setIsLocationFetched] = useState(false);
   const [cookies] = useCookies();
-  const navigate = useNavigate();
-  // // Use URL parsing
-  // const searchParams = new URLSearchParams(location.search);
-  // // parse JSON string
-  // const encodedItemData = searchParams.get('itemData');
-  // // decode the JSON string
-  // const itemData = encodedItemData ? JSON.parse(decodeURIComponent(encodedItemData)) : null;
-  // // console.log(itemData)
-
 
   useEffect(() => {
     document.body.style.backgroundColor = "#91968a"; // Set your desired color
@@ -185,7 +173,7 @@ function UpdateItem({item}) {
       setIsLocationFetched(true);
     }
   }
-console.log(formData.endTime)
+
   return (
     <>
     {succeedMsg && (
@@ -236,7 +224,7 @@ console.log(formData.endTime)
               type="number" 
               name="quantity" 
               min={1}
-              value={formData.amount} 
+              value={formData.quantity} 
               onChange={handleInputChange}
               required
             />
@@ -254,5 +242,4 @@ console.log(formData.endTime)
   );
 }
 
-export default UpdateItem
-
+export default UploadItems;

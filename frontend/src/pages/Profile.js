@@ -6,7 +6,10 @@ import FakeData from "./FakeData.json";
 import { useCookies } from "react-cookie";
 import profileService from "../services/profileService";
 import userService from "../services/userService";
-function Profile(props) {
+
+
+
+function Profile({setSelectItem}) {
 
   //------------------- User Info----------------------
   // GET from Fake Data
@@ -103,6 +106,7 @@ useEffect(() => {
             <ProfileItemList
               filteredItems={followedItems}
               uploadedItems={uploadedItems}
+              setSelectItem={setSelectItem}
             />
           </div>
         </div>

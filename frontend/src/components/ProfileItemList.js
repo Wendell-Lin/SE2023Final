@@ -4,7 +4,7 @@ import ItemList from '../components/ItemList';
 import ItemDetail from '../components/ItemDetail'
 import { useNavigate } from 'react-router-dom';
 
-function ProfileItemList({filteredItems, uploadedItems}) {
+function ProfileItemList({setSelectItem, filteredItems, uploadedItems}) {
   const [isSavedItem, setIsSavedItem] = useState(false)
   function showSavedItem(){
       setIsSavedItem(false)
@@ -40,7 +40,7 @@ function ProfileItemList({filteredItems, uploadedItems}) {
         </div>
         
         <div className="item-list">
-          <ItemList isUploaded={isSavedItem} listHeight={"600px"} items={isSavedItem === true ? filteredItems: uploadedItems} Popup={ItemDetail} />
+          <ItemList setSelectItem={setSelectItem} isUploaded={isSavedItem} listHeight={"600px"} items={isSavedItem === true ? filteredItems: uploadedItems} Popup={ItemDetail} />
         </div>
 
       </div>

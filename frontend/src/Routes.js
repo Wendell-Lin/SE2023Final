@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import ViewItems from "./pages/ViewItems";
@@ -10,6 +10,7 @@ import UpdateItem from './components/UpdateItem';
 import ProtectedRoute from './ProtectedRoute';
 
 const AppRoutes = () => {
+  const [selectitem, setSelectItem] = useState("");
   return (
     <Routes>
       <Route path="/" element={<Home />} />
@@ -25,8 +26,8 @@ const AppRoutes = () => {
       } />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/profile" element={<Profile />} />
-      <Route path="/UpdateItem" element={<UpdateItem />} />
+      <Route path="/profile" element={<Profile setSelectItem={setSelectItem}/>} />
+      <Route path="/UpdateItem" element={<UpdateItem item={selectitem}/>} />
     </Routes>
   );
 };

@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import Item from './Item';
 import './ItemList.css';
+import userService from '../services/userService';
+import { useCookies } from 'react-cookie'
 
 function ItemList({ isUploaded, listHeight, items, Popup }) {
     const [savedItemIds, setSavedItemIds] = useState(new Set([
@@ -9,6 +11,24 @@ function ItemList({ isUploaded, listHeight, items, Popup }) {
     ]));
     const [itemList, setItemList] = useState([]);
     const [selectedItem, setSelectedItem] = useState(null);
+    const [cookies] = useCookies();
+
+    useEffect(() => {
+        const fetchFollowedItems = async () => {
+            try {
+                const response = await userService.getFollow(cookies);
+                const followedItems = response.items || [];
+                const followedIds = new Set(followedItems.map(item => item.id));
+                setSavedItemIds(followedIds);
+            } catch (error) {
+                console.error("Error fetching followed items:", error);
+                // Handle error appropriately
+            }
+            console.log(savedItemIds);
+        };
+        fetchFollowedItems();
+    }, [cookies]);
+
     useEffect(() => {
         setItemList(items.map(item => ({
             ...item,
@@ -45,21 +65,24 @@ function ItemList({ isUploaded, listHeight, items, Popup }) {
         return `${year}/${month}/${day} ${hours}:${minutes}`;
     };    
 
-    const toggleSaved = (itemId) => {
-        // todo: POST /user/follow
+    const toggleSaved = async (itemId) => {
+        // Keep a reference to the original state
+        const originallySaved = savedItemIds.has(itemId);
+    
+        // Optimistically update the UI
         setSavedItemIds(prevSavedItemIds => {
             const newSavedItemIds = new Set(prevSavedItemIds);
-            if (newSavedItemIds.has(itemId)) {
+            if (originallySaved) {
                 newSavedItemIds.delete(itemId);
             } else {
                 newSavedItemIds.add(itemId);
             }
             return newSavedItemIds;
         });
-        // Update itemList and selectedItem
+    
         setItemList(currentItems => currentItems.map(item => {
             if (item.itemId === itemId) {
-                const updatedItem = { ...item, saved: !item.saved };
+                const updatedItem = { ...item, saved: !originallySaved };
                 // Also update selectedItem if it's the same item
                 if (selectedItem && selectedItem.itemId === itemId) {
                     setSelectedItem(updatedItem);
@@ -68,7 +91,33 @@ function ItemList({ isUploaded, listHeight, items, Popup }) {
             }
             return item;
         }));
+    
+        // Attempt to update the server
+        try {
+            await userService.followItem(itemId, !originallySaved, cookies);
+        } catch (e) {
+            console.error("Error toggling save status:", e);
+    
+            // Revert the UI changes if the server update fails
+            setSavedItemIds(prevSavedItemIds => {
+                const revertedSavedItemIds = new Set(prevSavedItemIds);
+                if (originallySaved) {
+                    revertedSavedItemIds.add(itemId);
+                } else {
+                    revertedSavedItemIds.delete(itemId);
+                }
+                return revertedSavedItemIds;
+            });
+    
+            setItemList(currentItems => currentItems.map(item => {
+                if (item.itemId === itemId) {
+                    return { ...item, saved: originallySaved };
+                }
+                return item;
+            }));
+        }
     };
+    
 
     return (
         <div className="list-container" style={listStyle}>

@@ -90,11 +90,7 @@ const MyMapComponent = ({
         const response = await userService.getFollow(cookies);
         const followedItems = response.items || [];
         const followedIds = new Set(followedItems.map(item => item.id));
-        console.log(followedIds)
         setSavedItemIds(followedIds);
-        // item.saved = savedItemIds.has(item.id);
-        console.log(savedItemIds);
-        console.log(item.id);
         item.saved = followedIds.has(item.id);
         item.itemId = item.id;
         setSelectedItem(item);
@@ -106,8 +102,6 @@ const MyMapComponent = ({
   }
   const toggleSaved = async (itemId) => {
     const originallySaved = savedItemIds.has(itemId);
-    console.log(itemId);
-    console.log(savedItemIds);
     setSavedItemIds(prevSavedItemIds => {
         const newSavedItemIds = new Set(prevSavedItemIds);
         if (originallySaved) {

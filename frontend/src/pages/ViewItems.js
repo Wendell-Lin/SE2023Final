@@ -39,7 +39,6 @@ const ViewItems = () => {
                         expirationTime: item.endTime,
                     })
                 );
-                // console.log(fetchedItems);
                 setItems(fetchedItems);
                 setFilteredItems(fetchedItems);
             } catch (e) {
@@ -50,10 +49,6 @@ const ViewItems = () => {
         }
         handleGetItemList();
     }, []);
-
-    useEffect(()=>{
-        // console.log(savedItemIds);
-    }, [savedItemIds])
 
     const onSearchTermChange = (term) => {
         const updatedFilteredItems = items.filter(item => {

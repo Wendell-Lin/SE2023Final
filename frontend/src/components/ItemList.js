@@ -18,7 +18,6 @@ function ItemList({ isUploaded, listHeight, items, Popup,
     useEffect(() => {
         if (outSaveItemIds !== undefined) {
             setSavedItemIds(new Set(outSaveItemIds));
-            console.log(savedItemIds);
         }
     }, [outSaveItemIds]);
 
@@ -33,7 +32,6 @@ function ItemList({ isUploaded, listHeight, items, Popup,
                 console.error("Error fetching followed items:", error);
                 // Handle error appropriately
             }
-            console.log(savedItemIds);
         };
         fetchFollowedItems();
     }, [cookies]);

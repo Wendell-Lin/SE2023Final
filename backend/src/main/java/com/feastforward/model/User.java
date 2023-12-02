@@ -3,6 +3,7 @@ package com.feastforward.model;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import jakarta.persistence.*;
@@ -54,8 +55,11 @@ public class User {
     private Set<Role> roles = new HashSet<>();
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(name = "user_follow_item")
-    private List<Item> followItems = new ArrayList<>();
+    @JoinTable(name = "user_followed_item")
+    private List<Item> followedItems = new ArrayList<>();
+
+	@OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
+	private List<Item> createdItems;
 
     public User() {
     }
@@ -64,5 +68,18 @@ public class User {
         this.username = username;
         this.email = email;
         this.password = password;
+    }
+
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User other = (User) o;
+        return Objects.equals(getId(), other.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 }

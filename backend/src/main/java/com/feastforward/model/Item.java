@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
 
 import org.hibernate.annotations.BatchSize;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -12,9 +13,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "items")
+@Data
 public class Item implements Serializable {
 
     @Id
@@ -62,117 +65,13 @@ public class Item implements Serializable {
     @Size(max = 200)
     private String description;
 
-    @Column(name = "number_of_followers", nullable = false)
-    @NotNull(message= "number of followers may not be empty")
-    private Integer numberOfFollowers;
-
     @Column(name = "image_list", nullable = true)
     @Size(max = 10)
     @BatchSize(size = 100)
     private List<String> imageList = new ArrayList<>();
 
-    // Getters and Setters
-    public Long getId() { 
-        return id; 
-    }
-
-    public void setId(Long id) { 
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public User getCreator() {
-        return creator;
-    }
-
-    public void setCreator(User creator) {
-        this.creator = creator;
-    }
-
-    public Category getCategory() { 
-        return category; 
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
-    public String getLocation() { 
-        return location; 
-    }
-
-    public void setLocation(String location) { 
-        this.location = location; 
-    }
-
-    public double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
-
-    public double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
-    public Date getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
-    }
-
-    public Date getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
-    }
-
-    public Integer getNumberOfFollowers() {
-        return numberOfFollowers;
-    }
-
-    public void setNumberOfFollowers(int numberOfFollowers) {
-        this.numberOfFollowers = numberOfFollowers;
-    }
-
-    public void incrementNumberOfFollowers() {
-        this.numberOfFollowers++;
-    }
-
-    public void decrementNumberOfFollowers() {
-        this.numberOfFollowers--;
-    }
-
-    public List<String> getImageList() {
-        return imageList;
-    }
-
-    public void setImageList(List<String> imageList) { this.imageList = imageList; }
+    @ManyToMany(mappedBy = "followedItems")
+    private List<User> followers = new ArrayList<>();
 
     public void addImage(String image) { this.imageList.add(image); }
 
@@ -180,12 +79,16 @@ public class Item implements Serializable {
 
     public void clearImages() { this.imageList.clear(); }
 
-    public String getDescription() {
-        return description;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Item)) return false;
+        Item other = (Item) o;
+        return Objects.equals(getId(), other.getId());
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
-
 }

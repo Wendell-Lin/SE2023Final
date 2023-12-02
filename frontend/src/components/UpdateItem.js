@@ -39,11 +39,26 @@ function UpdateItem({item}) {
       setIsLocationFetched(false);
     }
   }, [isLocationFetched, formData]); // Depend on both isLocationFetched and formData
-  
+
+  console.log("ITEM DATA")
+  console.log(itemData)
   const hadleUploadRequest = async () => {
+    const updateData = {
+      itemId: itemData.itemId,
+      name: itemData.name,
+      categoryName: itemData.categoryName,
+      latitude: itemData.latitude,
+      longitude: itemData.longitude,
+      quantity: itemData.amount,
+      location: itemData.location,
+      description: itemData.description, 
+      startTime: itemData.startTime,
+      endTime: itemData.endTime,
+      imageList: itemData.imageList
+    }      
     try {
-      const data = await itemService.upload(
-        itemData,
+      const data = await itemService.updateItem(
+        updateData,
         cookies
       );
       setSucceedMsg("Successfully uploaded item");
@@ -185,7 +200,8 @@ function UpdateItem({item}) {
       setIsLocationFetched(true);
     }
   }
-console.log(formData.endTime)
+  var exptime =  formData.endTime
+  console.log(exptime.substr(0, 16))
   return (
     <>
     {succeedMsg && (
@@ -241,7 +257,7 @@ console.log(formData.endTime)
               required
             />
             <label htmlFor="expirationTime">Expiration Time</label>
-            <input id="expirationTime" type="datetime-local" name="endTime" value={formData.endTime} onChange={handleInputChange} required/>
+            <input id="expirationTime" type="datetime-local" name="endTime" value={formData.endTime.substr(0, 16)} onChange={handleInputChange} required/>
             <label htmlFor="location">Location</label>
             <input id="location" type="text" name="location" value={formData.location} onChange={handleInputChange} required/>
             <label htmlFor="description">Description</label>

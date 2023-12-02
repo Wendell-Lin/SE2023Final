@@ -5,13 +5,21 @@ import './ItemList.css';
 import userService from '../services/userService';
 import { useCookies } from 'react-cookie'
 
-function ItemList({ setSelectItem, isUploaded, listHeight, items, Popup }) {
+function ItemList({ setSelectItem, isUploaded, listHeight, items, Popup,
+    outSaveItemIds
+}) {
     const [savedItemIds, setSavedItemIds] = useState(new Set([
         // '1', '3'
     ]));
     const [itemList, setItemList] = useState([]);
     const [selectedItem, setSelectedItem] = useState(null);
     const [cookies] = useCookies();
+
+    useEffect(() => {
+        if (outSaveItemIds !== undefined) {
+            setSavedItemIds(new Set(outSaveItemIds));
+        }
+    }, [outSaveItemIds]);
 
     useEffect(() => {
         const fetchFollowedItems = async () => {
@@ -24,7 +32,6 @@ function ItemList({ setSelectItem, isUploaded, listHeight, items, Popup }) {
                 console.error("Error fetching followed items:", error);
                 // Handle error appropriately
             }
-            console.log(savedItemIds);
         };
         fetchFollowedItems();
     }, [cookies]);

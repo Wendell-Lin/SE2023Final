@@ -9,6 +9,7 @@ function ItemDetail({ item, onClose, onToggleSaved }) {
         e.stopPropagation();
     };
 
+
     return (
         <div className="item-detail-backdrop" onClick={onClose}>
             <div className="item-detail-popup" onClick={stopPropagation}>
@@ -25,11 +26,13 @@ function ItemDetail({ item, onClose, onToggleSaved }) {
                         />
                     </div>
                 </div>
-                {item.imageList &&  <div className="item-image-list">
+                {(item.imageList && item.imageList.length > 0) ? (<div className="item-image-list">
                     {item.imageList.map((imageUrl, index) => (
                         <img key={index} src={imageUrl} alt={`${index}`} />
                     ))}
-                </div>}
+                </div>) : (
+                    <img src={'images/image_placeholder.png'} alt={"image_placeholder"} />
+                )}
 
                 <div className="item-lower-right">
                     {/* <img src={item.imageList[0]} alt={item.name} /> */}
@@ -38,6 +41,13 @@ function ItemDetail({ item, onClose, onToggleSaved }) {
                         <p>Amount: {item.amount}</p>
                         <p>Location: {item.location}</p>
                         <p>ppl watching: {item.numberOfFollow}</p>
+                    </div>
+                    <div className='item-description'>{item.description}</div>
+                </div>
+                <div className="item-lower-right">
+                    {/* <img src={item.imageList[0]} alt={item.name} /> */}
+                    <div className="item-details">
+                        <p>Provider: {item.creatorName}({item.creatorEmail})</p>
                     </div>
                     <div className='item-description'>{item.description}</div>
                 </div>

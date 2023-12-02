@@ -22,6 +22,8 @@ function Item({
     onToggleSaved,
     onOpenPopup,
     editable,
+    endTime,
+    startTime,
     isUploaded // new!!
 }) {
 
@@ -32,9 +34,11 @@ function Item({
         categoryName:category,
         latitude:latitude,
         longitude:longitude, 
-        quantity:amount, 
+        amount:amount, 
         description:description, 
-        endtime:expirationTime,
+        expirationTime:expirationTime,
+        endTime: endTime,
+        startTime: startTime,
         numberOfFollow:numberOfFollow,
         imageList:imageList,
         saved:saved

@@ -19,6 +19,7 @@ import com.feastforward.security.jwt.AuthEntryPointJwt;
 import com.feastforward.security.jwt.AuthTokenFilter;
 import com.feastforward.security.service.UserDetailsServiceImpl;
 
+
 @Configuration
 @EnableMethodSecurity
 public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {

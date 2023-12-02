@@ -5,13 +5,22 @@ import './ItemList.css';
 import userService from '../services/userService';
 import { useCookies } from 'react-cookie'
 
-function ItemList({ isUploaded, listHeight, items, Popup }) {
+function ItemList({ isUploaded, listHeight, items, Popup,
+    outSaveItemIds
+}) {
     const [savedItemIds, setSavedItemIds] = useState(new Set([
         // '1', '3'
     ]));
     const [itemList, setItemList] = useState([]);
     const [selectedItem, setSelectedItem] = useState(null);
     const [cookies] = useCookies();
+
+    useEffect(() => {
+        if (outSaveItemIds !== undefined) {
+            setSavedItemIds(new Set(outSaveItemIds));
+            console.log(savedItemIds);
+        }
+    }, [outSaveItemIds]);
 
     useEffect(() => {
         const fetchFollowedItems = async () => {

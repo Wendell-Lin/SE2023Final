@@ -4,6 +4,7 @@ import ItemList from '../components/ItemList';
 import ItemDetail from '../components/ItemDetail';
 import Map from '../components/Map';
 import './ViewItems.css'
+import itemService from '../services/itemService'
 
 const ViewItems = () => {
     const [items, setItems] = useState([]);
@@ -18,54 +19,35 @@ const ViewItems = () => {
         }, []);
 
     useEffect(() => {
-        // Fetch or initialize items here
-        // This should be an array of objects, not just strings
+        // Fetch or initial items if not fetched here
         const initialItems = [
-            { 
-                itemId: '1',
-                name: 'A bag of cookies', 
-                amount: 5, 
-                location: 'Library', 
-                description: 'I just got it as a gift, but I am losingI just got it as a gift, but I am losing weight.... \nAnyone who is interested in it...\n JUST TAKE IT!!!',
-                expirationTime: '2023-11-28T16:36:00.000Z',
-                category: 'Snack',
-                imageList: [
-                    '/images/log-decorative.png',
-                    '/images/log-decorative.png',
-                    '/images/log-decorative.png',
-                    '/images/log-decorative.png',
-                    '/images/log-decorative.png',
-                    '/images/log-decorative.png',
-                    '/images/log-decorative.png',
-                ],
-                latitude: '25.017498286570472',
-                longitude: '121.54061584453842'
-            },
-            { 
-                itemId: '2',
-                name: '師大第一腿', 
-                amount: 5, 
-                location: '德田館', 
-                description: '好吃',
-                expirationTime: '2023-11-29T10:17:00.000+03:00', 
-                category: '便當'
-            },
-            { 
-                itemId: '3',
-                name: '烤肉飯', 
-                amount: 5, 
-                location: '圖書館', 
-                description: 'yeah',
-                expirationTime: '2023-11-29T10:17', 
-                category: '便當',
-                imageList: ['/images/log-decorative.png'],
-            },
-            {itemId: '4'},{itemId: '5'},{itemId: '6'}
-            // ... more items
+            {itemId: 4},{itemId: 5},{itemId: 6}
         ];
-        setItems(initialItems);
-        setFilteredItems(initialItems);
+        const handleGetItemList = async () => {
+            try {
+                // async and await is needed here.
+                const itemList = await itemService.getItemList();
+                const fetchedItems = itemList.map(
+                    item => ({
+                        ...item,
+                        amount: item.quantity,
+                        category: item.categoryName,
+                        numberOfFollow: item.numberOfFollowers,
+                        expirationTime: item.endTime,
+                    })
+                );
+                console.log(fetchedItems);
+                setItems(fetchedItems);
+                setFilteredItems(fetchedItems);
+            } catch (e) {
+                console.error("Error:", e);
+                setItems(initialItems);
+                setFilteredItems(initialItems);
+            }
+        }
+        handleGetItemList();
     }, []);
+
 
     const onSearchTermChange = (term) => {
         const updatedFilteredItems = items.filter(item => {

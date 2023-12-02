@@ -3,6 +3,7 @@ import "./ProfilePersonalInfo.css";
 import { useCookies } from "react-cookie";
 import profileService from "../services/profileService";
 import { useNavigate } from 'react-router-dom';
+import { isDisabled } from "@testing-library/user-event/dist/utils";
 
 // photo
 function PersonalInfo() {
@@ -14,6 +15,8 @@ function PersonalInfo() {
   const [oldpassword, setOldPassword] = useState("");
   const [newpassword, setNewPasswordInput] = useState("");
   const [confirmpassword, setConfirmPassword] = useState("");
+  const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
+
   const [userInfoData, setUserInfo] = useState({
     name: "",
     email: "",
@@ -209,38 +212,45 @@ function PersonalInfo() {
       ...prevFormData,
       confirmpassword: e.target.value,
     }));
+    console.log("new and confirm")
+   
+   
   };
+  useEffect(()=>{
+    console.log(newpassword !== confirmpassword)
+    setIsSubmitDisabled(newpassword !== confirmpassword);
+  }, [confirmpassword])
+
+ 
 
   // Change Password
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     // PUT user info(由後端判斷是否正確)
-    // try {
-    //     if (newpassword === confirmpassword) {
-    //       const responseData = await updatePwd(cookies, oldpassword, newpassword);
-    //       setSucceedMsg("Successfully Change Password");
-    //     } else {
-    //       setSucceedMsg("New password and confirm password do not match");
-    //       console.log("new and confirm error");
-    //     }
-    // } catch (error) {
-    //   console.log("Get profile FAIL");
-    //   if (error.response) {
-    //     const { status, data } = error.response;
-    //     if (status === 500) {
-    //       console.log("Internal Server Error");
-    //     } else if (status === 401) {
-    //       console.log("Bad credentials");
-    //       console.log(error.message);
-    //     }
-    //   }
-    // }
-    //   console.log("Current data");
-    //   console.log(userInfoData); // 這邊還是舊資料
-    //   console.log("Edit data");
-    //   console.log(formData);
-    //   setFormData(initFormData);
+    try {
+      console.log(oldpassword)
+      console.log(newpassword)
+        const responseData = await profileService.updatePwd(cookies, oldpassword, newpassword);
+        setSucceedMsg("Successfully Change Password");
+
+    } catch (error) {
+      console.log("Change Password FAIL");
+      console.log(error.response)
+      if (error.response) {
+        const { status, data } = error.response;
+        if (status === 500) {
+          console.log("Internal Server Error");
+        } else if (status === 401) {
+          console.log("Bad credentials");
+          console.log(error.message);
+        }
+      }
+    }
+      // console.log("Current data");
+      // console.log(userInfoData); // 這邊還是舊資料
+      // console.log("Edit data");
+      // console.log(formData);
+      setFormData(initFormData);
     
   };
 
@@ -266,10 +276,11 @@ function PersonalInfo() {
   //     userImg: userInfo.userImg,
   //     password: newpassword,
   //   });
-  console.log({selectedImage})
-  console.log(userInfoData)
-  console.log(isSentEmail)
-  console.log(initFormData)
+  // console.log({selectedImage})
+  // console.log(userInfoData)
+  // console.log(isSentEmail)
+  // console.log(initFormData)
+  // console.log(isSubmitDisabled)
   return (
     <>
       {succeedMsg && (
@@ -371,20 +382,22 @@ function PersonalInfo() {
               onChange={handleNewPasswordChange}
             />
 
-            <label className="info-title">New Password (again)</label>
+            <label className="info-title">Confirm password</label>
             <input
               type="password"
               name="confirmpassword"
-              placeholder="New Password (again)"
+              placeholder="Confirm password"
               value={formData.confirmpassword}
               required
               onChange={handleConfirmPasswordChange}
             />
+            <div className="text-danger">{isSubmitDisabled? "Confirm password is Not Matched": ""}</div>
             <div className="sent-edit">
               <button
                 type="submit"
                 onClick={handleInputChange}
                 className="button"
+                disabled={isSubmitDisabled}
               >
                 Change Password
               </button>

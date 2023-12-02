@@ -30,6 +30,7 @@ const ViewItems = () => {
                 const fetchedItems = itemList.map(
                     item => ({
                         ...item,
+                        itemId: item.id,
                         amount: item.quantity,
                         category: item.categoryName,
                         numberOfFollow: item.numberOfFollowers,

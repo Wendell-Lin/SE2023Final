@@ -22,6 +22,7 @@ const UploadItems = () => {
   }, []);
   useEffect(() => {
     if (isLocationFetched) {
+      // console.log(itemData)
       hadleUploadRequest();
       setIsLocationFetched(false);
     }

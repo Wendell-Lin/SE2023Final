@@ -17,7 +17,20 @@ const getItemList = async () => {;
     return response.data;
 };
 
+const updateItem = async (itemData, cookies) => {;
+    const response = await axios.put(API_URL + '/items/updateItem/' + itemData.itemId, itemData, 
+    {
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+           "Authorization": `Bearer ${cookies.accessToken}`,
+        },
+    });
+    return response.data;
+};
+
 export default {
     upload,
     getItemList,
+    updateItem
 };

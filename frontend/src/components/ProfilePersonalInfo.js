@@ -51,15 +51,16 @@ function PersonalInfo() {
       
     } catch (error) {
       console.log("Get profile FAIL");
-      if (error.response) {
-        const { status, data } = error.response;
-        if (status === 500) {
-          console.log("Internal Server Error");
-        } else if (status === 401) {
-          console.log("Unauthorized");
-          console.log(error.message);
-        }
-      }
+      console.error("Error:", error);
+      // if (error.response) {
+      //   const { status, data } = error.response;
+      //   if (status === 500) {
+      //     console.log("Internal Server Error");
+      //   } else if (status === 401) {
+      //     console.log("Unauthorized");
+      //     console.log(error.message);
+      //   }
+      // }
     }
   };
 
@@ -145,17 +146,7 @@ function PersonalInfo() {
       }
 
     } catch (error) {
-      console.log("Update Profile FAIL");
-      console.log(error)
-      // if (error.response) {
-      //   const { status, data } = error.response;
-      //   if (status === 500) {
-      //     console.log("Internal Server Error");
-      //   } else if (status === 401) {
-      //     console.log("Unauthorized");
-      //     console.log(error.message);
-      //   }
-      // }
+      console.error("Error:", error);
     }
   };
 

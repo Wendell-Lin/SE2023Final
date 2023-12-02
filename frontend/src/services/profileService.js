@@ -49,9 +49,37 @@ const updatePwd = async (cookies, oldPassword, newPassword) => {
     return response.data;
 };
 
+const getFollowItem = async (cookies) => {
+  const response = await axios.get(
+    API_URL + "/user/follow-item",
+    {
+      headers: {
+          "Content-Type": "application/json",
+         "Authorization": `Bearer ${cookies.accessToken}`,
+      },
+    }
+  );
+  return response.data;
+};
+
+const getUploadedItem = async (cookies) => {
+  const response = await axios.get(
+    API_URL + "/user/upload-item",
+    {
+      headers: {
+          "Content-Type": "application/json",
+         "Authorization": `Bearer ${cookies.accessToken}`,
+      },
+    }
+  );
+  return response.data;
+};
+
 
 export default {
   getProfile,
   updateProfile,
-  updatePwd
+  updatePwd,
+  getFollowItem,
+  getUploadedItem
 };

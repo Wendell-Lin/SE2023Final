@@ -17,7 +17,11 @@ const getProfile = async (cookies) => {
 const updateProfile = async (cookies, updatedProfileData) => {
     const response = await axios.put(
       API_URL + "/user/profile",
-      updatedProfileData,
+      {
+        username: updatedProfileData.name,
+        image: updatedProfileData.userImg,
+        notifOn: updatedProfileData.notification,
+      },
       {
         headers: {
             "Content-Type": "application/json",
@@ -31,8 +35,8 @@ const updateProfile = async (cookies, updatedProfileData) => {
 
 const updatePwd = async (cookies, oldPassword, newPassword) => {
     const response = await axios.post(
-      API_URL + "/users/updatePassword?oldPassword="+oldPassword+"?newPassword="+newPassword,
-      {},
+      API_URL + "/users/updatePassword",
+      {oldPassword, newPassword},
       {
         headers: {
             "Content-Type": "application/json",

@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from "react";
 import "./ProfilePersonalInfo.css";
 import { useCookies } from "react-cookie";
-import { updatedProfile, updatePwd } from "../services/profileService";
 import profileService from "../services/profileService";
+import { useNavigate } from 'react-router-dom';
 
 // photo
 function PersonalInfo() {
   const [cookies] = useCookies();
-  // load cookie
-  // console.log(cookies);
+  const  navigate = useNavigate();
+  const [formData, setFormData] = useState("");
+  const [succeedMsg, setSucceedMsg] = useState("");
+  const [isSentEmail, setIsSentEmail] = useState("");
+  const [oldpassword, setOldPassword] = useState("");
+  const [newpassword, setNewPasswordInput] = useState("");
+  const [confirmpassword, setConfirmPassword] = useState("");
   const [userInfoData, setUserInfo] = useState({
     name: "",
     email: "",
@@ -17,23 +22,14 @@ function PersonalInfo() {
     accessToken: "",
   });
   // update Form Data
-  // Form Data init
-  const initFormData = {
-    name: "",
-    email: userInfoData?.email, // unchanged
-    notification: userInfoData?.notification, // unchanged
-    userImg: userInfoData?.userImg, // unchanged
-    oldpassword: "",
-    newpassword: "",
-    confirmpassword: "",
-  };
+
   // GET User profile
   useEffect(() => {
     loadProfile();
   }, []);
 
   const loadProfile = async () => {
-    console.log('Load Profile')
+    console.log("Load Profile");
     try {
       const responseData = await profileService.getProfile(cookies);
       console.log("Successfully get profile");
@@ -47,6 +43,9 @@ function PersonalInfo() {
             : responseData.image,
         accessToken: cookies.accessToken,
       });
+      setIsSentEmail(responseData.email)
+      setFormData(initFormData)
+      
     } catch (error) {
       console.log("Get profile FAIL");
       if (error.response) {
@@ -61,14 +60,15 @@ function PersonalInfo() {
     }
   };
 
-  // const [userInfoData, setUserInfo] = useState(userInfo);
-  const [formData, setFormData] = useState(initFormData);
-  const [succeedMsg, setSucceedMsg] = useState("");
-  const [isSentEmail, setIsSentEmail] = useState(userInfoData.notification);
-  const [oldpassword, setOldPassword] = useState("");
-  const [newpassword, setNewPasswordInput] = useState("");
-  const [confirmpassword, setConfirmPassword] = useState("");
-  console.log(userInfoData)
+  const initFormData = {
+    name: "",
+    email: userInfoData.email, // unchanged
+    notification: userInfoData.notification, // unchanged
+    userImg: userInfoData.userImg, // unchanged
+    oldpassword: "",
+    newpassword: "",
+    confirmpassword: "",
+  };
 
   useEffect(() => {
     console.log("Set Successd msg");
@@ -87,12 +87,12 @@ function PersonalInfo() {
     console.log(formData);
   };
 
-
   // click email
   const [editInfo, setEditInfo] = useState(false);
   function sentEditInfo() {
     setEditInfo((prevEditInfo) => !prevEditInfo);
   }
+
   const handleCheckboxChange = (e) => {
     setIsSentEmail(e.target.checked);
     setFormData((prevFormData) => ({
@@ -101,61 +101,74 @@ function PersonalInfo() {
     }));
   };
 
-  // 有問題
-  // Image
-  const [selectedFile, setSelectedFile] = useState(null);
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    setSelectedFile(file);
+
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64Image = reader.result;
+        setSelectedImage(base64Image);
+      };
+      reader.readAsDataURL(file);
+      // console.log("load")
+    }
   };
   const handleImageClick = () => {
-    document.getElementById("fileInput").click();
+    document.getElementById('imageInput').click();
   };
 
   // Change User Profile
   // Use PUT
-  // const handleSubmit_info = async (event) => {
-  //   event.preventDefault();
-  //   try {
-  //     const responseData = await updatedProfile(cookies);
-  //     console.log("Successfully update profile");
-  //     console.log(formData);
-  //     setUserInfo({
-  //       name: formData.name,
-  //       email: userInfo.email, // unchanged
-  //       notification: formData.notification,
-  //       userImg: formData.userImg,
-  //     });
-  //     setFormData(initFormData);
-  //     setSucceedMsg("Successfully Edit Profile");
-
-  //   } catch (error) {
-  //     console.log("Get profile FAIL");
-  //     if (error.response) {
-  //       const { status, data } = error.response;
-  //       if (status === 500) {
-  //         console.log("Internal Server Error");
-  //       } else if (status === 401) {
-  //         console.log("Unauthorized");
-  //         console.log(error.message);
-  //       }
-  //     }
-  //   }
-  // };
-
-  const handleSubmit_info = (event) => {
+  const handleSubmit_info = async (event) => {
     event.preventDefault();
-    setSucceedMsg("Successfully Edit Profile");
-    console.log(formData);
-    setUserInfo({
-      name: formData.name,
-      email: userInfoData.email, // unchanged
+    const updatedProfileData = {
+      name: formData.name || userInfoData.name,
       notification: formData.notification,
-      userImg: formData.userImg,
-    });
+      userImg: selectedImage || userInfoData.image,
+    }
+    // console.log(updatedProfileData)
+    try {
+      const responseData = await profileService.updateProfile(cookies, updatedProfileData);
+      console.log("Successfully update profile");
+      console.log(formData);
+      setFormData(initFormData);
+      setSucceedMsg("Successfully Edit Profile");
+      if( (updatedProfileData.name !== userInfoData.name) && (updatedProfileData.name !== ""))
+      {
+        navigate("/login");
+      }
 
-    setFormData(initFormData);
+    } catch (error) {
+      console.log("Update Profile FAIL");
+      console.log(error)
+      // if (error.response) {
+      //   const { status, data } = error.response;
+      //   if (status === 500) {
+      //     console.log("Internal Server Error");
+      //   } else if (status === 401) {
+      //     console.log("Unauthorized");
+      //     console.log(error.message);
+      //   }
+      // }
+    }
   };
+
+  // const handleSubmit_info = (event) => {
+  //   event.preventDefault();
+  //   setSucceedMsg("Successfully Edit Profile");
+  //   console.log(formData);
+  //   setUserInfo({
+  //     name: formData.name,
+  //     email: userInfoData.email, // unchanged
+  //     notification: formData.notification,
+  //     userImg: formData.userImg,
+  //   });
+
+  //   setFormData(initFormData);
+  // };
 
   // Forgot password
   const [modalTitle, setModalTitle] = useState("");
@@ -171,8 +184,8 @@ function PersonalInfo() {
     setIsModalOpen(true);
   };
 
+  // Password
   // Input Password
-  // 後端判斷密碼
   const handleOldPasswordChange = (e) => {
     setOldPassword(e.target.value);
     setFormData((prevFormData) => ({
@@ -181,6 +194,7 @@ function PersonalInfo() {
     }));
   };
 
+  // new和confirm在輸入的時候就進行比對
   const handleNewPasswordChange = (e) => {
     setNewPasswordInput(e.target.value);
     setFormData((prevFormData) => ({
@@ -222,37 +236,40 @@ function PersonalInfo() {
     //     }
     //   }
     // }
-
-    // const handleSubmit = (event) => {
-    //   event.preventDefault();
-
-    //   // PUT user info(由後端判斷是否正確)
-    // if (oldpassword === userInfoData.password) {
-    //   if (newpassword === confirmpassword) {
-    //     setSucceedMsg("Successfully Change Password");
-    //   } else {
-    //     setSucceedMsg("New password and confirm password do not match");
-    //     console.log("new and confirm error");
-    //   }
-    // } else {
-    //   setSucceedMsg("Incorrect old password");
-    // }
-
-    //   setUserInfo({
-    //     name: userInfo.name,
-    //     email: userInfo.email, // unchanged
-    //     notification: userInfo.notification,
-    //     userImg: userInfo.userImg,
-    //     password: newpassword,
-    //   });
-
     //   console.log("Current data");
     //   console.log(userInfoData); // 這邊還是舊資料
     //   console.log("Edit data");
     //   console.log(formData);
     //   setFormData(initFormData);
+    
   };
 
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+
+  //   // PUT user info(由後端判斷是否正確)
+  // if (oldpassword === userInfoData.password) {
+  //   if (newpassword === confirmpassword) {
+  //     setSucceedMsg("Successfully Change Password");
+  //   } else {
+  //     setSucceedMsg("New password and confirm password do not match");
+  //     console.log("new and confirm error");
+  //   }
+  // } else {
+  //   setSucceedMsg("Incorrect old password");
+  // }
+
+  //   setUserInfo({
+  //     name: userInfo.name,
+  //     email: userInfo.email, // unchanged
+  //     notification: userInfo.notification,
+  //     userImg: userInfo.userImg,
+  //     password: newpassword,
+  //   });
+  console.log({selectedImage})
+  console.log(userInfoData)
+  console.log(isSentEmail)
+  console.log(initFormData)
   return (
     <>
       {succeedMsg && (
@@ -282,16 +299,12 @@ function PersonalInfo() {
               <div className="picture">
                 <input
                   type="file"
-                  id="fileInput"
+                  id="imageInput"
                   style={{ display: "none" }}
-                  onChange={handleFileChange}
+                  onChange={handleImageChange}
                 />
                 <img
-                  src={
-                    selectedFile
-                      ? URL.createObjectURL(selectedFile)
-                      : userInfoData.userImg
-                  }
+                  src={selectedImage || userInfoData.userImg }
                   name="userImg"
                   alt="Selected Photo"
                   style={{ cursor: "pointer" }}
@@ -313,7 +326,7 @@ function PersonalInfo() {
               placeholder={userInfoData.name}
               value={formData.name}
               onChange={handleInputChange}
-              required
+              
             />
             <div className="info-title">Notification</div>
             <div className="sent-email-margin">

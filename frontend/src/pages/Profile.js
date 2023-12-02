@@ -28,7 +28,7 @@ function Profile(props) {
   const [userInfo, setUserInfo] = useState({
     name: "",
     email: "",
-    notification: false,
+    notification: "",
     userImg: "images/Image_placeholder.png",
     accessToken: "",
   });
@@ -46,7 +46,7 @@ function Profile(props) {
         email: responseData.email,
         notification: responseData.notifOn,
         userImg:
-          responseData.image === undefined
+          responseData.image === null
             ? "images/Image_placeholder.png"
             : responseData.image,
         accessToken: cookies.accessToken,

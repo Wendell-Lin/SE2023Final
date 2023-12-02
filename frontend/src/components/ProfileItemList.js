@@ -51,9 +51,4 @@ function ProfileItemList({filteredItems, uploadedItems}) {
 }
 
 
-
-
-
-
-
 export default ProfileItemList

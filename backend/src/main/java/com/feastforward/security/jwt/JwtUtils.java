@@ -29,8 +29,10 @@ public class JwtUtils {
 
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
 
+        String userId = userPrincipal.getId().toString();
+
         return Jwts.builder()
-                .setSubject((userPrincipal.getUsername()))
+                .setSubject(userId)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
                 .signWith(key(), SignatureAlgorithm.HS256)

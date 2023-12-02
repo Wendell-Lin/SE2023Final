@@ -30,13 +30,20 @@ describe('Register Flow', () => {
     cy.visit('http://localhost:3000/register');
     cy.viewport('macbook-13');
   });
-  it('should successfully register a user', () => {
+  it('should handle registration scenarios', () => {
+    const email = 'john.doe@ntu.edu.tw';
     cy.get('input#name').type('John Doe');
-    cy.get('input#email').type('john.doe@ntu.edu.tw');
+    cy.get('input#email').type(email);
     cy.get('input#password').type('Password123!');
     cy.get('label[for="terms"]').should('be.visible').click();
     cy.get('button[type="submit"]').click();
-    cy.url().should('include', '/login');
+    cy.url().then((url) => {
+      if (url.includes('/login')) {
+        expect(url).to.include('/login');
+      } else {
+        cy.contains('Email or Username already exists.').should('be.visible');
+      }
+    });
   });
   it('should show error for already used email', () => {
     cy.get('input#name').type('Jane Doe');

@@ -1,9 +1,11 @@
 package com.feastforward.service;
 
+import java.time.Instant;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.Optional;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -13,10 +15,15 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.context.MessageSource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 
+import com.feastforward.model.Item;
 import com.feastforward.model.PasswordResetToken;
 import com.feastforward.model.User;
+import com.feastforward.payload.request.UpdateUserFollowItemRequest;
+import com.feastforward.payload.request.UpdateUserProfileRequest;
+import com.feastforward.repository.ItemRepository;
 import com.feastforward.repository.PasswordResetTokenRepository;
 import com.feastforward.repository.UserRepository;
 
@@ -35,8 +42,14 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private ItemRepository itemRepository;
+
     @Value("${spring.mail.username}")
     private String supportEmail;
+
+    @Autowired
+    FileService fileService;
 
     // ============  Handling password reset & construct mail message  ============
     public void createPasswordResetTokenForUser(User user, String token) {
@@ -107,5 +120,35 @@ public class UserService {
         } else {
             throw new BadCredentialsException("User is not authenticated");
         }
+    }
+
+    public User updateUserProfile(UpdateUserProfileRequest request) {
+        User user = getCurrentUser();
+        // handle image
+        // save new image to GCP
+        String newImageName = null;
+        String base64String = request.getImage();
+        if (base64String != null){
+            newImageName = Instant.now().getEpochSecond() + RandomStringUtils.randomAlphanumeric(10);
+            try {
+                fileService.uploadFile(base64String, newImageName);
+            } catch (Exception e) {
+                throw new RuntimeException("Error: Image upload failed.");
+            }
+        }
+        // remove old image from GCP
+        String oldImageName = user.getImageName();
+        if (oldImageName != null){
+            try {
+                fileService.deleteFile(oldImageName);
+            } catch (Exception e) {
+                throw new RuntimeException("Error: Image deletion failed.");
+            }
+        }
+        // update user
+        user.setImageName(newImageName);
+        user.setUsername(request.getUsername());
+        user.setNotifOn(request.getNotifOn());
+        return userRepository.save(user);
     }
 }

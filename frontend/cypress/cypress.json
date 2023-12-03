@@ -1,0 +1,5 @@
+// cypress.json
+
+{
+  "supportFile": "cypress/support/commands.js",
+}

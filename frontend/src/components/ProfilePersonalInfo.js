@@ -16,6 +16,7 @@ function PersonalInfo() {
   const [newpassword, setNewPasswordInput] = useState("");
   const [confirmpassword, setConfirmPassword] = useState("");
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
+  // const [cookies, setCookie, removeCookie] = useCookies(['user']);
 
   const [userInfoData, setUserInfo] = useState({
     name: "",
@@ -52,15 +53,6 @@ function PersonalInfo() {
     } catch (error) {
       console.log("Get profile FAIL");
       console.error("Error:", error);
-      // if (error.response) {
-      //   const { status, data } = error.response;
-      //   if (status === 500) {
-      //     console.log("Internal Server Error");
-      //   } else if (status === 401) {
-      //     console.log("Unauthorized");
-      //     console.log(error.message);
-      //   }
-      // }
     }
   };
 
@@ -142,6 +134,7 @@ function PersonalInfo() {
       setSucceedMsg("Successfully Edit Profile");
       if( (updatedProfileData.name !== userInfoData.name) && (updatedProfileData.name !== ""))
       {
+        // removeCookie('user', { path: '/' });
         navigate("/login");
       }
 
@@ -298,7 +291,7 @@ function PersonalInfo() {
 
       <div className="profile">
         {/* Change Name and Notification */}
-        <form className="form" onSubmit={handleSubmit_info}>
+        <form className="form" name="profile" onSubmit={handleSubmit_info}>
           <div className="edit-profile">Edit Personal Information</div>
           <div className="profile-picNname">
             <div className="picture_frame">
@@ -352,7 +345,7 @@ function PersonalInfo() {
           </div>
         </form>
 
-        <form className="form" onSubmit={handleSubmit}>
+        <form className="form" name="pwd" onSubmit={handleSubmit}>
           <div className="edit-profile">Change Password</div>
 
           <div className="info-col">

@@ -1,29 +1,17 @@
 import React, { useState, useEffect } from 'react';
+import './UploadItems.css'
 import itemJson from '../components/Item.json'
 import itemService from '../services/itemService';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
-import './UpdateItem.css';
 
-
-function UpdateItem({item}) {
-  console.log("UPDATE")
-  console.log(item)
-  // const location = useLocation();
-  const [formData, setFormData] = useState(item);
-  const [itemData, setItemData] = useState(item);
+const UploadItems = () => {
+  const [formData, setFormData] = useState(itemJson);
+  const [itemData, setItemData] = useState(itemJson);
   const [succeedMsg, setSucceedMsg] = useState('');
+  const navigate = useNavigate();
   const [isLocationFetched, setIsLocationFetched] = useState(false);
   const [cookies] = useCookies();
-  const navigate = useNavigate();
-  // // Use URL parsing
-  // const searchParams = new URLSearchParams(location.search);
-  // // parse JSON string
-  // const encodedItemData = searchParams.get('itemData');
-  // // decode the JSON string
-  // const itemData = encodedItemData ? JSON.parse(decodeURIComponent(encodedItemData)) : null;
-  // // console.log(itemData)
-
 
   useEffect(() => {
     document.body.style.backgroundColor = "#91968a"; // Set your desired color
@@ -39,26 +27,11 @@ function UpdateItem({item}) {
       setIsLocationFetched(false);
     }
   }, [isLocationFetched, formData]); // Depend on both isLocationFetched and formData
-
-  console.log("ITEM DATA")
-  console.log(itemData)
+  
   const hadleUploadRequest = async () => {
-    const updateData = {
-      itemId: itemData.itemId,
-      name: itemData.name,
-      categoryName: itemData.categoryName,
-      latitude: itemData.latitude,
-      longitude: itemData.longitude,
-      quantity: itemData.amount,
-      location: itemData.location,
-      description: itemData.description, 
-      startTime: itemData.startTime,
-      endTime: itemData.endTime,
-      imageList: itemData.imageList
-    }      
     try {
-      const data = await itemService.updateItem(
-        updateData,
+      const data = await itemService.upload(
+        itemData,
         cookies
       );
       setSucceedMsg("Successfully uploaded item");
@@ -200,8 +173,7 @@ function UpdateItem({item}) {
       setIsLocationFetched(true);
     }
   }
-  var exptime =  formData.endTime
-  console.log(exptime.substr(0, 16))
+
   return (
     <>
     {succeedMsg && (
@@ -252,12 +224,12 @@ function UpdateItem({item}) {
               type="number" 
               name="quantity" 
               min={1}
-              value={formData.amount} 
+              value={formData.quantity} 
               onChange={handleInputChange}
               required
             />
             <label htmlFor="expirationTime">Expiration Time</label>
-            <input id="expirationTime" type="datetime-local" name="endTime" value={formData.endTime.substr(0, 16)} onChange={handleInputChange} required/>
+            <input id="expirationTime" type="datetime-local" name="endTime" value={formData.endTime} onChange={handleInputChange} required/>
             <label htmlFor="location">Location</label>
             <input id="location" type="text" name="location" value={formData.location} onChange={handleInputChange} required/>
             <label htmlFor="description">Description</label>
@@ -270,5 +242,4 @@ function UpdateItem({item}) {
   );
 }
 
-export default UpdateItem
-
+export default UploadItems;

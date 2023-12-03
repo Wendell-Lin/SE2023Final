@@ -6,7 +6,10 @@ import FakeData from "./FakeData.json";
 import { useCookies } from "react-cookie";
 import profileService from "../services/profileService";
 import userService from "../services/userService";
-function Profile(props) {
+
+
+
+function Profile({setSelectItem}) {
 
   //------------------- User Info----------------------
   // GET from Fake Data
@@ -47,7 +50,7 @@ function Profile(props) {
         }
     }
     getUploadedItemList();
-}, [cookies]);
+}, []);
 
 useEffect(() => {
   const initialItems = [
@@ -77,7 +80,7 @@ useEffect(() => {
       console.log(uploadedItems);
   };
   getFollowedItems();
-}, [cookies]);
+}, []);
 
 
 
@@ -88,7 +91,7 @@ useEffect(() => {
       document.body.style.backgroundColor = null; // Reset to default or another color
     };
   }, []);
-
+  console.log(followedItems)
   //------------------- Food Item----------------------
 
   return (
@@ -103,6 +106,7 @@ useEffect(() => {
             <ProfileItemList
               filteredItems={followedItems}
               uploadedItems={uploadedItems}
+              setSelectItem={setSelectItem}
             />
           </div>
         </div>

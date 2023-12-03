@@ -44,7 +44,6 @@ function Item({
         saved:saved
     }
     console.log(setSelectItem)
-
     const navigate = useNavigate();
 
     // // navigate with only id

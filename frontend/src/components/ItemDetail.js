@@ -49,7 +49,6 @@ function ItemDetail({ item, onClose, onToggleSaved }) {
                     <div className="item-details">
                         <p>Provider: {item.creatorName}({item.creatorEmail})</p>
                     </div>
-                    <div className='item-description'>{item.description}</div>
                 </div>
             </div>
         </div>

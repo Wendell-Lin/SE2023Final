@@ -10,7 +10,7 @@ describe('UploadItems', () => {
 
   beforeEach(() => {
     cy.viewport('macbook-13');
-    cy.loginWithReg(email, password, name);
+    cy.loginWithRegistration(email, password, name);
     cy.url().should('include', '/');
     cy.contains('Logout').should('be.visible');
     cy.visit('http://localhost:3000/uploaditems');
@@ -44,10 +44,6 @@ describe('UploadItems', () => {
     fillFormExcept();
     cy.get('button[type="submit"]').click();
     cy.contains('Successfully uploaded item').should('be.visible'); // Adjust this to match your actual success message
-    cy.get('@accessToken').then((token) => {
-        // Use the token here for your API calls or any other purposes
-        console.log('Token:', token);
-    });
   });
 
 

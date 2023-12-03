@@ -8,7 +8,7 @@
     },
     "uploadedItems": [
         {
-            "itemId": "abcd",
+            "itemId": 1,
             "name": "A bag of candy", 
             "amount": 4, 
             "location": "Library", 
@@ -22,7 +22,7 @@
             "saved": 0
         },
         {
-            "itemId": "efgh",
+            "itemId": 2,
             "name": "烤肉飯", 
             "amount": 1, 
             "location": "圖書館", 

@@ -1,4 +1,4 @@
-describe('ViewItemsMap Component', () => {
+describe('View Item Map', () => {
     const email = 'test@ntu.edu.tw';
     const password = 'test123';
     const name = 'test user';

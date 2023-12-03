@@ -1,4 +1,4 @@
-describe('Search Component', () => {
+describe('View Item Details', () => {
     const email = 'test@ntu.edu.tw';
     const password = 'test123';
     const name = 'test user';

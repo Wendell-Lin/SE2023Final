@@ -1,4 +1,4 @@
-describe('Search Component', () => {
+describe('Search Items', () => {
     const email = 'test@ntu.edu.tw';
     const password = 'test123';
     const name = 'test user';
@@ -47,4 +47,5 @@ describe('Search Component', () => {
             cy.get('.list-container').should('contain', searchTerm);
         });
     });
+    
 });

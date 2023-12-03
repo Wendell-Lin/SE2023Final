@@ -1,9 +1,12 @@
 import React from 'react';
 import './Item.css'; // Make sure to create appropriate styles
 import ItemFollow from './ItemFollow';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import  AppRoutes from "../Routes"
+
 
 function Item({
+    setSelectItem,
     itemId,
     name, 
     location, 
@@ -19,6 +22,8 @@ function Item({
     onToggleSaved,
     onOpenPopup,
     editable,
+    endTime,
+    startTime,
     isUploaded // new!!
 }) {
 
@@ -26,26 +31,59 @@ function Item({
         itemId:itemId,
         name:name, 
         location:location, 
-        category:category,
+        categoryName:category,
         latitude:latitude,
         longitude:longitude, 
         amount:amount, 
         description:description, 
         expirationTime:expirationTime,
+        endTime: endTime,
+        startTime: startTime,
         numberOfFollow:numberOfFollow,
         imageList:imageList,
         saved:saved
     }
-    const encodedItemData = encodeURIComponent(JSON.stringify(itemData));
+    console.log(setSelectItem)
 
     const navigate = useNavigate();
+
+    // // navigate with only id
+    // const setEditItem = () => {
+    //     console.log("Edit");
+    //     // navigate to update item page with param
+    //     navigate('/updateItem?itemid=' + itemId);
+    // }
+   
+    
+    // navigate with all item data
+    // const encodedItemData = encodeURIComponent(JSON.stringify(itemData));    
+    // const setEditItem = () => {
+    //     console.log("Edit");
+    //     // navigate to update item page with param
+    //     navigate('/updateItem?itemData=' + encodedItemData);
+    // }
+    // const navigate = useNavigate();
+    
+    // const handleUpdateClick = () => {
+    //     // 将item信息传递给updateItem页面
+    //     navigate({
+    //       pathname: '/updateItem',
+    //       state: { itemData }
+    //     });
+    //   };
+     
     const setEditItem = () => {
         console.log("Edit");
         // navigate to update item page with param
-        navigate('/updateItem?itemData=' + encodedItemData);
+        setSelectItem(itemData);
+        navigate('/updateItem');
     }
-
+    
+    
     return (
+        // <div className="container">
+            
+        // </div>
         <div className="item-container" onClick={() => onOpenPopup(editable)}>
             {/* new!! */}
             

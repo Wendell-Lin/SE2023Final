@@ -5,10 +5,12 @@ import ItemDetail from '../components/ItemDetail';
 import Map from '../components/Map';
 import './ViewItems.css'
 import itemService from '../services/itemService'
+import Item from '../components/Item';
 
 const ViewItems = () => {
     const [items, setItems] = useState([]);
     const [filteredItems, setFilteredItems] = useState([]);
+    const [savedItemIds, setSavedItemIds] = useState(new Set());
 
     useEffect(() => {
         document.body.style.backgroundColor = "#91968a"; // Set your desired color
@@ -37,7 +39,6 @@ const ViewItems = () => {
                         expirationTime: item.endTime,
                     })
                 );
-                console.log(fetchedItems);
                 setItems(fetchedItems);
                 setFilteredItems(fetchedItems);
             } catch (e) {
@@ -48,7 +49,6 @@ const ViewItems = () => {
         }
         handleGetItemList();
     }, []);
-
 
     const onSearchTermChange = (term) => {
         const updatedFilteredItems = items.filter(item => {
@@ -64,10 +64,20 @@ const ViewItems = () => {
         <div className="view-container">
             <div className="left-section">
                 <SearchBar className="test" onSearchTermChange={onSearchTermChange} />
-                <ItemList listHeight={"720px"} items={filteredItems} Popup={ItemDetail} />
+                <ItemList 
+                    listHeight={"720px"}
+                    items={filteredItems}
+                    Popup={ItemDetail}
+                    outSaveItemIds={savedItemIds}
+                />
             </div>
             <div className="right-section">
-                <Map items={filteredItems}/>
+                <Map 
+                    items={filteredItems} 
+                    Popup={ItemDetail}
+                    setSavedItemIds={setSavedItemIds}
+                    savedItemIds={savedItemIds}
+                />
             </div>
         </div>
     );

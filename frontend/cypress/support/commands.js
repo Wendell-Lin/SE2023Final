@@ -23,3 +23,27 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+// cypress/support/commands.js
+
+Cypress.Commands.add('loginWithRegistration', (email, password, name) => {
+    cy.visit('http://localhost:3000/login');
+    cy.get('input[type="email"]').type(email);
+    cy.get('input[type="password"]').type(password);
+    cy.get('button[type="submit"]').click();
+
+    cy.url().then((url) => {
+        if (url.includes('/login')) {
+            cy.visit('http://localhost:3000/register');
+            cy.get('input#name').type(name);
+            cy.get('input#email').type(email);
+            cy.get('input#password').type(password);
+            cy.get('label[for="terms"]').should('be.visible').click();
+            cy.get('button[type="submit"]').click();
+
+            cy.visit('http://localhost:3000/login');
+            cy.get('input[type="email"]').type(email);
+            cy.get('input[type="password"]').type(password);
+            cy.get('button[type="submit"]').click();
+        }
+    });
+});

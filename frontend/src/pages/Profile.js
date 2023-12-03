@@ -50,7 +50,7 @@ function Profile({setSelectItem}) {
         }
     }
     getUploadedItemList();
-}, [cookies]);
+}, []);
 
 useEffect(() => {
   const initialItems = [
@@ -80,7 +80,7 @@ useEffect(() => {
       console.log(uploadedItems);
   };
   getFollowedItems();
-}, [cookies]);
+}, []);
 
 
 
@@ -91,7 +91,7 @@ useEffect(() => {
       document.body.style.backgroundColor = null; // Reset to default or another color
     };
   }, []);
-
+  console.log(followedItems)
   //------------------- Food Item----------------------
 
   return (

@@ -14,6 +14,9 @@ const Navbar = () => {
 
   const logout = () => {
     removeCookie('user', { path: '/' });
+    removeCookie('username', { path: '/' });
+    removeCookie('userEmail', { path: '/' });
+    removeCookie('accessToken', { path: '/' });
     navigate("/");
   };
 

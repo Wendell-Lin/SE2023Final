@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.Optional;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -56,7 +57,10 @@ public class ItemController {
     @GetMapping("/getItems")
     public ResponseEntity<?> getItems() {
         try {
-            List<ItemDto> itemDtos = ItemService.getNonExpiredItemList().stream()
+            Date currentTime = new Date();
+            List<ItemDto> itemDtos = itemRepository
+                .findByEndTimeGreaterThan(currentTime)
+                .stream()
                 .map(mapper::mapItemToItemDto)
                 .collect(Collectors.toList());
             

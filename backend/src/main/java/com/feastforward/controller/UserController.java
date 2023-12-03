@@ -2,24 +2,19 @@ package com.feastforward.controller;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.feastforward.model.Item;
 import com.feastforward.model.PasswordResetToken;
 import com.feastforward.model.User;
 import com.feastforward.model.dto.ItemDto;
@@ -42,7 +36,6 @@ import com.feastforward.repository.ItemRepository;
 import com.feastforward.repository.PasswordResetTokenRepository;
 import com.feastforward.repository.UserRepository;
 import com.feastforward.service.FollowService;
-import com.feastforward.service.ItemService;
 import com.feastforward.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -183,7 +176,7 @@ public class UserController {
             throw new IllegalArgumentException("Invalid old password");
         }
         userService.changeUserPassword(user, newPassword);
-        return ResponseEntity.ok(new GenericResponse(messages.getMessage("message.updatePasswordSuc", null, locale)));
+        return ResponseEntity.ok(new GenericResponse("Password reset successfully"));
     }
 
     // user profile
@@ -199,10 +192,9 @@ public class UserController {
         @RequestBody UpdateUserProfileRequest updateUserProfileRequest
     ) {
         User updatedUser = userService.updateUserProfile(updateUserProfileRequest);
+
         if (updatedUser != null) {
-            return ResponseEntity.ok(
-                mapper.mapUserToUserProfileDto(updatedUser)
-            );
+            return ResponseEntity.ok(mapper.mapUserToUserProfileDto(updatedUser));
         } else {
             return ResponseEntity.badRequest().build();
         }

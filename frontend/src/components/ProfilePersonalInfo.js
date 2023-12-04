@@ -390,13 +390,13 @@ function PersonalInfo() {
                 Change Password
               </button>
               {/* <div className="info-col"> */}
-              <a
+              {/* <a
                 href="#forgot-password"
                 className="forgot-password"
                 onClick={handleForgotPasswordClick}
               >
                 forgot password
-              </a>
+              </a> */}
               {/* </div> */}
             </div>
           </div>

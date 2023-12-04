@@ -91,7 +91,7 @@ useEffect(() => {
       document.body.style.backgroundColor = null; // Reset to default or another color
     };
   }, []);
-  console.log(followedItems)
+  // console.log(followedItems)
   //------------------- Food Item----------------------
 
   return (

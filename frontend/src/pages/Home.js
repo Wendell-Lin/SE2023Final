@@ -14,6 +14,9 @@ const Home = () => {
       const now = new Date();
       if (now > expires) {
         removeCookie('user', { path: '/' });
+        removeCookie('username', { path: '/' });
+        removeCookie('userEmail', { path: '/' });
+        removeCookie('accessToken', { path: '/' });
         isLoggedIn = false;
         navigate('/login');
       }

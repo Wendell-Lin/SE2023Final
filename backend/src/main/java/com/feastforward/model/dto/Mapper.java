@@ -6,6 +6,7 @@ import com.feastforward.repository.ItemRepository;
 import com.feastforward.service.FileService;
 import com.feastforward.service.ItemService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,14 @@ public class Mapper {
         itemDto.setStartTime(item.getStartTime());
         itemDto.setEndTime(item.getEndTime());
         itemDto.setNumberOfFollowers(itemService.countFollowersByItemId(item.getId()));
-        itemDto.setImageList(item.getImageList());
+        // Get image from GCP
+        List<String> imageList = item.getImageList();
+        List<String> base64ImageList = new ArrayList<String>();
+        for (String imageName : imageList) {
+            String base64Image = fileService.getFile(imageName);
+            base64ImageList.add(base64Image);
+        }
+        itemDto.setImageList(base64ImageList);
         return itemDto;
     }
 

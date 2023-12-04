@@ -1,0 +1,64 @@
+pipeline {
+    agent any
+    stages {
+        stage('Test') {
+            steps {
+                withCredentials([file(credentialsId: 'd15e72df-bcc2-46e4-aa0e-ba4a781efcb3', variable: 'GOOGLE_APPLICATION_CREDENTIALS')]) {
+                    sh '''
+                    echo 'Testing..'
+                    echo "Hi"
+                    gcloud version
+                    gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS
+                    gcloud compute zones list
+                    '''
+                }  
+                
+                
+            }
+        }
+        stage('Build') {
+            steps {
+                sh '''
+                    echo 'Building..'
+                    docker build -t myapp ./backend --no-cache
+                    echo 'Build done!'
+                '''
+                
+            }
+        }
+        stage('Deploy Staging') {
+            steps {
+                echo 'Deploying staging....'
+
+            }
+        }
+        stage('Deploy Production') {
+            steps {
+                withCredentials([file(credentialsId: 'd15e72df-bcc2-46e4-aa0e-ba4a781efcb3', variable: 'GOOGLE_APPLICATION_CREDENTIALS')]) {
+                    sh '''
+                    cat $GOOGLE_APPLICATION_CREDENTIALS | docker login -u _json_key --password-stdin https://gcr.io
+                    echo 'Deploying production....'
+                    gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS
+                    docker tag myapp gcr.io/software-engineering-406708/myapp
+                    docker push gcr.io/software-engineering-406708/myapp
+                    gcloud run deploy backend --image gcr.io/software-engineering-406708/myapp --platform managed --region asia-east1 \
+                        --allow-unauthenticated --project software-engineering-406708 --set-secrets=db_password=db_password:latest \
+                        --add-cloudsql-instances=software-engineering-406708:asia-east1:software-engineering-mysql \
+                        --vpc-connector db
+                    '''
+                }
+                // withCredentials([file(credentialsId: '26e63e4f-bdb1-4dbe-aff6-5fff32b84189', variable: 'GOOGLE_APPLICATION_CREDENTIALS')]) {
+                //     sh '''
+                //     cat $GOOGLE_APPLICATION_CREDENTIALS | docker login -u _json_key --password-stdin https://gcr.io
+                //     echo 'Deploying production....'
+                //     gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS
+                //     docker tag myapp gcr.io/software-engineering-401503/myapp
+                //     docker push gcr.io/software-engineering-401503/myapp
+                //     gcloud run deploy backend --image gcr.io/software-engineering-401503/myapp --platform managed --region us-central1 --allow-unauthenticated
+                //     '''
+                // }
+
+            }
+        }
+    }
+}

@@ -29,8 +29,21 @@ const updateItem = async (itemData, cookies) => {;
     return response.data;
 };
 
+const deleteItem = async (itemId, cookies) => {
+    const response = await axios.delete(API_URL + '/items/deleteItem/' + itemId, {},
+    {
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+           "Authorization": `Bearer ${cookies.accessToken}`,
+        },
+    });
+    return response.data;
+};
+
 export default {
     upload,
     getItemList,
-    updateItem
+    updateItem,
+    deleteItem
 };

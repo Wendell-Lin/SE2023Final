@@ -7,6 +7,7 @@ import com.feastforward.payload.request.CreateItemRequest;
 import com.feastforward.payload.request.UpdateItemRequest;
 import com.feastforward.repository.CategoryRepository;
 import com.feastforward.repository.ItemRepository;
+import com.feastforward.repository.UserRepository;
 import com.feastforward.service.FileService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,12 @@ public class ItemService {
     CategoryRepository categoryRepository;
 
     @Autowired
+    FollowService followService;
+
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
     FileService fileService;
 
     @Autowired
@@ -40,9 +47,7 @@ public class ItemService {
     }
 
     public Item createItem(CreateItemRequest itemRequest) {
-
         User creator = userService.getCurrentUser();
-
         String categoryName = itemRequest.getCategoryName();
         Optional<Category> existingCategory = categoryRepository.findByName(categoryName);
 
@@ -121,8 +126,24 @@ public class ItemService {
         return itemRepository.save(item);
     }
 
-    public void deleteItem(long itemId) {
-        itemRepository.deleteById(itemId);
+    public void deleteItem(Item item) {
+
+        // Delete image from GCP
+        for (String imageName : item.getImageList()) {
+            try {
+                fileService.deleteFile(imageName);
+            } catch (Exception e) {
+                throw new RuntimeException("Error: Image delete failed.");
+            }
+        }
+
+        // Unfollow item
+        for (User user : item.getFollowers()) {
+            user.getFollowedItems().remove(item);
+            // userRepository.save(user);
+        }
+
+        itemRepository.delete(item);
     }
 
     public List<Item> getNonExpiredItemList() {

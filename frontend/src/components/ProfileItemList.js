@@ -30,6 +30,7 @@ function ProfileItemList({ setSelectItem, filteredItems, uploadedItems }) {
             className={
               !isSavedItem === true ? "item-list-shown" : "item-list-unshown"
             }
+            name="saved item"
             type="submit"
           >
             {" "}
@@ -40,6 +41,7 @@ function ProfileItemList({ setSelectItem, filteredItems, uploadedItems }) {
             className={
               !isSavedItem === false ? "item-list-shown" : "item-list-unshown"
             }
+            name="upload item"
             type="submit"
           >
             {" "}
@@ -47,6 +49,7 @@ function ProfileItemList({ setSelectItem, filteredItems, uploadedItems }) {
           </button>
           <div className="add">
             <img
+              name="add image"
               loading="lazy"
               src="images/add_icon.png"
               className="img-2"

@@ -11,6 +11,7 @@ import com.feastforward.repository.UserRepository;
 import com.feastforward.service.FileService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +20,8 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import org.apache.commons.lang3.RandomStringUtils;
+
+import java.io.*;
 
 
 @Service
@@ -41,6 +44,9 @@ public class ItemService {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    private JavaMailSender mailSender;
 
     public int countFollowersByItemId(Long itemId) {
         return itemRepository.countFollowersByItemId(itemId);
@@ -83,6 +89,20 @@ public class ItemService {
         item.setEndTime(itemRequest.getEndTime());
         item.setDescription(itemRequest.getDescription());
         item.setImageList(imageNames);
+
+        // send notification to user
+        String subject = "New food " + item.getName() + " is uploaded!";
+        String content = item.getDescription();
+        // send email asynchronously
+        userRepository.findAll().parallelStream().forEach(user -> {
+            if (user.getNotifOn()) {
+                try {
+                    mailSender.send(userService.constructEmail(subject, content, user));
+                } catch (Exception e) {
+                    System.out.println("Error sending email to " + user.getEmail());
+                }
+            }
+        });
 
         return itemRepository.save(item);
     }

@@ -22,7 +22,7 @@
     /* max-width: 600px; Maximum width for the map */
     margin: 10px;
 }
-@media (max-width: 1280px) { /* Adjust the breakpoint as needed */
+@media (max-width: 1080px) { /* Adjust the breakpoint as needed */
     .right-section {
         display: none;
     }

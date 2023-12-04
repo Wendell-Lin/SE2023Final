@@ -56,7 +56,7 @@ public class UpdateItemRequest {
         return categoryName;
     }
 
-    public void setCategoryId(String categoryName) {
+    public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
     }
 

@@ -2,6 +2,17 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Docker
+
+### `docker build -t frontend-image .`
+
+Build the docker image.
+
+### `docker run -p 8000:3000 frontend-container frontend-image`
+
+Create and run the container of the image.
+This example bind port `3000` exposed in dockerfile to port `8000` on your machine.
+
 ## Available Scripts
 
 In the project directory, you can run:

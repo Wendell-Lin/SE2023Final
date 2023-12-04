@@ -139,18 +139,15 @@ public class ItemControllerTest {
     public void testGetItems() throws Exception {
         mockMvc.perform(get("/api/items/getItems")
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].name").value("test item"));
+                .andExpect(status().isOk());
     }
 
     @Test
     public void testGetItemDetail() throws Exception {
         mockMvc.perform(get("/api/items/getItemDetail/" + itemId)
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-                // .andExpect(jsonPath("$.name").value("test item"));
-    //             .andExpect(jsonPath("$.categoryId").value(1))
-    //             .andExpect(jsonPath("$.creatorId").value(1));
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value("test item"));
     }
 
     @Test

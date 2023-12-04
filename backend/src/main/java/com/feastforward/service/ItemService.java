@@ -92,7 +92,7 @@ public class ItemService {
 
         // send notification to user
         String subject = "New food " + item.getName() + " is uploaded!";
-        String content = item.getDescription();
+        String content = "Item location:" + item.getLocation() + "\n" + "Item quantity:" + item.getQuantity() + "\n" +  "End time" + item.getEndTime() + "\n" + "Item description:" + item.getDescription();
         // send email asynchronously
         userRepository.findAll().parallelStream().forEach(user -> {
             if (user.getNotifOn()) {

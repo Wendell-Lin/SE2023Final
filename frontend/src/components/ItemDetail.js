@@ -31,7 +31,7 @@ function ItemDetail({ item, onClose, onToggleSaved }) {
                         <img key={index} src={imageUrl} alt={`${index}`} />
                     ))}
                 </div>) : (
-                    <img src={'images/image_placeholder.png'} alt={"image_placeholder"} />
+                    <img src={'images/Image_placeholder.png'} alt={"image_placeholder"} />
                 )}
 
                 <div className="item-lower-right">

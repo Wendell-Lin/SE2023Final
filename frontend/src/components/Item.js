@@ -117,7 +117,7 @@ function Item({
                     {(imageList && imageList.length > 0) ? (
                         <img src={imageList[0]} alt={name} />
                     ):
-                        <img src={'images/image_placeholder.png'} alt={"image_placeholder"} />
+                        <img src={'images/Image_placeholder.png'} alt={"image_placeholder"} />
                     }
                 </div>
                 <div className='item-lower-right'>

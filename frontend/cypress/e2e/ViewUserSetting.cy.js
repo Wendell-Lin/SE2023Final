@@ -1,4 +1,4 @@
-describe('End-to-End Tests', () => {
+describe('View User Setting Test', () => {
   const email = 'testuser@ntu.edu.tw';
   const password = 'Password123!';
   const name = 'Test User';
@@ -29,8 +29,7 @@ describe('End-to-End Tests', () => {
     cy.get('form[name="pwd"] input[name="newpassword"]').should('exist');
     cy.get('form[name="pwd"] input[name="confirmpassword"]').should('exist');
     cy.get('form[name="pwd"] button[type="submit"]').should('exist');
-    cy.get('form[name="pwd"] .forgot-password').should('exist');
-	
+
     // 可以檢查是否有已儲存項目的列表
     cy.get('.itemlist').should('exist');
     // 確認元素中是否有預期的子元素

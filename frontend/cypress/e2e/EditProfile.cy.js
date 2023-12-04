@@ -1,4 +1,4 @@
-describe('E2E Tests', () => {
+describe('Edit Profile Test', () => {
   const email = 'testuser@ntu.edu.tw';
   const password = 'Password123!';
   const name = 'Test User';

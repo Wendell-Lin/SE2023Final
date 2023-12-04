@@ -124,8 +124,6 @@ function ItemList({ setSelectItem, isUploaded, listHeight, items, Popup,
             }));
         }
     };
-    console.log(itemList)
-    
 
     return (
         <div className="list-container" style={listStyle}>

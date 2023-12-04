@@ -137,7 +137,7 @@ const MyMapComponent = ({
   };
 
   return (<>
-    <div ref={ref} style={{ width: "100%", height: "100%" }} />;
+    <div id='map' ref={ref} style={{ width: "100%", height: "100%" }} />;
     {selectedItem && (
         <Popup 
           item={selectedItem}
@@ -151,7 +151,7 @@ const MyMapComponent = ({
 const Map = ({ items, Popup, setSavedItemIds, savedItemIds}) => {
   return (
     <Wrapper apiKey={"AIzaSyAYcGCwr9AKIJWiDBnyr9wW6_XezNCLslg"} render={render}>
-      <MyMapComponent 
+      <MyMapComponent
       items={items} 
       setSavedItemIds={setSavedItemIds} 
       savedItemIds={savedItemIds}

@@ -31,6 +31,7 @@ describe('Edit Items Test', () => {
     cy.url().should('include', '/');
     cy.contains('Logout').should('be.visible');
     cy.visit('http://localhost:3000/profile');
+	cy.wait(2000);
 	cy.get('button[name="upload item"]').contains('Uploaded Items').click();
 	cy.get('.item-list').should('exist');
     // Assuming there is at least one item on the page
@@ -38,6 +39,7 @@ describe('Edit Items Test', () => {
       cy.get('.edit').click();
     });
     cy.url().should('include', '/updateItem');
+	
   });
   
    it('should update item name', () => {

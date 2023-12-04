@@ -1,4 +1,4 @@
-describe('Change Password', () => {
+describe('Change Password Test', () => {
   const email = 'testuser@ntu.edu.tw';
   const password = 'Password123!';
   const name = 'Test User';

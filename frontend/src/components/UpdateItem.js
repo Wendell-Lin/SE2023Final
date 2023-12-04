@@ -145,7 +145,7 @@ function UpdateItem({item}) {
       ))}
 
       <label htmlFor="image-upload" style={{ cursor: 'pointer' }}>
-        <img src={'/images/image_placeholder.png'} alt="Upload" style={{ width: '100px', height: '100px' }} />
+        <img src={'/images/Image_placeholder.png'} alt="Upload" style={{ width: '100px', height: '100px' }} />
       </label>
     </div>
   );

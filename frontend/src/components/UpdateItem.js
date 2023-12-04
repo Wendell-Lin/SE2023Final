@@ -105,6 +105,8 @@ function UpdateItem({ item }) {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    console.log(name)
+    console.log(value)
     setFormData((prevFormData) => ({
       ...prevFormData,
       [name]: value,
@@ -299,7 +301,7 @@ function UpdateItem({ item }) {
             <input
               id="amount"
               type="number"
-              name="quantity"
+              name="amount"
               min={1}
               value={formData.amount}
               onChange={handleInputChange}

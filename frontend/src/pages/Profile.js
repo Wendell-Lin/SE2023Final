@@ -15,16 +15,17 @@ function Profile({setSelectItem}) {
   // GET from Fake Data
   // const [userInfo, setUserInfo] = useState(FakeData.user)
   //------------------- Food Item----------------------
-  const [followedItems, setFollowItems] = useState(FakeData.savedItems);
-  const [uploadedItems, setUploadedItems] = useState(FakeData.uploadedItems);
+  const initialItems = [
+    {itemId: 4}
+];
+  const [followedItems, setFollowItems] = useState(initialItems);
+  const [uploadedItems, setUploadedItems] = useState(initialItems);
   const [cookies] = useCookies();
   console.log(cookies);
 
   useEffect(() => {
     // Fetch or initial items if not fetched here
-    const initialItems = [
-        {itemId: 4},{itemId: 5}
-    ];
+
     const getUploadedItemList = async () => {
         try {
             // async and await is needed here.

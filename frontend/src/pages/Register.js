@@ -17,6 +17,7 @@ function Register() {
   const [succeedSpan, setSucceedSpan] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
+  const [passwordValid, setPasswordValid] = useState('');
   const navigate = useNavigate();
 
   const handleEmailChange = (event) => {
@@ -28,6 +29,7 @@ function Register() {
 
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
+    setPasswordValid(event.target.value.length >= 6 && event.target.value.length <= 40)
   }
 
   const handleNameChange = (event) => {
@@ -58,6 +60,11 @@ function Register() {
 
     if (!emailValid) {
       showErrorModal('Oops', 'Please enter a valid NTU email address.');
+      return;
+    }
+
+    if (!passwordValid) {
+      showErrorModal('Oops', 'The password length should be between 6 to 40');
       return;
     }
 

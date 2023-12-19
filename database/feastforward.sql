@@ -1,0 +1,13 @@
+DROP SCHEMA IF EXISTS feastforward;
+CREATE SCHEMA feastforward;
+USE feastforward;
+
+CREATE TABLE roles (
+    id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(20) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+INSERT INTO roles VALUES (1, 'ROLE_USER'),
+(2, 'ROLE_MODERATOR'),
+(3, 'ROLE_ADMIN');

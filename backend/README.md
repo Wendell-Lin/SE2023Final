@@ -1,3 +1,5 @@
+Note: This document is pending for rewrite. Some of the information are wrong.
+
 ## Maven Plugins
 
 - Make sure Maven is installed on your PATH
